@@ -1,7 +1,7 @@
-import 'package:server/server.dart';
+import 'package:server/nrp_server.dart';
 import 'package:aqueduct_test/aqueduct_test.dart';
 
-export 'package:server/server.dart';
+export 'package:server/nrp_server.dart';
 export 'package:aqueduct_test/aqueduct_test.dart';
 export 'package:test/test.dart';
 export 'package:aqueduct/aqueduct.dart';
@@ -19,7 +19,7 @@ export 'package:aqueduct/aqueduct.dart';
 ///           });
 ///         }
 ///
-class Harness extends TestHarness<ServerChannel> with TestHarnessORMMixin {
+class Harness extends TestHarness<NrpServerChannel> with TestHarnessORMMixin {
   @override
   ManagedContext get context => channel.context;
 
@@ -29,9 +29,7 @@ class Harness extends TestHarness<ServerChannel> with TestHarnessORMMixin {
   }
 
   @override
-  Future onTearDown() async {
-
-  }
+  Future onTearDown() async {}
 
   @override
   Future seed() async {
