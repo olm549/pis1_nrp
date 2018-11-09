@@ -1,12 +1,14 @@
-import 'model/model.dart';
-import 'server.dart';
+import './model/user.dart';
+
+import './nrp_server.dart';
 
 /// This type initializes an application.
 ///
 /// Override methods in this class to set up routes and initialize services like
 /// database connections. See http://aqueduct.io/docs/http/channel/.
-class ServerChannel extends ApplicationChannel {
+class NrpServerChannel extends ApplicationChannel {
   ManagedContext context;
+  AuthServer authServer;
 
   /// Initialize services in this method.
   ///
@@ -16,10 +18,14 @@ class ServerChannel extends ApplicationChannel {
   /// This method is invoked prior to [entryPoint] being accessed.
   @override
   Future prepare() async {
-    logger.onRecord.listen((rec) => print("$rec ${rec.error ?? ""} ${rec.stackTrace ?? ""}"));
+    logger.onRecord.listen(
+        (rec) => print("$rec ${rec.error ?? ""} ${rec.stackTrace ?? ""}"));
 
-    final config = ServerConfiguration(options.configurationFilePath);
+    final config = NrpServerConfiguration(options.configurationFilePath);
     context = contextWithConnectionInfo(config.database);
+
+    final authStorage = ManagedAuthDelegate<User>(context);
+    authServer = AuthServer(authStorage);
   }
 
   /// Construct the request channel.
@@ -32,7 +38,8 @@ class ServerChannel extends ApplicationChannel {
   Controller get entryPoint {
     final router = Router();
 
-    router.route("/model/[:id]").link(() => ManagedObjectController<Model>(context));
+    // Authenticate a user
+    router.route('/auth/token').link(() => AuthController(authServer));
 
     return router;
   }
@@ -41,10 +48,15 @@ class ServerChannel extends ApplicationChannel {
    * Helper methods
    */
 
-  ManagedContext contextWithConnectionInfo(DatabaseConfiguration connectionInfo) {
+  ManagedContext contextWithConnectionInfo(
+      DatabaseConfiguration connectionInfo) {
     final dataModel = ManagedDataModel.fromCurrentMirrorSystem();
-    final psc = PostgreSQLPersistentStore(connectionInfo.username, connectionInfo.password, connectionInfo.host,
-        connectionInfo.port, connectionInfo.databaseName);
+    final psc = PostgreSQLPersistentStore(
+        connectionInfo.username,
+        connectionInfo.password,
+        connectionInfo.host,
+        connectionInfo.port,
+        connectionInfo.databaseName);
 
     return ManagedContext(dataModel, psc);
   }
@@ -56,8 +68,8 @@ class ServerChannel extends ApplicationChannel {
 /// Configuration files must have key-value for the properties in this class.
 /// For more documentation on configuration files, see https://aqueduct.io/docs/configure/ and
 /// https://pub.dartlang.org/packages/safe_config.
-class ServerConfiguration extends Configuration {
-  ServerConfiguration(String fileName) : super.fromFile(File(fileName));
+class NrpServerConfiguration extends Configuration {
+  NrpServerConfiguration(String fileName) : super.fromFile(File(fileName));
 
   DatabaseConfiguration database;
 }

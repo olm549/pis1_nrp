@@ -1,9 +1,9 @@
-import 'package:server/server.dart';
+import 'package:server/nrp_server.dart';
 
 Future main() async {
-  final app = Application<ServerChannel>()
-      ..options.configurationFilePath = "config.yaml"
-      ..options.port = 8888;
+  final app = Application<NrpServerChannel>()
+    ..options.configurationFilePath = "config.yaml"
+    ..options.port = 8888;
 
   await app.start(numberOfInstances: Platform.numberOfProcessors ~/ 2);
 
