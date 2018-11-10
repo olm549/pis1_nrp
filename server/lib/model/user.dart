@@ -10,7 +10,7 @@ class User extends ManagedObject<_User>
   String password;
 }
 
-class _User {
+class _User extends ResourceOwnerTableDefinition {
   /*
   @primaryKey
   int id;
