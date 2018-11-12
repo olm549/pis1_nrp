@@ -20,6 +20,9 @@ class _Project {
 
   double effortLimit;
 
+  @Column(defaultValue: 'false')
+  bool active;
+
   @Relate(#projects, onDelete: DeleteRule.cascade)
   User owner;
 

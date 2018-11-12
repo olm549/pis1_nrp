@@ -1,3 +1,11 @@
+import './controller/client_controller.dart';
+import './controller/project_client_controller.dart';
+import './controller/project_controller.dart';
+import './controller/project_requirement_controller.dart';
+import './controller/register_controller.dart';
+import './controller/requirement_controller.dart';
+import './controller/requirement_value_controller.dart';
+
 import './model/user.dart';
 
 import './nrp_server.dart';
@@ -40,6 +48,49 @@ class NrpServerChannel extends ApplicationChannel {
 
     // Authenticate a user
     router.route('/auth/token').link(() => AuthController(authServer));
+
+    // Create a new user
+    router
+        .route('/register')
+        .link(() => Authorizer.basic(authServer))
+        .link(() => RegisterController(context, authServer));
+
+    // Access user's projects
+    router
+        .route('/projects/[:projectID]')
+        .link(() => Authorizer.bearer(authServer))
+        .link(() => ProjectController(context));
+
+    // Access project's assigned requirements
+    router
+        .route('/projects/:projectID/requirements/[:requirementID]')
+        .link(() => Authorizer.bearer(authServer))
+        .link(() => ProjectRequirementController(context));
+
+    // Access project's client values for a requirement
+    router
+        .route(
+            '/projects/:projectID/requirements/:requirementID/values/[:clientID]')
+        .link(() => Authorizer.bearer(authServer))
+        .link(() => RequirementValueController(context));
+
+    // Access project's assigned clients
+    router
+        .route('/projects/:projectID/clients/[:clientID]')
+        .link(() => Authorizer.bearer(authServer))
+        .link(() => ProjectClientController(context));
+
+    // Access user's requirements
+    router
+        .route('/requirements/[:requirementID]')
+        .link(() => Authorizer.bearer(authServer))
+        .link(() => RequirementController(context));
+
+    // Access user's clients
+    router
+        .route('/clients/[:clientID]')
+        .link(() => Authorizer.bearer(authServer))
+        .link(() => ClientController(context));
 
     return router;
   }
