@@ -69,7 +69,8 @@ class NrpServerChannel extends ApplicationChannel {
 
     // Access project's client values for a requirement
     router
-        .route('/projects/:projectID/requirements/:requirementID/values')
+        .route(
+            '/projects/:projectID/requirements/:requirementID/values/[:clientID]')
         .link(() => Authorizer.bearer(authServer))
         .link(() => RequirementValueController(context));
 
