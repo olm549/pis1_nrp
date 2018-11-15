@@ -1,0 +1,18 @@
+div {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 10vw;
+}
+
+ul {
+    list-style-type: none;
+    width: 100%;
+}
+
+material-input {
+    width: 90%;
+}
+
+material-button {
+    left: 70%;
+}
