@@ -1,0 +1,33 @@
+<div flex>
+    <material-tab-panel [activeTabIndex]="0" [centerTabs]="true" (tabChange)="onTabChange($event)">
+        <material-tab label="Iniciar sesión">
+            <ul>
+                <li>
+                    <material-input type="email" label="Email" [floatingLabel]="true" [(ngModel)]="email"></material-input>
+                </li>
+                <li>
+                    <material-input type="password" label="Contraseña" [floatingLabel]="true" [(ngModel)]="password"></material-input>
+                </li>
+                <li>
+                    <material-button raised (click)="signIn()">Acceder</material-button>
+                </li>
+            </ul>
+        </material-tab>
+        <material-tab label="Registrarse">
+            <ul>
+                <li>
+                    <material-input type="email" label="Email" [floatingLabel]="true" [(ngModel)]="email"></material-input>
+                </li>
+                <li>
+                    <material-input type="password" label="Contraseña" [floatingLabel]="true" [(ngModel)]="password"></material-input>
+                </li>
+                <li>
+                    <material-input type="password" label="Repita contraseña" [floatingLabel]="true" [(ngModel)]="repeatPassword"></material-input>
+                </li>
+                <li>
+                    <material-button raised (click)="signUp()">Registrarse</material-button>
+                </li>
+            </ul>
+        </material-tab>
+    </material-tab-panel>
+</div>

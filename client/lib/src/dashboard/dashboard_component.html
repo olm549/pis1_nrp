@@ -1,0 +1,30 @@
+<material-drawer persistent #drawer="drawer">
+    <material-list *deferredContent>
+        <div group class="mat-drawer-spacer"></div>
+        <div group>
+            <div label>Usuario</div>
+            <material-list-item (trigger)="onSelectView('projects')">Proyectos</material-list-item>
+            <material-list-item (trigger)="onSelectView('requirements')">Requisitos</material-list-item>
+            <material-list-item (trigger)="onSelectView('clients')">Clientes</material-list-item>
+        </div>
+    </material-list>
+</material-drawer>
+<material-content>
+    <header class="material-header shadow dense-header">
+        <div class="material-header-row">
+            <material-button icon class="material-drawer-button" (trigger)="drawer.toggle()">
+                <material-icon icon="menu"></material-icon>
+            </material-button>
+            <span class="material-header-title">NRP</span>
+            <div class="material-spacer"></div>
+            <nav class="material-navigation">
+                <a>Cerrar sesión</a>
+            </nav>
+        </div>
+    </header>
+    <div [ngSwitch]="selectedView">
+        <template [ngSwitchCase]="'projects'"></template>
+        <template [ngSwitchCase]="'requirements'"></template>
+        <template [ngSwitchCase]="'clients'"></template>
+    </div>
+</material-content>
