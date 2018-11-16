@@ -1,0 +1,179 @@
+/**** ESTILOS *****/
+
+/*
+ * TÍTULO SECUNDARIO
+ *
+ * 1. Margen izquierdo: 20px
+ * 2. Disposición en línea
+*/
+h2 {
+    margin-left: 20px;
+    display: inline-block;
+}
+
+/*
+ * LISTAS
+ *
+ * 1. Sin decoración
+ */
+ul {
+    list-style-type: none;
+}
+
+/*
+ * ELEMENTOS DE LISTA
+ *
+ * 1. Margen inferior: 18px
+ * 2. Margen izquierdo: 0px
+ */
+li {
+    margin-bottom: 18px;
+    margin-left: 0;
+}
+
+/*
+ * ELEMENTOS DE MATERIAL LIST
+ *
+ * 1. Padding: 3px (superior e inferior) y 8px (lados)
+ * 2. Margen izquierdo: 17px
+ * 3. Radio del borde: 3px
+ */
+material-list-item {
+    margin-left: 17px;
+    padding: 3px 8px;
+    border-radius: 3px 3px;
+}
+
+/*
+ * LABELS
+ *
+ * 1. Texto en negrita
+ * 2. Margen derecho: 7px
+ */
+label {
+    font-weight: bold;
+    margin-right: 7px;
+}
+
+/*
+ * SPANS
+ *
+ * 1. Margen derecho: 7px
+ */
+span {
+    margin-right: 7px;
+}
+
+/*
+ * CLASE BADGE: ID de clientes en vista master.
+ *
+ * 1. Display inline-block
+ * 2. Posición relativa
+ * 3. Padding superior, derecho e inferior: 0.5em
+ * 4. Ancho de línea: 0.9em
+ * 5. Ancho: 1.5em
+ * 6. Margen derecho: .8em
+ * 7. Tamaño de fuente pequeño
+ * 8. Radio del borde: 4px
+ * 9. Color de letra: Blanco
+ * 10. Color de fondo: #3f51b5
+ */
+.badge {
+    display: inline-block;
+    position: relative;
+    padding: 0.5em 0.5em 0 0.5em;
+    line-height: 0.9em;
+    height: 1.5em;
+    margin-right: .8em;
+    font-size: small;
+    border-radius: 4px 4px 4px 4px;
+    color: white;
+    background-color: #4f504d;
+}
+
+/*
+ * CLASE SELECTED: elementos de lista seleccionados.
+ *
+ * 1. Color de fondo: #f4b400
+ * 2. Color de texto: blanco
+ */
+.selected {
+    background-color: #f4b400 !important;
+    color: white;
+}
+
+/*
+ * LISTA DE CLIENTES
+ *
+ * 1. Float left
+ * 2. Anchura 65%
+ * 3. Overflow hidden
+ * 4. Mínima altura: 550px
+ * 5. Borde derecho 1.5px gris
+ */
+#clients-list {
+    float: left;
+    width: 65%;
+    overflow: hidden;
+    min-height: 550px;
+    border-right: 1.5px solid rgba(117, 117, 117, 0.5);
+}
+
+/*
+ * ÍTEM DE LISTA DE CLIENTES
+ *
+ * 1. Margen superior: 3px
+ */
+#client-item {
+    margin-top: 3px;
+}
+
+/*
+ * VISTA DETALLE DE CLIENTE
+ *
+ * 1. Float left
+ * 2. Anchura 30%
+ * 3. Overflow hidden
+ * 4. Mínima altura: 550px
+ * 5. Padding top 10px
+ */
+#client-detail {
+    float: left;
+    width: 30%;
+    overflow: hidden;
+    min-height: 550px;
+    padding-top: 10px;
+}
+
+/*
+ * CABECERA CLIENTES
+ *
+ * 1. Display inline-block
+ * 2. Float right
+ * 3. Margen superior: 10px
+ * 4. Margen derecho: 15px
+ * 5. Radio del borde: 4px
+ * 6. Tamaño de fuente pequeño
+ * 7. Color de letra: Blanco
+ * 8. Color de fondo: #f4b400
+ */
+#new-client {
+    display: inline-block;
+    float: right;
+    margin-top: 10px;
+    margin-right: 15px;
+    border-radius: 4px 4px 4px 4px;
+    font-size: small;
+    color: white;
+    background-color: #f4b400;
+}
+
+/*
+ * TÍTULO CABECERA CLIENTES
+ *
+ * 1. Altura de línea: 0.5em
+ */
+#main-title {
+    line-height: 0.5em;
+}
+
