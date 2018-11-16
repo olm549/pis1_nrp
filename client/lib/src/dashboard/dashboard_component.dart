@@ -1,6 +1,8 @@
 import 'package:angular/angular.dart';
 import 'package:angular_components/angular_components.dart';
+
 import '../projects/projects_component.dart';
+import '../requirements/requirements_component.dart';
 
 import '../model/project.dart';
 
@@ -22,6 +24,7 @@ import './dashboard_service.dart';
     MaterialButtonComponent,
     MaterialIconComponent,
     ProjectsComponent,
+    RequirementsComponent,
   ],
   providers: [const ClassProvider(DashboardService)],
 )
