@@ -1,0 +1,30 @@
+<material-list id="clients-list">
+    <div>
+        <h2 id="main-title">Clientes</h2>
+        <material-button id="new-client" raised (click)="createClient()">Nuevo cliente</material-button>
+    </div>
+    <material-list-item id="client-item" *ngFor="let client of clients"
+                        [class.selected]="client === selected"
+                        (click)="onSelect(client)">
+        <span class="badge">{{client.clientID}}</span> {{client.name}} {{client.surname}}
+    </material-list-item>
+</material-list>
+
+<div id="client-detail" *ngIf="selected != null">
+    <div id="title">
+        <h2>{{selected.name}} {{selected.surname}}</h2>
+    </div>
+    <ul>
+        <li>
+            <label>ID:</label>{{selected.clientID}}
+        </li>
+
+        <li>
+            <label>Nombre: </label>{{selected.name}}
+        </li>
+
+        <li>
+            <label>Apellidos: </label>{{selected.surname}}
+        </li>
+    </ul>
+</div>
