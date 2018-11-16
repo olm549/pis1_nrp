@@ -23,7 +23,9 @@
         </div>
     </header>
     <div [ngSwitch]="selectedView">
-        <template [ngSwitchCase]="'projects'"></template>
+        <template id="projects-template" [ngSwitchCase]="'projects'">
+            <projects></projects>
+        </template>
         <template [ngSwitchCase]="'requirements'"></template>
         <template [ngSwitchCase]="'clients'"></template>
     </div>
