@@ -1,0 +1,38 @@
+<material-list id="projects-list">
+    <div>
+        <h2 id="main-title">Proyectos</h2>
+        <material-button id="new-project" raised (click)="createProject()">Nuevo proyecto</material-button>
+    </div>
+    <material-list-item id="project-item" *ngFor="let project of projects"
+                        [class.selected]="project === selected"
+                        (click)="onSelect(project)">
+        <span class="badge">{{project.projectID}}</span> {{project.name}}
+        <span *ngIf="project.active == true" class="activo">Activo</span>
+    </material-list-item>
+</material-list>
+
+<div id="project-detail" *ngIf="selected != null">
+    <div id="title">
+        <h2>{{selected.name}}
+            <span *ngIf="selected.active == true" class="activo">Activo</span>
+        </h2>
+        <material-toggle *ngIf="selected.active == false" [checked]="false" label="Activar"></material-toggle>
+    </div>
+    <ul>
+        <li>
+            <label>ID:</label>{{selected.projectID}}
+        </li>
+
+        <li>
+            <label>Nombre: </label>{{selected.name}}
+        </li>
+
+        <li>
+            <label>Descripción: </label>{{selected.description}}
+        </li>
+
+        <li>
+            <label>Límite de esfuerzo: </label>{{selected.effortLimit}}
+        </li>
+    </ul>
+</div>

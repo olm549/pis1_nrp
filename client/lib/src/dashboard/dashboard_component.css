@@ -1,0 +1,79 @@
+ul {
+    list-style-type: none;
+}
+
+li {
+    margin-bottom: 18px;
+    margin-left: 0;
+}
+
+h2 {
+    margin-left: 20px;
+}
+
+label {
+    font-weight: bold;
+    margin-right: 7px;
+}
+
+span {
+    margin-right: 7px;
+}
+
+.selected {
+    background-color: #f4b400 !important;
+    color: white;
+}
+
+.badge {
+    display: inline-block;
+    font-size: small;
+    color: white;
+    padding: 0.5em 0.5em 0 0.5em;
+    background-color: #3f51b5;
+    line-height: 0.7em;
+    position: relative;
+    height: 1.5em;
+    margin-right: .8em;
+    border-radius: 4px 4px 4px 4px;
+}
+
+.activo {
+    background-color: #0f9d58;
+    padding: 0.3em 0.3em 0 0.3em;
+    line-height: 0.6em;
+    height: 1em;
+    margin-left: 15px;
+    top: 1px;
+}
+
+h2 .activo {
+    padding: 0.7em 0.7em 0 0.7em;
+    top: -4px;
+    height: 1.4em;
+}
+
+#projects-template{
+    width: 1005px;
+    margin: 0 auto;
+}
+
+#projects-list {
+    float: left;
+    width: 750px;
+    overflow: hidden;
+    min-height: 550px;
+    border-right: 1.5px solid rgba(117, 117, 117, 0.5);
+}
+
+#project-detail {
+    float: left;
+    min-height: 550px;
+    padding-top: 10px;
+    width: 250px;
+    overflow: hidden;
+}
+
+#project-item {
+    margin-top: 3px;
+}
