@@ -37,7 +37,7 @@ class ClientsComponent {
   String clientIdToAdd;
   String nameToAdd;
   String surnameToAdd;
-  bool showIdNull, showNameNull, showSurnameNull = false;
+  //bool showIdNull, showNameNull, showSurnameNull = false;
   
 
   ClientsComponent(this.clientsService);
@@ -49,6 +49,58 @@ class ClientsComponent {
   }
 
   void createClient() async {
+
+    //resetPanel();
+    /*bool b = comprobarClient();
+    if(!b) return;*/
+
+    Client createCl = await clientsService.createClient(clientIdToAdd,nameToAdd,surnameToAdd);
+    if(createCl != null) createClientPanel = false;
+
+  }
+
+  void editClient() async{
+    //resetPanel();
+    //bool b = comprobarClient();
+    //if(!b) return;
+
+    isEditing = true;
+    createClientPanel = true;
+    clientIdToAdd = selected.clientID;
+    nameToAdd = selected.name;
+    surnameToAdd = selected.surname;
+    selected = null;
+  }
+
+  void confirmEditClient(){
+    /*bool b = comprobarClient();
+    if(!b) return;*/
+  }
+  void newClient(){
+    isEditing = false;
+    if(createClientPanel == true) resetPanel();
+    else createClientPanel = true;
+    if(selected!=null) selected = null;
+    
+  }
+
+  void resetPanel(){
+    createClientPanel = false;
+    clientIdToAdd = "";
+    nameToAdd = "";
+    surnameToAdd = "";
+    /*showIdNull = false;
+    showNameNull = false;
+    showSurnameNull = false;*/
+  }
+
+  void cancelEditClient(){
+    resetPanel();
+    isEditing = false;
+    createClientPanel = false;
+  }
+
+  /*bool comprobarClient(){
 
     if(clientIdToAdd==null || clientIdToAdd == "" ){
       showIdNull = true;
@@ -68,37 +120,8 @@ class ClientsComponent {
       showSurnameNull = false;
     }
 
-    if(clientIdToAdd==null || nameToAdd == null || surnameToAdd == null) return;
-
-    print("clientIdToAdd = "+clientIdToAdd);
-    print("name = "+nameToAdd);
-    print("surname = "+surnameToAdd);
-
-    Client createCl = await clientsService.createClient(clientIdToAdd,nameToAdd,surnameToAdd);
-    if(createCl != null) createClientPanel = false;
+    if(clientIdToAdd==null || nameToAdd == null || surnameToAdd == null) return false;
     
-    
-  }
-
-  void editClient() async{
-
-  }
-
-  void newClient(){
-    isEditing = false;
-    if(createClientPanel == true) resetPanel();
-    else createClientPanel = true;
-    if(selected!=null) selected = null;
-    
-  }
-
-  void resetPanel(){
-    createClientPanel = false;
-    clientIdToAdd = "";
-    nameToAdd = "";
-    surnameToAdd = "";
-    showIdNull = false;
-    showNameNull = false;
-    showSurnameNull = false;
-  }
+    return true;
+  }*/
 }
