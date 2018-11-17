@@ -168,6 +168,24 @@ span {
     background-color: #f4b400;
 }
 
+
+/*
+ * VISTA CREAR CLIENTE
+ *
+ * 1. Float left
+ * 2. Anchura 30%
+ * 3. Overflow hidden
+ * 4. Mínima altura: 550px
+ * 5. Padding top 10px
+ */
+ #client-create {
+    float: left;
+    width: 30%;
+    overflow: hidden;
+    min-height: 550px;
+    padding-top: 10px;
+}
+
 /*
  * TÍTULO CABECERA CLIENTES
  *
@@ -177,3 +195,22 @@ span {
     line-height: 0.5em;
 }
 
+/*
+* INPUT TEXT (línea)
+* 1. Background transparente
+* 2. Bordes no
+* 3. Borde inferior sólido negro
+*/
+input[type=text] {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #000000;
+}
+
+/*
+* ERRORES AL INTRODUCIR DATOS
+* 1. Color de letra: rojo
+*/
+#somethingNull{
+    color: red;
+}

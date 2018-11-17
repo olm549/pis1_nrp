@@ -1,7 +1,8 @@
 <material-list id="clients-list">
     <div>
         <h2 id="main-title">Clientes</h2>
-        <material-button id="new-client" raised (click)="createClient()">Nuevo cliente</material-button>
+                <material-button id="new-client" 
+                raised (click)="newClient()">Nuevo cliente</material-button>
     </div>
     <material-list-item id="client-item" *ngFor="let client of clients"
                         [class.selected]="client === selected"
@@ -27,4 +28,43 @@
             <label>Apellidos: </label>{{selected.surname}}
         </li>
     </ul>
+</div>
+
+<div id="client-create" *ngIf="createClientPanel">
+    <div id="title" *ngIf="isEditing==false">
+        <h2>Crear Cliente</h2>
+    </div>
+    <div id="title" *ngIf="isEditing">
+        <h2>Editar Cliente</h2>
+    </div>
+        <ul>
+            <li>
+                <material-input type="clientIdToAdd" label="ID" [floatingLabel]="true" [(ngModel)]="clientIdToAdd"></material-input>
+                <div id="somethingNull" *ngIf="showIdNull">
+                    ID necesario
+                </div>
+            </li>
+
+            <li>
+                <material-input type="nameToAdd" label="Nombre" [floatingLabel]="true" [(ngModel)]="nameToAdd"></material-input>
+                <div id="somethingNull" *ngIf="showNameNull">
+                    Nombre necesario
+                </div>
+            </li>
+
+            <li>
+                <material-input type="surnameToAdd" label="Apellidos" [floatingLabel]="true" [(ngModel)]="surnameToAdd"></material-input>
+                <div id="somethingNull" *ngIf="showSurnameNull">
+                    Apellidos necesarios
+                </div>
+            </li>
+                <div id="buttonsIsEditing" *ngIf="isEditing==false">
+                    <material-button id="create-client" raised (click)="createClient()" style="float: right;">Crear</material-button>    
+                </div>
+                <div id="buttonsIsEditing" *ngIf="isEditing">
+                    <material-button id="cancel-edit-client" raised (click)="editClient()" style="float: left;">Cancelar</material-button>    
+                    <material-button id="edit-client" raised (click)="editClient()" style="float: right;">Editar</material-button>    
+                </div>
+            </ul>    
+        
 </div>
