@@ -8,5 +8,7 @@ import '../model/project.dart';
 class ProjectsService {
   Future<List<Project>> getProjects() async => null;
 
-  Future<bool> createProject() async => null;
+  Future<Project> createProject(String projectId, String name, String description, double effortLimit, bool active) async => null;
+
+  Future<Project> deleteProject(int projectId) async => null;
 }

@@ -114,6 +114,28 @@ span {
 }
 
 /*
+ * CLASE BUTTON
+ *
+ * 1. Color de letra blanco
+ * 2. Color de fondo: #3F51B5 (mismo que cabecera de dashboard)
+ */
+.button{
+    color: white;
+    background: #3F51B5;
+}
+
+/*
+ * CLASE PARA BOTONES ELIMINAR
+ *
+ * 1. Color de letra blanco
+ * 2. Color de fondo rojo
+ */
+.delete-button{
+    color: white;
+    background: red;
+}
+
+/*
  * CLASE SELECTED: elementos de lista seleccionados.
  *
  * 1. Color de fondo: #f4b400
@@ -212,3 +234,31 @@ h2 .activo {
     line-height: 0.5em;
 }
 
+/*
+ * VISTA CREAR PROYECTO
+ *
+ * 1. Float left
+ * 2. Anchura 30%
+ * 3. Overflow hidden
+ * 4. Mínima altura: 550px
+ * 5. Padding top 10px
+ */
+#project-create {
+    float: left;
+    width: 30%;
+    overflow: hidden;
+    min-height: 550px;
+    padding-top: 10px;
+}
+
+/*
+* INPUT TEXT (línea)
+* 1. Background transparente
+* 2. Bordes no
+* 3. Borde inferior sólido negro
+*/
+input[type=text] {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #000000;
+}
