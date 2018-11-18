@@ -1,30 +1,27 @@
-import '../model/project.dart';
 import '../model/project_requirement.dart';
-import '../model/project_requirement_client.dart';
-import '../model/requirement.dart';
+import '../model/requirement_value.dart';
 
 import '../nrp_server.dart';
 
 class ProjectRequirementController extends ResourceController {
-  ManagedContext context;
-
   ProjectRequirementController(this.context);
+
+  ManagedContext context;
 
   @Operation.get('projectID')
   Future<Response> getAllProjectRequirements(
     @Bind.path('projectID') int projectID,
   ) async {
     final getAllProjectRequirementsQuery = Query<ProjectRequirement>(context)
-      ..join(object: (pr) => pr.requirement)
-      ..where((pr) => pr.project.owner.id)
-          .equalTo(request.authorization.ownerID)
-      ..where((pr) => pr.requirement.owner.id)
-          .equalTo(request.authorization.ownerID)
-      ..where((pr) => pr.project.id).equalTo(projectID);
+      ..where((pr) => pr.project.id).equalTo(projectID)
+      ..join(object: (pr) => pr.requirement);
 
     // TODO: Add pagination.
 
-    return Response.ok(await getAllProjectRequirementsQuery.fetch());
+    final fetchedProjectRequirements =
+        await getAllProjectRequirementsQuery.fetch();
+
+    return Response.ok(fetchedProjectRequirements);
   }
 
   @Operation.get('projectID', 'requirementID')
@@ -33,43 +30,29 @@ class ProjectRequirementController extends ResourceController {
     @Bind.path('requirementID') int requirementID,
   ) async {
     final getProjectRequirementQuery = Query<ProjectRequirement>(context)
-      ..join(object: (pr) => pr.requirement)
-      ..where((pr) => pr.project.owner.id)
-          .equalTo(request.authorization.ownerID)
-      ..where((pr) => pr.requirement.owner.id)
-          .equalTo(request.authorization.ownerID)
       ..where((pr) => pr.project.id).equalTo(projectID)
-      ..where((pr) => pr.requirement.id).equalTo(requirementID);
+      ..where((pr) => pr.requirement.id).equalTo(requirementID)
+      ..join(object: (pr) => pr.requirement);
 
-    return Response.ok(await getProjectRequirementQuery.fetchOne());
+    final fetchedProjectRequirement =
+        await getProjectRequirementQuery.fetchOne();
+
+    return Response.ok(fetchedProjectRequirement);
   }
 
   @Operation.post('projectID')
   Future<Response> addProjectRequirement(
     @Bind.path('projectID') int projectID,
-    @Bind.body() Map content,
+    @Bind.body() ProjectRequirement newProjectRequirement,
   ) async {
-    final getProjectQuery = Query<Project>(context)
-      ..where((p) => p.owner.id).equalTo(request.authorization.ownerID)
-      ..where((p) => p.id).equalTo(projectID);
-
-    final getRequirementQuery = Query<Requirement>(context)
-      ..where((r) => r.owner.id).equalTo(request.authorization.ownerID)
-      ..where((r) => r.id)
-          .equalTo(int.tryParse(content['requirementID'].toString()));
-
-    final project = await getProjectQuery.fetchOne();
-    final requirement = await getRequirementQuery.fetchOne();
-
     final addProjectRequirementQuery = Query<ProjectRequirement>(context)
-      ..values.project = project
-      ..values.requirement = requirement
-      ..values.estimatedEffort =
-          double.tryParse(content['estimatedEffort'].toString())
-      ..values.satisfaction =
-          double.tryParse(content['satisfaction'].toString());
+      ..values = newProjectRequirement
+      ..values.project.id = projectID;
 
-    return Response.ok(await addProjectRequirementQuery.insert());
+    final insertedProjectRequirement =
+        await addProjectRequirementQuery.insert();
+
+    return Response.ok(insertedProjectRequirement);
   }
 
   @Operation.put('projectID', 'requirementID')
@@ -79,15 +62,14 @@ class ProjectRequirementController extends ResourceController {
     @Bind.body() ProjectRequirement projectRequirement,
   ) async {
     final modifyProjectRequirementQuery = Query<ProjectRequirement>(context)
-      ..where((pr) => pr.project.owner.id)
-          .equalTo(request.authorization.ownerID)
-      ..where((pr) => pr.requirement.owner.id)
-          .equalTo(request.authorization.ownerID)
       ..where((pr) => pr.project.id).equalTo(projectID)
       ..where((pr) => pr.requirement.id).equalTo(requirementID)
       ..values = projectRequirement;
 
-    return Response.ok(await modifyProjectRequirementQuery.updateOne());
+    final updatedProjectRequirement =
+        await modifyProjectRequirementQuery.updateOne();
+
+    return Response.ok(updatedProjectRequirement);
   }
 
   @Operation.delete('projectID', 'requirementID')
@@ -95,38 +77,28 @@ class ProjectRequirementController extends ResourceController {
     @Bind.path('projectID') int projectID,
     @Bind.path('requirementID') int requirementID,
   ) async {
-    final response = await context.transaction((transaction) async {
+    final Future<Response> response = context.transaction((transaction) async {
       final deleteProjectRequirementQuery =
           Query<ProjectRequirement>(transaction)
-            ..where((pr) => pr.project.owner.id)
-                .equalTo(request.authorization.ownerID)
-            ..where((pr) => pr.requirement.owner.id)
-                .equalTo(request.authorization.ownerID)
             ..where((pr) => pr.project.id).equalTo(projectID)
             ..where((pr) => pr.requirement.id).equalTo(requirementID);
 
-      await deleteProjectRequirementQuery.delete();
+      final projectRequirementRowsDeleted =
+          await deleteProjectRequirementQuery.delete();
 
-      final deleteRequirementValuesQuery =
-          Query<ProjectRequirementClient>(transaction)
-            ..where((prc) => prc.project.id).equalTo(projectID)
-            ..where((prc) => prc.requirement.id).equalTo(requirementID);
+      final deleteRequirementValuesQuery = Query<RequirementValue>(transaction)
+        ..where((rv) => rv.project.id).equalTo(projectID)
+        ..where((rv) => rv.requirement.id).equalTo(requirementID);
 
-      await deleteRequirementValuesQuery.delete();
+      final requirementValuesRowsDeleted =
+          await deleteRequirementValuesQuery.delete();
+
+      return Response.ok({
+        'projectRequirementRowsDeleted': projectRequirementRowsDeleted,
+        'requirementValuesRowsDeleted': requirementValuesRowsDeleted,
+      });
     });
 
-    return Response.ok(response);
-
-    /*
-    final deleteProjectRequirementQuery = Query<ProjectRequirement>(context)
-      ..where((pr) => pr.project.owner.id)
-          .equalTo(request.authorization.ownerID)
-      ..where((pr) => pr.requirement.owner.id)
-          .equalTo(request.authorization.ownerID)
-      ..where((pr) => pr.project.id).equalTo(projectID)
-      ..where((pr) => pr.requirement.id).equalTo(requirementID);
-
-    return Response.ok(await deleteProjectRequirementQuery.delete());
-    */
+    return response;
   }
 }

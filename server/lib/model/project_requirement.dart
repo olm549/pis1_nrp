@@ -10,8 +10,10 @@ class _ProjectRequirement {
   @primaryKey
   int id;
 
+  @Column(defaultValue: '0.0')
   double estimatedEffort;
 
+  @Column(defaultValue: '0.0')
   double satisfaction;
 
   @Relate(#requirements, onDelete: DeleteRule.cascade)

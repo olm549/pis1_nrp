@@ -4,9 +4,9 @@ import '../model/user.dart';
 import '../nrp_server.dart';
 
 class ProjectController extends ResourceController {
-  ManagedContext context;
-
   ProjectController(this.context);
+
+  ManagedContext context;
 
   @Operation.get()
   Future<Response> getAllProjects() async {
@@ -15,29 +15,34 @@ class ProjectController extends ResourceController {
 
     // TODO: Add pagination.
 
-    return Response.ok(await getAllProjectsQuery.fetch());
+    final fetchedProjects = await getAllProjectsQuery.fetch();
+
+    return Response.ok(fetchedProjects);
   }
 
   @Operation.get('projectID')
   Future<Response> getProject(@Bind.path('projectID') int id) async {
     final getProjectQuery = Query<Project>(context)
-      ..where((p) => p.owner.id).equalTo(request.authorization.ownerID)
       ..where((p) => p.id).equalTo(id);
 
-    return Response.ok(await getProjectQuery.fetchOne());
+    final fetchedProject = await getProjectQuery.fetchOne();
+
+    if (fetchedProject.owner.id != request.authorization.ownerID) {
+      return Response.unauthorized();
+    } else {
+      return Response.ok(fetchedProject);
+    }
   }
 
   @Operation.post()
   Future<Response> addProject(@Bind.body() Project newProject) async {
-    final getUserQuery = Query<User>(context)
-      ..where((u) => u.id).equalTo(request.authorization.ownerID);
+    final addProjectQuery = Query<Project>(context)
+      ..values = newProject
+      ..values.owner.id = request.authorization.ownerID;
 
-    final user = await getUserQuery.fetchOne();
-    newProject.owner = user;
+    final insertedProject = await addProjectQuery.insert();
 
-    final addProjectQuery = Query<Project>(context)..values = newProject;
-
-    return Response.ok(await addProjectQuery.insert());
+    return Response.ok(insertedProject);
   }
 
   @Operation.put('projectID')
@@ -46,32 +51,35 @@ class ProjectController extends ResourceController {
     @Bind.body() Project project,
   ) async {
     final modifyProjectQuery = Query<Project>(context)
-      ..where((p) => p.owner.id).equalTo(request.authorization.ownerID)
       ..where((p) => p.id).equalTo(id)
       ..values = project;
 
-    return Response.ok(await modifyProjectQuery.updateOne());
+    final projectToUpdate = await modifyProjectQuery.fetchOne();
+
+    if (projectToUpdate.owner.id != request.authorization.ownerID) {
+      return Response.unauthorized();
+    } else {
+      final updatedProject = await modifyProjectQuery.updateOne();
+
+      return Response.ok(updatedProject);
+    }
   }
 
   @Operation.delete('projectID')
   Future<Response> deleteProject(@Bind.path('projectID') int id) async {
-    /*final deleteProjectQuery = Query<Project>(context)
+    final deleteProjectQuery = Query<Project>(context)
       ..where((p) => p.id).equalTo(id);
 
-    final project = await deleteProjectQuery.fetchOne();
+    final projectToDelete = await deleteProjectQuery.fetchOne();
 
-    if (project == null) {
-      return Response.notFound();
-    } else if (project.owner.id != request.authorization.ownerID) {
+    if (projectToDelete.owner.id != request.authorization.ownerID) {
       return Response.unauthorized();
     } else {
-      return Response.ok(await deleteProjectQuery.delete());
-    }*/
+      final rowsDeleted = await deleteProjectQuery.delete();
 
-    final deleteProjectQuery = Query<Project>(context)
-      ..where((p) => p.owner.id).equalTo(request.authorization.ownerID)
-      ..where((p) => p.id).equalTo(id);
-
-    return Response.ok(await deleteProjectQuery.delete());
+      return Response.ok({
+        'rowsDeleted': rowsDeleted,
+      });
+    }
   }
 }

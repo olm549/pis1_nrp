@@ -4,9 +4,9 @@ import '../model/user.dart';
 import '../nrp_server.dart';
 
 class RequirementController extends ResourceController {
-  ManagedContext context;
-
   RequirementController(this.context);
+
+  ManagedContext context;
 
   @Operation.get()
   Future<Response> getAllRequirements() async {
@@ -15,32 +15,36 @@ class RequirementController extends ResourceController {
 
     // TODO: Add pagination.
 
-    return Response.ok(await getAllRequirementsQuery.fetch());
+    final fetchedRequirements = await getAllRequirementsQuery.fetch();
+
+    return Response.ok(fetchedRequirements);
   }
 
   @Operation.get('requirementID')
   Future<Response> getRequirement(@Bind.path('requirementID') int id) async {
     final getRequirementQuery = Query<Requirement>(context)
-      ..where((r) => r.owner.id).equalTo(request.authorization.ownerID)
       ..where((r) => r.id).equalTo(id);
 
-    return Response.ok(await getRequirementQuery.fetchOne());
+    final fetchedRequirement = await getRequirementQuery.fetchOne();
+
+    if (fetchedRequirement.owner.id != request.authorization.ownerID) {
+      return Response.unauthorized();
+    } else {
+      return Response.ok(fetchedRequirement);
+    }
   }
 
   @Operation.post()
   Future<Response> addRequirement(
     @Bind.body() Requirement newRequirement,
   ) async {
-    final getUserQuery = Query<User>(context)
-      ..where((u) => u.id).equalTo(request.authorization.ownerID);
-
-    final user = await getUserQuery.fetchOne();
-    newRequirement.owner = user;
-
     final addRequirementQuery = Query<Requirement>(context)
-      ..values = newRequirement;
+      ..values = newRequirement
+      ..values.owner.id = request.authorization.ownerID;
 
-    return Response.ok(await addRequirementQuery.insert());
+    final insertedRequirement = await addRequirementQuery.insert();
+
+    return Response.ok(insertedRequirement);
   }
 
   @Operation.put('requirementID')
@@ -49,11 +53,18 @@ class RequirementController extends ResourceController {
     @Bind.body() Requirement requirement,
   ) async {
     final modifyRequirementQuery = Query<Requirement>(context)
-      ..where((r) => r.owner.id).equalTo(request.authorization.ownerID)
       ..where((r) => r.id).equalTo(id)
       ..values = requirement;
 
-    return Response.ok(await modifyRequirementQuery.updateOne());
+    final requirementToUpdate = await modifyRequirementQuery.fetchOne();
+
+    if (requirementToUpdate.owner.id != request.authorization.ownerID) {
+      return Response.unauthorized();
+    } else {
+      final updatedRequirement = await modifyRequirementQuery.updateOne();
+
+      return Response.ok(updatedRequirement);
+    }
   }
 
   @Operation.delete('requirementID')
@@ -61,9 +72,18 @@ class RequirementController extends ResourceController {
     @Bind.path('requirementID') int id,
   ) async {
     final deleteRequirementQuery = Query<Requirement>(context)
-      ..where((r) => r.owner.id).equalTo(request.authorization.ownerID)
       ..where((r) => r.id).equalTo(id);
 
-    return Response.ok(await deleteRequirementQuery.delete());
+    final requirementToDelete = await deleteRequirementQuery.fetchOne();
+
+    if (requirementToDelete.owner.id != request.authorization.ownerID) {
+      return Response.unauthorized();
+    } else {
+      final rowsDeleted = await deleteRequirementQuery.delete();
+
+      return Response.ok({
+        'rowsDeleted': rowsDeleted,
+      });
+    }
   }
 }
