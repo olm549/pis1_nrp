@@ -77,15 +77,16 @@ class ClientsComponent {
     if(!b) return;*/
   }
   void newClient(){
-    isEditing = false;
+    
     if(createClientPanel == true) resetPanel();
     else createClientPanel = true;
+    isEditing = false;
     if(selected!=null) selected = null;
     
   }
 
   void resetPanel(){
-    createClientPanel = false;
+    if(isEditing==false) createClientPanel = false;  
     clientIdToAdd = "";
     nameToAdd = "";
     surnameToAdd = "";
