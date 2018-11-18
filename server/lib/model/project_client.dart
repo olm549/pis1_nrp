@@ -10,6 +10,7 @@ class _ProjectClient {
   @primaryKey
   int id;
 
+  @Column(defaultValue: '0.0')
   double weight;
 
   @Relate(#clients, onDelete: DeleteRule.cascade)

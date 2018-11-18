@@ -35,6 +35,8 @@ class RegisterController extends QueryController<User> {
     query.values.hashedPassword = hashedPassword;
     query.values.salt = salt;
 
-    return Response.ok(await query.insert());
+    final insertedUser = await query.insert();
+
+    return Response.ok(insertedUser);
   }
 }

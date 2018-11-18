@@ -1,57 +1,60 @@
-import '../model/client.dart';
-import '../model/project.dart';
-import '../model/project_requirement_client.dart';
-import '../model/requirement.dart';
+import '../model/requirement_value.dart';
 
 import '../nrp_server.dart';
 
 class RequirementValueController extends ResourceController {
-  ManagedContext context;
-
   RequirementValueController(this.context);
+
+  ManagedContext context;
 
   @Operation.get('projectID', 'requirementID')
   Future<Response> getRequirementValues(
     @Bind.path('projectID') int projectID,
     @Bind.path('requirementID') int requirementID,
   ) async {
-    final getRequirementValuesQuery = Query<ProjectRequirementClient>(context)
-      ..join(object: (prc) => prc.client)
-      ..where((prc) => prc.project.id).equalTo(projectID)
-      ..where((prc) => prc.requirement.id).equalTo(requirementID);
+    final getRequirementValuesQuery = Query<RequirementValue>(context)
+      ..where((rv) => rv.project.id).equalTo(projectID)
+      ..where((rv) => rv.requirement.id).equalTo(requirementID)
+      ..join(object: (rv) => rv.client);
 
     // TODO: Add pagination.
 
-    return Response.ok(await getRequirementValuesQuery.fetch());
+    final fetchedRequirementValues = await getRequirementValuesQuery.fetch();
+
+    return Response.ok(fetchedRequirementValues);
+  }
+
+  @Operation.get('projectID', 'requirementID', 'clientID')
+  Future<Response> getRequirementValue(
+    @Bind.path('projectID') int projectID,
+    @Bind.path('requirementID') int requirementID,
+    @Bind.path('clientID') int clientID,
+  ) async {
+    final getRequirementValueQuery = Query<RequirementValue>(context)
+      ..where((rv) => rv.project.id).equalTo(projectID)
+      ..where((rv) => rv.requirement.id).equalTo(requirementID)
+      ..where((rv) => rv.client.id).equalTo(clientID)
+      ..join(object: (rv) => rv.client);
+
+    final fetchedRequirementValue = await getRequirementValueQuery.fetchOne();
+
+    return Response.ok(fetchedRequirementValue);
   }
 
   @Operation.post('projectID', 'requirementID')
   Future<Response> addRequirementValue(
     @Bind.path('projectID') int projectID,
     @Bind.path('requirementID') int requirementID,
-    @Bind.body() Map content,
+    @Bind.body() RequirementValue newRequirementValue,
   ) async {
-    final getProjectQuery = Query<Project>(context)
-      ..where((p) => p.id).equalTo(projectID);
+    final addRequirementValueQuery = Query<RequirementValue>(context)
+      ..values = newRequirementValue
+      ..values.project.id = projectID
+      ..values.requirement.id = requirementID;
 
-    final getRequirementQuery = Query<Requirement>(context)
-      ..where((r) => r.id).equalTo(requirementID);
+    final insertedRequirementValue = await addRequirementValueQuery.insert();
 
-    final getClientQuery = Query<Client>(context)
-      ..where((c) => c.id)
-          .equalTo(int.tryParse(content['clientID'].toString()));
-
-    final project = await getProjectQuery.fetchOne();
-    final requirement = await getRequirementQuery.fetchOne();
-    final client = await getClientQuery.fetchOne();
-
-    final addRequirementValueQuery = Query<ProjectRequirementClient>(context)
-      ..values.project = project
-      ..values.requirement = requirement
-      ..values.client = client
-      ..values.value = double.tryParse(content['value'].toString());
-
-    return Response.ok(await addRequirementValueQuery.insert());
+    return Response.ok(insertedRequirementValue);
   }
 
   @Operation.put('projectID', 'requirementID', 'clientID')
@@ -59,15 +62,18 @@ class RequirementValueController extends ResourceController {
     @Bind.path('projectID') int projectID,
     @Bind.path('requirementID') int requirementID,
     @Bind.path('clientID') int clientID,
-    @Bind.body() Map content,
+    @Bind.body() RequirementValue projectRequirementClient,
   ) async {
-    final modifyRequirementValueQuery = Query<ProjectRequirementClient>(context)
-      ..where((prc) => prc.project.id).equalTo(projectID)
-      ..where((prc) => prc.requirement.id).equalTo(requirementID)
-      ..where((prc) => prc.client.id).equalTo(clientID)
-      ..values.value = double.tryParse(content['value'].toString());
+    final modifyRequirementValueQuery = Query<RequirementValue>(context)
+      ..where((rv) => rv.project.id).equalTo(projectID)
+      ..where((rv) => rv.requirement.id).equalTo(requirementID)
+      ..where((rv) => rv.client.id).equalTo(clientID)
+      ..values = projectRequirementClient;
 
-    return Response.ok(await modifyRequirementValueQuery.updateOne());
+    final updatedRequirementValue =
+        await modifyRequirementValueQuery.updateOne();
+
+    return Response.ok(updatedRequirementValue);
   }
 
   @Operation.delete('projectID', 'requirementID', 'clientID')
@@ -76,11 +82,15 @@ class RequirementValueController extends ResourceController {
     @Bind.path('requirementID') int requirementID,
     @Bind.path('clientID') int clientID,
   ) async {
-    final deleteRequirementValueQuery = Query<ProjectRequirementClient>(context)
-      ..where((prc) => prc.project.id).equalTo(projectID)
-      ..where((prc) => prc.requirement.id).equalTo(requirementID)
-      ..where((prc) => prc.client.id).equalTo(clientID);
+    final deleteRequirementValueQuery = Query<RequirementValue>(context)
+      ..where((rv) => rv.project.id).equalTo(projectID)
+      ..where((rv) => rv.requirement.id).equalTo(requirementID)
+      ..where((rv) => rv.client.id).equalTo(clientID);
 
-    return Response.ok(await deleteRequirementValueQuery.delete());
+    final rowsDeleted = await deleteRequirementValueQuery.delete();
+
+    return Response.ok({
+      'rowsDeleted': rowsDeleted,
+    });
   }
 }

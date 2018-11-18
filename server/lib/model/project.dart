@@ -2,7 +2,7 @@ import '../nrp_server.dart';
 
 import './project_client.dart';
 import './project_requirement.dart';
-import './project_requirement_client.dart';
+import './requirement_value.dart';
 import './user.dart';
 
 class Project extends ManagedObject<_Project> implements _Project {}
@@ -18,6 +18,7 @@ class _Project {
 
   String description;
 
+  @Column(defaultValue: '0.0')
   double effortLimit;
 
   @Column(defaultValue: 'false')
@@ -30,5 +31,5 @@ class _Project {
 
   ManagedSet<ProjectClient> clients;
 
-  ManagedSet<ProjectRequirementClient> values;
+  ManagedSet<RequirementValue> values;
 }

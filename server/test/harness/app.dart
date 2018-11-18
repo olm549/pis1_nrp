@@ -1,4 +1,5 @@
 import 'package:server/nrp_server.dart';
+import 'package:server/model/user.dart';
 import 'package:aqueduct_test/aqueduct_test.dart';
 
 export 'package:server/nrp_server.dart';
@@ -19,13 +20,31 @@ export 'package:aqueduct/aqueduct.dart';
 ///           });
 ///         }
 ///
-class Harness extends TestHarness<NrpServerChannel> with TestHarnessORMMixin {
+class Harness extends TestHarness<NrpServerChannel>
+    with TestHarnessAuthMixin<NrpServerChannel>, TestHarnessORMMixin {
   @override
   ManagedContext get context => channel.context;
 
   @override
+  AuthServer get authServer => channel.authServer;
+
+  Agent publicAgent;
+
+  Agent userAgent;
+
+  User testUser;
+
+  @override
   Future onSetUp() async {
     await resetData();
+
+    publicAgent = await addClient('com.nrp.test');
+
+    testUser = User()
+      ..username = 'user@test.com'
+      ..password = 'foobar123';
+
+    userAgent = await registerUser(testUser);
   }
 
   @override
@@ -34,5 +53,19 @@ class Harness extends TestHarness<NrpServerChannel> with TestHarnessORMMixin {
   @override
   Future seed() async {
     // restore any static data. called by resetData.
+  }
+
+  Future<Agent> registerUser(User user, {Agent withClient}) async {
+    withClient ??= publicAgent;
+
+    await withClient.post(
+      '/register',
+      body: {
+        'username': user.username,
+        'password': user.password,
+      },
+    );
+
+    return loginUser(withClient, user.username, user.password);
   }
 }
