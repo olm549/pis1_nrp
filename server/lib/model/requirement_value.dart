@@ -4,13 +4,14 @@ import './client.dart';
 import './project.dart';
 import './requirement.dart';
 
-class ProjectRequirementClient extends ManagedObject<_ProjectRequirementClient>
-    implements _ProjectRequirementClient {}
+class RequirementValue extends ManagedObject<_RequirementValue>
+    implements _RequirementValue {}
 
-class _ProjectRequirementClient {
+class _RequirementValue {
   @primaryKey
   int id;
 
+  @Column(defaultValue: '0.0')
   double value;
 
   @Relate(#values, onDelete: DeleteRule.cascade)

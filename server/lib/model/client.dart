@@ -1,7 +1,7 @@
 import '../nrp_server.dart';
 
 import './project_client.dart';
-import './project_requirement_client.dart';
+import './requirement_value.dart';
 import './user.dart';
 
 class Client extends ManagedObject<_Client> implements _Client {}
@@ -22,5 +22,5 @@ class _Client {
 
   ManagedSet<ProjectClient> projects;
 
-  ManagedSet<ProjectRequirementClient> values;
+  ManagedSet<RequirementValue> values;
 }

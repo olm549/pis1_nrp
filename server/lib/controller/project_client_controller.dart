@@ -1,29 +1,26 @@
-import '../model/client.dart';
-import '../model/project.dart';
 import '../model/project_client.dart';
-import '../model/project_requirement_client.dart';
+import '../model/requirement_value.dart';
 
 import '../nrp_server.dart';
 
 class ProjectClientController extends ResourceController {
-  ManagedContext context;
-
   ProjectClientController(this.context);
+
+  ManagedContext context;
 
   @Operation.get('projectID')
   Future<Response> getAllProjectClients(
     @Bind.path('projectID') int projectID,
   ) async {
     final getAllProjectClientsQuery = Query<ProjectClient>(context)
-      ..join(object: (pc) => pc.client)
-      ..where((pc) => pc.project.owner.id)
-          .equalTo(request.authorization.ownerID)
-      ..where((pc) => pc.client.owner.id).equalTo(request.authorization.ownerID)
-      ..where((pc) => pc.project.id).equalTo(projectID);
+      ..where((pc) => pc.project.id).equalTo(projectID)
+      ..join(object: (pc) => pc.client);
 
     // TODO: Add pagination.
 
-    return Response.ok(await getAllProjectClientsQuery.fetch());
+    final fetchedProjectClients = await getAllProjectClientsQuery.fetch();
+
+    return Response.ok(fetchedProjectClients);
   }
 
   @Operation.get('projectID', 'clientID')
@@ -32,39 +29,27 @@ class ProjectClientController extends ResourceController {
     @Bind.path('clientID') int clientID,
   ) async {
     final getProjectClientQuery = Query<ProjectClient>(context)
-      ..join(object: (pc) => pc.client)
-      ..where((pc) => pc.project.owner.id)
-          .equalTo(request.authorization.ownerID)
-      ..where((pc) => pc.client.owner.id).equalTo(request.authorization.ownerID)
       ..where((pc) => pc.project.id).equalTo(projectID)
-      ..where((pc) => pc.client.id).equalTo(clientID);
+      ..where((pc) => pc.client.id).equalTo(clientID)
+      ..join(object: (pc) => pc.client);
 
-    return Response.ok(await getProjectClientQuery.fetchOne());
+    final fetchedProjectClient = await getProjectClientQuery.fetchOne();
+
+    return Response.ok(fetchedProjectClient);
   }
 
   @Operation.post('projectID')
   Future<Response> addProjectClient(
     @Bind.path('projectID') int projectID,
-    @Bind.body() Map content,
+    @Bind.body() ProjectClient newProjectClient,
   ) async {
-    final getProjectQuery = Query<Project>(context)
-      ..where((p) => p.owner.id).equalTo(request.authorization.ownerID)
-      ..where((p) => p.id).equalTo(projectID);
-
-    final getClientQuery = Query<Client>(context)
-      ..where((c) => c.owner.id).equalTo(request.authorization.ownerID)
-      ..where((c) => c.id)
-          .equalTo(int.tryParse(content['clientID'].toString()));
-
-    final project = await getProjectQuery.fetchOne();
-    final client = await getClientQuery.fetchOne();
-
     final addProjectClientQuery = Query<ProjectClient>(context)
-      ..values.project = project
-      ..values.client = client
-      ..values.weight = double.tryParse(content['weight'].toString());
+      ..values = newProjectClient
+      ..values.project.id = projectID;
 
-    return Response.ok(await addProjectClientQuery.insert());
+    final insertedProjectClient = await addProjectClientQuery.insert();
+
+    return Response.ok(insertedProjectClient);
   }
 
   @Operation.put('projectID', 'clientID')
@@ -74,14 +59,13 @@ class ProjectClientController extends ResourceController {
     @Bind.body() ProjectClient projectClient,
   ) async {
     final modifyProjectClientQuery = Query<ProjectClient>(context)
-      ..where((pc) => pc.project.owner.id)
-          .equalTo(request.authorization.ownerID)
-      ..where((pc) => pc.client.owner.id).equalTo(request.authorization.ownerID)
       ..where((pc) => pc.project.id).equalTo(projectID)
       ..where((pc) => pc.client.id).equalTo(clientID)
       ..values = projectClient;
 
-    return Response.ok(await modifyProjectClientQuery.updateOne());
+    final updatedProjectClient = await modifyProjectClientQuery.updateOne();
+
+    return Response.ok(updatedProjectClient);
   }
 
   @Operation.delete('projectID', 'clientID')
@@ -89,36 +73,26 @@ class ProjectClientController extends ResourceController {
     @Bind.path('projectID') int projectID,
     @Bind.path('clientID') int clientID,
   ) async {
-    final response = await context.transaction((transaction) async {
+    final Future<Response> response = context.transaction((transaction) async {
       final deleteProjectClientQuery = Query<ProjectClient>(transaction)
-        ..where((pc) => pc.project.owner.id)
-            .equalTo(request.authorization.ownerID)
-        ..where((pc) => pc.client.owner.id)
-            .equalTo(request.authorization.ownerID)
         ..where((pc) => pc.project.id).equalTo(projectID)
         ..where((pc) => pc.client.id).equalTo(clientID);
 
-      await deleteProjectClientQuery.delete();
+      final projectClientRowsDeleted = await deleteProjectClientQuery.delete();
 
-      final deleteRequirementValuesQuery =
-          Query<ProjectRequirementClient>(transaction)
-            ..where((prc) => prc.project.id).equalTo(projectID)
-            ..where((prc) => prc.client.id).equalTo(clientID);
+      final deleteRequirementValuesQuery = Query<RequirementValue>(transaction)
+        ..where((rv) => rv.project.id).equalTo(projectID)
+        ..where((rv) => rv.client.id).equalTo(clientID);
 
-      await deleteRequirementValuesQuery.delete();
+      final requirementValuesRowsDeleted =
+          await deleteRequirementValuesQuery.delete();
+
+      return Response.ok({
+        'projectClientRowsDeleted': projectClientRowsDeleted,
+        'requirementValuesRowsDeleted': requirementValuesRowsDeleted,
+      });
     });
 
-    return Response.ok(response);
-
-    /*
-    final deleteProjectClientQuery = Query<ProjectClient>(context)
-      ..where((pc) => pc.project.owner.id)
-          .equalTo(request.authorization.ownerID)
-      ..where((pc) => pc.client.owner.id).equalTo(request.authorization.ownerID)
-      ..where((pc) => pc.project.id).equalTo(projectID)
-      ..where((pc) => pc.client.id).equalTo(clientID);
-
-    return Response.ok(await deleteProjectClientQuery.delete());
-    */
+    return response;
   }
 }
