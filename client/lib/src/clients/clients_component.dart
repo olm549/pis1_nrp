@@ -48,17 +48,24 @@ class ClientsComponent {
     selected = client;
   }
 
+  /*
+  * Método para confirmar
+  * creación del cliente
+  */
   void createClient() async {
 
     //resetPanel();
-    /*bool b = comprobarClient();
-    if(!b) return;*/
 
+    if(!comprobarClient()) return;
     Client createCl = await clientsService.createClient(clientIdToAdd,nameToAdd,surnameToAdd);
     if(createCl != null) createClientPanel = false;
 
   }
 
+  /*
+  * Método para abrir la ventana
+  * de edición de un cliente
+  */
   void editClient() async{
     //resetPanel();
     //bool b = comprobarClient();
@@ -72,10 +79,18 @@ class ClientsComponent {
     selected = null;
   }
 
+  /*
+  * Método para confirmar la
+  * edición de un cliente
+  */
   void confirmEditClient(){
-    /*bool b = comprobarClient();
-    if(!b) return;*/
+    if(!comprobarClient()) return;
   }
+
+  /*
+  * Método para abrir el panel de introducir
+  * formulario para agregar un cliente
+  */
   void newClient(){
     
     if(createClientPanel == true) resetPanel();
@@ -85,6 +100,9 @@ class ClientsComponent {
     
   }
 
+  /*
+  * Resetear valores del panel
+  */
   void resetPanel(){
     if(isEditing==false) createClientPanel = false;  
     clientIdToAdd = "";
@@ -95,15 +113,23 @@ class ClientsComponent {
     showSurnameNull = false;*/
   }
 
+  /*
+  * Método para cerrar la vista
+  * de editar cliente
+  */
   void cancelEditClient(){
     resetPanel();
     isEditing = false;
     createClientPanel = false;
   }
 
-  /*bool comprobarClient(){
+  /*
+  * Método para comprobar los
+  * valores del formulario
+  */
+  bool comprobarClient(){
 
-    if(clientIdToAdd==null || clientIdToAdd == "" ){
+    /*if(clientIdToAdd==null || clientIdToAdd == "" ){
       showIdNull = true;
     }else{
       showIdNull = false;
@@ -119,10 +145,10 @@ class ClientsComponent {
       showSurnameNull = true;
     }else{
       showSurnameNull = false;
-    }
+    }*/
 
     if(clientIdToAdd==null || nameToAdd == null || surnameToAdd == null) return false;
     
     return true;
-  }*/
+  }
 }
