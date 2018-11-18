@@ -148,6 +148,7 @@ class ClientsComponent {
     }*/
 
     if(clientIdToAdd==null || nameToAdd == null || surnameToAdd == null) return false;
+    if(clientIdToAdd=="" || nameToAdd == "" || surnameToAdd == "") return false;
     
     return true;
   }
