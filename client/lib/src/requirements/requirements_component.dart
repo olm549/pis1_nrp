@@ -67,10 +67,7 @@ class RequirementsComponent {
     if(!checkRequirement()) return;
   }
 
-  /*
-  * Método para abrir el panel de introducir
-  * formulario para agregar un requisito
-  */
+ //Introducir requisito
   void newRequirement(){
     
     if(createRequirementPanel == true) resetPanel();
@@ -80,9 +77,7 @@ class RequirementsComponent {
     
   }
 
-  /*
-  * Resetear valores del panel
-  */
+ //Reiniciar panel
   void resetPanel(){
     if(isEditing==false) createRequirementPanel = false;  
     requirementIdToAdd = "";
@@ -91,20 +86,14 @@ class RequirementsComponent {
    
   }
 
-  /*
-  * Método para cerrar la vista
-  * de editar requisito
-  */
+  //Cancelar edicion requisito
   void cancelEditRequirement(){
     resetPanel();
     isEditing = false;
     createRequirementPanel = false;
   }
 
-  /*
-  * Método para comprobar los
-  * valores del formulario
-  */
+  //Comprobar valores
   bool checkRequirement(){
 
     if(requirementIdToAdd==null || titleToAdd == null || descriptionToAdd == null) return false;
