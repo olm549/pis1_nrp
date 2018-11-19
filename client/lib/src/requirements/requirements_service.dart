@@ -8,5 +8,5 @@ import '../model/requirement.dart';
 class RequirementsService {
   Future<List<Requirement>> getRequirements() async => null;
 
-  Future<bool> createRequirement() async => null;
+  Future<Requirement> createRequirement(String requirementId, String requirementTitle, String requirementDescription) async => null;
 }

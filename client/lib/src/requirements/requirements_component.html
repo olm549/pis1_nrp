@@ -1,7 +1,7 @@
 <material-list id="requirements-list">
     <div>
         <h2 id="main-title">Requisitos</h2>
-        <material-button id="new-requirement" raised (click)="createRequirement()">Nuevo requisito</material-button>
+        <material-button id="new-requirement" raised (click)="newRequirement()">Nuevo requisito</material-button>
     </div>
     <material-list-item id="requirement-item" *ngFor="let requirement of requirements"
                         [class.selected]="requirement === selected"
@@ -26,5 +26,39 @@
         <li>
             <label>Descripción: </label>{{selected.description}}
         </li>
+        <div id="edit-requirement">
+            <material-button id="requirement-edit" raised (click)="editRequirement()" style="float: right;">Editar</material-button>    
+        </div>
     </ul>
 </div>
+
+<div id="requirement-create" *ngIf="createRequirementPanel">
+    <div id="title" *ngIf="isEditing==false">
+        <h2>Crear Requisito</h2>
+    </div>
+    <div id="title" *ngIf="isEditing">
+        <h2>Editar Requisito</h2>
+    </div>
+        <ul>
+            <li>
+                <material-input type="requirementIdToAdd" label="ID" [floatingLabel]="true" [(ngModel)]="requirementIdToAdd" [required]="true"></material-input>
+            </li>
+
+            <li>
+                <material-input type="titleToAdd" label="Nombre" [floatingLabel]="true" [(ngModel)]="titleToAdd" [required]="true"></material-input>
+            </li>
+
+            <li>
+                <material-input type="descriptionToAdd" label="Descripcion" [floatingLabel]="true" [(ngModel)]="descriptionToAdd" [required]="true"></material-input>
+            </li>
+                <div id="buttonsIsEditing" *ngIf="isEditing==false">
+                    <material-button id="create-requirement" raised (click)="createRequirement()" style="float: right;">Crear</material-button>    
+                </div>
+                <div id="buttonsIsEditing" *ngIf="isEditing">
+                    <material-button id="cancel-edit-requirement" raised (click)="cancelEditRequirement()" style="float: left;">Cancelar</material-button>    
+                    <material-button id="edit-requirement" raised (click)="confirmEditRequirement()" style="float: right;">Editar</material-button>    
+                </div>
+            </ul>    
+        
+</div>
+
