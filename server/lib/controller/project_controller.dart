@@ -1,25 +1,56 @@
 import '../model/project.dart';
-import '../model/user.dart';
 
 import '../nrp_server.dart';
 
+/// A controller that handles requests for the [Project] resources.
 class ProjectController extends ResourceController {
   ProjectController(this.context);
 
   ManagedContext context;
 
+  /// Fetches all projects' data.
+  ///
+  /// This method only returns data from projects that have the requesting
+  /// user as [Project.owner].
+  ///
+  /// If the query parameter is present in the path as `true`, this method will only
+  /// return data of the resource which has [Project.active] as true.
+  ///
+  /// A list of [Project] resources is returned in the body of a 200 response.
   @Operation.get()
-  Future<Response> getAllProjects() async {
-    final getAllProjectsQuery = Query<Project>(context)
-      ..where((p) => p.owner.id).equalTo(request.authorization.ownerID);
+  Future<Response> getAllProjects({@Bind.query('active') bool active}) async {
+    if (active != null && active == true) {
+      final getActiveProjectQuery = Query<Project>(context)
+        ..where((p) => p.owner.id).equalTo(request.authorization.ownerID)
+        ..where((p) => p.active).equalTo(active);
 
-    // TODO: Add pagination.
+      final fetchedActiveProject = await getActiveProjectQuery.fetchOne();
 
-    final fetchedProjects = await getAllProjectsQuery.fetch();
+      if (fetchedActiveProject == null) {
+        return Response.notFound();
+      } else {
+        return Response.ok(fetchedActiveProject);
+      }
+    } else {
+      final getAllProjectsQuery = Query<Project>(context)
+        ..where((p) => p.owner.id).equalTo(request.authorization.ownerID);
 
-    return Response.ok(fetchedProjects);
+      // TODO: Add pagination.
+
+      final fetchedProjects = await getAllProjectsQuery.fetch();
+
+      return Response.ok(fetchedProjects);
+    }
   }
 
+  /// Fetches a certain project's data.
+  ///
+  /// The [Project.id] of the desired resource is taken from the path of the
+  /// request.
+  ///
+  /// Returns a 200 response with the [Project] resource in the body only if
+  /// the requesting user is specified as [Project.owner]. If not, returns
+  /// a 401 response.
   @Operation.get('projectID')
   Future<Response> getProject(@Bind.path('projectID') int id) async {
     final getProjectQuery = Query<Project>(context)
@@ -34,6 +65,14 @@ class ProjectController extends ResourceController {
     }
   }
 
+  /// Inserts a new project.
+  ///
+  /// Values of the new resource must be sent in the request's body and
+  /// are parsed into a [Project] object for insertion.
+  ///
+  /// The new resource is given the requesting user as [Project.owner].
+  ///
+  /// Returns a 200 response with the new resource.
   @Operation.post()
   Future<Response> addProject(@Bind.body() Project newProject) async {
     final addProjectQuery = Query<Project>(context)
@@ -45,6 +84,17 @@ class ProjectController extends ResourceController {
     return Response.ok(insertedProject);
   }
 
+  /// Updates a project's data.
+  ///
+  /// The [Project.id] of the desired resource is taken from the path of the
+  /// request.
+  ///
+  /// New values for the resource must be sent in the request's body and
+  /// are parsed into a [Project] object.
+  ///
+  /// Returns a 200 response with the updated resource if the requesting user
+  /// is specified as [Project.owner] of the desired resource. If not, returns
+  /// a 401 response.
   @Operation.put('projectID')
   Future<Response> modifyProject(
     @Bind.path('projectID') int id,
@@ -65,6 +115,14 @@ class ProjectController extends ResourceController {
     }
   }
 
+  /// Deletes a project.
+  ///
+  /// The [Project.id] of the desired resource is taken from the path of the
+  /// request.
+  ///
+  /// Returns a 200 response with the number of rows deleted only if the
+  /// requesting user is specified as [Project.owner] of the desired resource.
+  /// If not, a 401 response is returned.
   @Operation.delete('projectID')
   Future<Response> deleteProject(@Bind.path('projectID') int id) async {
     final deleteProjectQuery = Query<Project>(context)

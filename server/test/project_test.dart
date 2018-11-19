@@ -99,6 +99,51 @@ Future main() async {
     );
   });
 
+  test('GET /projects?active=true returns active project', () async {
+    var response = await harness.userAgent.post(
+      '/projects',
+      body: {
+        'projectID': 'P001',
+        'name': 'testname',
+        'description': 'testdescription',
+        'active': true,
+      },
+    );
+
+    final createdProject = response.body.as();
+
+    response = await harness.userAgent.get('/projects?active=true');
+
+    expectResponse(
+      response,
+      200,
+      body: {
+        'id': createdProject['id'],
+        'projectID': createdProject['projectID'],
+        'name': createdProject['name'],
+        'description': createdProject['description'],
+        'effortLimit': createdProject['effortLimit'],
+        'active': isTrue,
+        'owner': createdProject['owner'],
+      },
+    );
+  });
+
+  test('GET /projects?active=true returns a 404 response', () async {
+    await harness.userAgent.post(
+      '/projects',
+      body: {
+        'projectID': 'P001',
+        'name': 'testname',
+        'description': 'testdescription',
+      },
+    );
+
+    final response = await harness.userAgent.get('/projects?active=true');
+
+    expectResponse(response, 404);
+  });
+
   test('PUT /projects/:id updates a project', () async {
     final testProject = Project()
       ..projectID = 'P001'
