@@ -13,17 +13,34 @@ class ProjectController extends ResourceController {
   /// This method only returns data from projects that have the requesting
   /// user as [Project.owner].
   ///
+  /// If the query parameter is present in the path as `true`, this method will only
+  /// return data of the resource which has [Project.active] as true.
+  ///
   /// A list of [Project] resources is returned in the body of a 200 response.
   @Operation.get()
-  Future<Response> getAllProjects() async {
-    final getAllProjectsQuery = Query<Project>(context)
-      ..where((p) => p.owner.id).equalTo(request.authorization.ownerID);
+  Future<Response> getAllProjects({@Bind.query('active') bool active}) async {
+    if (active != null && active == true) {
+      final getActiveProjectQuery = Query<Project>(context)
+        ..where((p) => p.owner.id).equalTo(request.authorization.ownerID)
+        ..where((p) => p.active).equalTo(active);
 
-    // TODO: Add pagination.
+      final fetchedActiveProject = await getActiveProjectQuery.fetchOne();
 
-    final fetchedProjects = await getAllProjectsQuery.fetch();
+      if (fetchedActiveProject == null) {
+        return Response.notFound();
+      } else {
+        return Response.ok(fetchedActiveProject);
+      }
+    } else {
+      final getAllProjectsQuery = Query<Project>(context)
+        ..where((p) => p.owner.id).equalTo(request.authorization.ownerID);
 
-    return Response.ok(fetchedProjects);
+      // TODO: Add pagination.
+
+      final fetchedProjects = await getAllProjectsQuery.fetch();
+
+      return Response.ok(fetchedProjects);
+    }
   }
 
   /// Fetches a certain project's data.
