@@ -11,4 +11,6 @@ class ProjectsService {
   Future<Project> createProject(String projectId, String name, String description, double effortLimit, bool active) async => null;
 
   Future<Project> deleteProject(int projectId) async => null;
+
+  Future activateProject(int projectId) async => null;
 }

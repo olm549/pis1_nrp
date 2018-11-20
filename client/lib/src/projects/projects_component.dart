@@ -114,4 +114,8 @@ class ProjectsComponent {
 
     return true;
   }
+
+  void activateProject(int projectId){
+    projectsService.activateProject(projectId);
+  }
 }

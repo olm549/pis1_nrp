@@ -27,8 +27,10 @@
         <li>
             <label>Apellidos: </label>{{selected.surname}}
         </li>
-        <div id="edit-client">
-            <material-button id="client-edit" raised (click)="editClient()" style="float: right;">Editar</material-button>    
+
+        <div>
+            <material-button class="button" raised (click)="editClient()" style="float: left;">Editar</material-button>
+            <material-button class="delete-button" raised (click)="deleteClient()" style="float: right;">Eliminar</material-button>
         </div>
     </ul>
 </div>
@@ -54,13 +56,17 @@
             <material-input type="surnameToAdd" label="Apellidos" [floatingLabel]="true" [(ngModel)]="surnameToAdd" [required]="true"></material-input>
         </li>
 
-        <div class="buttonsIsEditing" *ngIf="isEditing==false">
+        <div class="button" *ngIf="isEditing==false">
             <material-button id="create-client" raised (click)="createClient()" style="float: right;">Crear</material-button>
         </div>
 
-        <div class="buttonsIsEditing" *ngIf="isEditing">
+        <div class="button" *ngIf="isEditing">
+            <material-button class="delete-button" raised (click)="deleteClient()" style="float: right;">Eliminar</material-button>
+            <material-button id="edit-client" class="button" raised (click)="confirmEditClient()" style="float: right;">Editar</material-button>
+        </div>
+
+        <div>
             <material-button id="cancel-edit-client" raised (click)="cancelEditClient()" style="float: left;">Cancelar</material-button>
-            <material-button id="edit-client" raised (click)="confirmEditClient()" style="float: right;">Editar</material-button>
         </div>
     </ul>
 </div>

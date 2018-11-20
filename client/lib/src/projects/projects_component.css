@@ -160,6 +160,17 @@ h2 .activo {
 }
 
 /*
+ * BOTÓN CANCELAR EDICIÓN
+ *
+ * 1. Fondo blanco
+ * 2. Letra negra
+ */
+#cancel-edit-project{
+    background: white;
+    color: black;
+}
+
+/*
  * LISTA DE PROYECTOS
  *
  * 1. Float left
@@ -223,6 +234,20 @@ h2 .activo {
     font-size: small;
     color: white;
     background-color: #f4b400;
+}
+
+
+/*
+ * BOTÓN ACTIVAR PROYECTO
+ *
+ * 1. Color de fondo: #f4b400
+ * 2. Color de texto: blanco
+ */
+#activar-button{
+    border-radius: 4px 4px 4px 4px;
+    font-size: small;
+    color: white;
+    background: #316331;
 }
 
 /*
