@@ -1,19 +1,27 @@
 import 'package:angular/angular.dart';
+import 'package:angular_components/angular_components.dart';
+import 'package:angular_router/angular_router.dart';
 
-import './src/authentication/authentication_component.dart';
-import './src/dashboard/dashboard_component.dart';
-
-// AngularDart info: https://webdev.dartlang.org/angular
-// Components info: https://webdev.dartlang.org/components
+import './src/routing.dart';
 
 @Component(
   selector: 'nrp-app',
-  styleUrls: ['app_component.css'],
+  styleUrls: [
+    'package:angular_components/app_layout/layout.scss.css',
+    'app_component.css',
+  ],
   templateUrl: 'app_component.html',
   directives: [
+    routerDirectives,
     coreDirectives,
-    AuthenticationComponent,
-    DashboardComponent,
+    DeferredContentDirective,
+    MaterialPersistentDrawerDirective,
+    MaterialListComponent,
+    MaterialListItemComponent,
+    MaterialButtonComponent,
+    MaterialIconComponent,
   ],
+  exports: [Paths, Routes],
+  providers: [],
 )
 class AppComponent {}

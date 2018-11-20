@@ -13,8 +13,6 @@ import './authentication_service.dart';
     formDirectives,
     MaterialInputComponent,
     MaterialButtonComponent,
-    MaterialTabPanelComponent,
-    MaterialTabComponent,
   ],
   providers: [const ClassProvider(AuthenticationService)],
 )
