@@ -26,17 +26,19 @@
         <li>
             <label>Descripción: </label>{{selected.description}}
         </li>
-        <div id="edit-requirement">
-            <material-button id="requirement-edit" raised (click)="editRequirement()" style="float: right;">Editar</material-button>    
+
+        <div>
+            <material-button class="button" raised (click)="editRequirement()" style="float: left;">Editar</material-button>
+            <material-button class="delete-button" raised (click)="deleteRequirement()" style="float: right;">Eliminar</material-button>
         </div>
     </ul>
 </div>
 
 <div id="requirement-create" *ngIf="createRequirementPanel">
-    <div id="title" *ngIf="isEditing==false">
+    <div *ngIf="isEditing==false">
         <h2>Crear Requisito</h2>
     </div>
-    <div id="title" *ngIf="isEditing">
+    <div *ngIf="isEditing">
         <h2>Editar Requisito</h2>
     </div>
         <ul>
@@ -51,14 +53,20 @@
             <li>
                 <material-input type="descriptionToAdd" label="Descripcion" [floatingLabel]="true" [(ngModel)]="descriptionToAdd" [required]="true"></material-input>
             </li>
-                <div id="buttonsIsEditing" *ngIf="isEditing==false">
-                    <material-button id="create-requirement" raised (click)="createRequirement()" style="float: right;">Crear</material-button>    
-                </div>
-                <div id="buttonsIsEditing" *ngIf="isEditing">
-                    <material-button id="cancel-edit-requirement" raised (click)="cancelEditRequirement()" style="float: left;">Cancelar</material-button>    
-                    <material-button id="edit-requirement" raised (click)="confirmEditRequirement()" style="float: right;">Editar</material-button>    
-                </div>
-            </ul>    
+
+            <div class="button" *ngIf="isEditing==false">
+                <material-button id="create-requirement" class="button" raised (click)="createRequirement()" style="float: right;">Crear</material-button>
+            </div>
+
+            <div class="button" *ngIf="isEditing">
+                <material-button class="delete-button" raised (click)="deleteRequirement()" style="float: right;">Eliminar</material-button>
+                <material-button id="edit-requirement" class="button" raised (click)="confirmEditRequirement()" style="float: right;">Editar</material-button>
+            </div>
+
+            <div>
+                <material-button id="cancel-edit-requirement" class="button" raised (click)="cancelEditRequirement()" style="float: left;">Cancelar</material-button>
+            </div>
+        </ul>
         
 </div>
 

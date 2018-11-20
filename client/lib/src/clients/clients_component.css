@@ -92,6 +92,28 @@ span {
 }
 
 /*
+ * CLASE BUTTON
+ *
+ * 1. Color de letra blanco
+ * 2. Color de fondo: #3F51B5 (mismo que cabecera de dashboard)
+ */
+.button{
+    color: white;
+    background: #3F51B5;
+}
+
+/*
+ * CLASE PARA BOTONES ELIMINAR
+ *
+ * 1. Color de letra blanco
+ * 2. Color de fondo rojo
+ */
+.delete-button{
+    color: white;
+    background: red;
+}
+
+/*
  * CLASE SELECTED: elementos de lista seleccionados.
  *
  * 1. Color de fondo: #f4b400
@@ -100,6 +122,17 @@ span {
 .selected {
     background-color: #f4b400 !important;
     color: white;
+}
+
+/*
+ * BOTÓN CANCELAR EDICIÓN
+ *
+ * 1. Fondo blanco
+ * 2. Letra negra
+ */
+#cancel-edit-client{
+    background: white;
+    color: black;
 }
 
 /*
@@ -168,7 +201,6 @@ span {
     background-color: #f4b400;
 }
 
-
 /*
  * VISTA CREAR CLIENTE
  *
@@ -205,12 +237,4 @@ input[type=text] {
     background: transparent;
     border: none;
     border-bottom: 1px solid #000000;
-}
-
-/*
-* ERRORES AL INTRODUCIR DATOS
-* 1. Color de letra: rojo
-*/
-#somethingNull{
-    color: red;
 }

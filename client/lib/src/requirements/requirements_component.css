@@ -65,7 +65,7 @@ span {
 }
 
 /*
- * CLASE BADGE: ID de proyectos en vista master.
+ * CLASE BADGE: ID de requisitos en vista master.
  *
  * 1. Display inline-block
  * 2. Posición relativa
@@ -92,6 +92,28 @@ span {
 }
 
 /*
+ * CLASE BUTTON
+ *
+ * 1. Color de letra blanco
+ * 2. Color de fondo: #3F51B5 (mismo que cabecera de dashboard)
+ */
+.button{
+    color: white;
+    background: #3F51B5;
+}
+
+/*
+ * CLASE PARA BOTONES ELIMINAR
+ *
+ * 1. Color de letra blanco
+ * 2. Color de fondo rojo
+ */
+.delete-button{
+    color: white;
+    background: red;
+}
+
+/*
  * CLASE SELECTED: elementos de lista seleccionados.
  *
  * 1. Color de fondo: #f4b400
@@ -103,7 +125,18 @@ span {
 }
 
 /*
- * LISTA DE PROYECTOS
+ * BOTÓN CANCELAR EDICIÓN
+ *
+ * 1. Fondo blanco
+ * 2. Letra negra
+ */
+#cancel-edit-requirement{
+    background: white;
+    color: black;
+}
+
+/*
+ * LISTA DE REQUISITOS
  *
  * 1. Float left
  * 2. Anchura 65%
@@ -120,7 +153,7 @@ span {
 }
 
 /*
- * ÍTEM DE LISTA DE PROYECTOS
+ * ÍTEM DE LISTA DE REQUISITOS
  *
  * 1. Margen superior: 3px
  */
@@ -129,7 +162,7 @@ span {
 }
 
 /*
- * VISTA DETALLE DE PROYECTO
+ * VISTA DETALLE DE REQUISITO
  *
  * 1. Float left
  * 2. Anchura 30%
@@ -138,6 +171,23 @@ span {
  * 5. Padding top 10px
  */
 #requirement-detail {
+    float: left;
+    width: 30%;
+    overflow: hidden;
+    min-height: 550px;
+    padding-top: 10px;
+}
+
+/*
+ * VISTA CREAR REQUISITO
+ *
+ * 1. Float left
+ * 2. Anchura 30%
+ * 3. Overflow hidden
+ * 4. Mínima altura: 550px
+ * 5. Padding top 10px
+ */
+#requirement-create {
     float: left;
     width: 30%;
     overflow: hidden;
@@ -177,3 +227,14 @@ span {
     line-height: 0.5em;
 }
 
+/*
+* INPUT TEXT (línea)
+* 1. Background transparente
+* 2. Bordes no
+* 3. Borde inferior sólido negro
+*/
+input[type=text] {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #000000;
+}

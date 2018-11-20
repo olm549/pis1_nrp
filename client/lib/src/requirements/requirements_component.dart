@@ -24,12 +24,11 @@ import './requirements_service.dart';
   ],
   providers: [const ClassProvider(RequirementsService)],
 )
+
 class RequirementsComponent {
   final RequirementsService requirementsService;
 
   @Input() bool isEditing = true;
-
-
 
   Requirement selected;
   List<Requirement> requirements = mockRequirements;
@@ -37,23 +36,21 @@ class RequirementsComponent {
   String requirementIdToAdd;
   String titleToAdd;
   String descriptionToAdd;
-  
 
   RequirementsComponent(this.requirementsService);
 
   void onSelect(Requirement requirement) => selected = requirement;
 
   void createRequirement() async {
-
     if(!checkRequirement()) return;
+
     Requirement createRq = await requirementsService.createRequirement(requirementIdToAdd,titleToAdd,descriptionToAdd);
+
     if(createRq != null) createRequirementPanel = false;
-    //await requirementsService.createRequirement();
   }
 
 //Editar requisito
   void editRequirement() async{
-
     isEditing = true;
     createRequirementPanel = true;
     requirementIdToAdd = selected.requirementID;
@@ -67,23 +64,27 @@ class RequirementsComponent {
     if(!checkRequirement()) return;
   }
 
+  void deleteRequirement() async{
+    Requirement deleted = await requirementsService.deleteRequirement(selected.id);
+  }
+
  //Introducir requisito
   void newRequirement(){
-    
     if(createRequirementPanel == true) resetPanel();
     else createRequirementPanel = true;
+
     isEditing = false;
+
     if(selected!=null) selected = null;
-    
   }
 
  //Reiniciar panel
   void resetPanel(){
-    if(isEditing==false) createRequirementPanel = false;  
+    if(isEditing==false) createRequirementPanel = false;
+
     requirementIdToAdd = "";
     titleToAdd = "";
     descriptionToAdd = "";
-   
   }
 
   //Cancelar edicion requisito
@@ -95,7 +96,6 @@ class RequirementsComponent {
 
   //Comprobar valores
   bool checkRequirement(){
-
     if(requirementIdToAdd==null || titleToAdd == null || descriptionToAdd == null) return false;
     
     return true;

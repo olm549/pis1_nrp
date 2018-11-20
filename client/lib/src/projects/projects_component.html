@@ -15,8 +15,8 @@
     <div id="title">
         <h2>{{selected.name}}
             <span *ngIf="selected.active == true" class="activo">Activo</span>
+            <material-button *ngIf="selected.active == false" id="activar-button" raised (click)="activateProject(selected.id)">Establecer como activo</material-button>
         </h2>
-        <material-toggle *ngIf="selected.active == false" [checked]="false" label="Activar"></material-toggle>
     </div>
     <ul>
         <li>
