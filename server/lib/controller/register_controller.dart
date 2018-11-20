@@ -7,9 +7,9 @@ import '../nrp_server.dart';
 /// Users need a [User] account to manage all of their resources. The controller
 /// has an [AuthServer] which adds new users to the authentication database.
 class RegisterController extends QueryController<User> {
-  AuthServer authServer;
-
   RegisterController(ManagedContext context, this.authServer) : super(context);
+
+  AuthServer authServer;
 
   /// Creates a new user.
   ///

@@ -1,18 +1,24 @@
-div {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 10vw;
-}
-
 ul {
-    list-style-type: none;
-    width: 100%;
+    list-style: none;
+    margin: 0 auto;
+    padding: 0;
 }
 
 material-input {
+    display: flex;
     width: 90%;
 }
 
 material-button {
     left: 70%;
+}
+
+#signin {
+    display: inline-block;
+    padding: 0 50px;
+}
+
+#signup {
+    display: inline-block;
+    padding: 0 50px;
 }
