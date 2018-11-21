@@ -6,6 +6,7 @@ import './src/utils/routing.dart';
 
 import './src/services/loading_service.dart';
 import './src/services/user_service.dart';
+import './src/services/http_service.dart';
 
 @Component(
   selector: 'nrp-app',
@@ -28,17 +29,18 @@ import './src/services/user_service.dart';
   providers: [
     const ClassProvider(LoadingService),
     const ClassProvider(UserService),
+    const ClassProvider(HttpService),
   ],
 )
 class AppComponent {
-  final UserService userService;
-  final Router router;
+  final UserService _userService;
+  final Router _router;
 
-  AppComponent(this.userService, this.router);
+  AppComponent(this._userService, this._router);
 
   void signOut() {
-    userService.logOutUser();
+    _userService.logOutUser();
 
-    router.navigateByUrl(Paths.auth.toUrl());
+    _router.navigateByUrl(Paths.auth.toUrl());
   }
 }

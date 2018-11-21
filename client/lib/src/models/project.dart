@@ -14,4 +14,26 @@ class Project {
     this.effortLimit,
     this.active,
   );
+
+  factory Project.fromJson(Map<String, dynamic> project) {
+    return Project(
+      project['id'],
+      project['projectID'],
+      project['name'],
+      project['description'],
+      project['effortLimit'],
+      project['active'],
+    );
+  }
+
+  Map toJson() {
+    return {
+      'id': id,
+      'projectID': projectID,
+      'name': name,
+      'description': description,
+      'effortLimit': effortLimit,
+      'active': active,
+    };
+  }
 }

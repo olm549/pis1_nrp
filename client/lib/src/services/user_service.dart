@@ -1,3 +1,6 @@
+import 'package:angular/angular.dart';
+
+@Injectable()
 class UserService {
   String _accessToken;
 
