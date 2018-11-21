@@ -1,8 +1,12 @@
 import 'package:angular/angular.dart';
 import 'package:angular_components/angular_components.dart';
 import 'package:angular_forms/angular_forms.dart';
+import 'package:angular_router/angular_router.dart';
+
+import '../routing.dart';
 
 import './authentication_service.dart';
+import './authentication_mock.dart';
 
 @Component(
   selector: 'auth',
@@ -14,30 +18,34 @@ import './authentication_service.dart';
     MaterialInputComponent,
     MaterialButtonComponent,
   ],
-  providers: [const ClassProvider(AuthenticationService)],
+  providers: [
+    const ClassProvider(AuthenticationService, useClass: AuthenticationMock),
+  ],
 )
 class AuthenticationComponent {
   final AuthenticationService authService;
+  final Router router;
 
-  String email;
-  String password;
-  String repeatPassword;
+  AuthenticationComponent(this.authService, this.router);
 
-  AuthenticationComponent(this.authService);
+  String signInEmail = "hola@test.com";
+  String signInPassword = "asd";
 
-  void onTabChange(TabChangeEvent event) {
-    email = "";
-    password = "";
-    repeatPassword = "";
-  }
+  String signUpEmail;
+  String signUpPassword;
+  String signUpPassword2;
 
   void signIn() async {
-    await authService.signIn(email, password);
+    bool succesful = await authService.signIn(signInEmail, signInPassword);
+
+    if (succesful) {
+      router.navigateByUrl(Paths.projects.toUrl());
+    }
   }
 
   void signUp() async {
-    if (password == repeatPassword) {
-      await authService.singUp(email, password);
+    if (signUpPassword == signUpPassword2) {
+      await authService.signUp(signUpEmail, signUpPassword);
     }
   }
 }
