@@ -2,9 +2,9 @@ import 'package:angular/angular.dart';
 import 'package:angular_components/angular_components.dart';
 
 import '../../models/requirement.dart';
-import '../../services/requirements/mock_requirements.dart';
 
 import '../../services/requirements/requirements_service.dart';
+import '../../services/requirements/mock_requirements.dart';
 
 @Component(
   selector: 'requirements',
@@ -22,7 +22,9 @@ import '../../services/requirements/requirements_service.dart';
     MaterialInputComponent,
     materialInputDirectives,
   ],
-  providers: [const ClassProvider(RequirementsService)],
+  providers: [
+    const ClassProvider(RequirementsService, useClass: MockRequirements)
+  ],
 )
 class RequirementsComponent {
   final RequirementsService requirementsService;
@@ -31,7 +33,7 @@ class RequirementsComponent {
   bool isEditing = true;
 
   Requirement selected;
-  List<Requirement> requirements = mockRequirements;
+  List<Requirement> requirements;
   bool createRequirementPanel = false;
   String requirementIdToAdd;
   String titleToAdd;

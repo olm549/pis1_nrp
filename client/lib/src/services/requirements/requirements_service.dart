@@ -1,16 +1,22 @@
 import 'dart:async';
 
-import 'package:angular/angular.dart';
-
 import '../../models/requirement.dart';
 
-@Injectable()
-class RequirementsService {
-  Future<List<Requirement>> getRequirements() async => null;
+abstract class RequirementsService {
+  Future<List<Requirement>> getRequirements();
 
-  Future<Requirement> createRequirement(String requirementId,
-          String requirementTitle, String requirementDescription) async =>
-      null;
+  Future<Requirement> createRequirement(
+    String requirementID,
+    String title,
+    String description,
+  );
 
-  Future<Requirement> deleteRequirement(int requirementId) async => null;
+  Future<Requirement> updateRequirement(
+    int id,
+    String requirementID,
+    String title,
+    String description,
+  );
+
+  Future<bool> deleteRequirement(int id);
 }

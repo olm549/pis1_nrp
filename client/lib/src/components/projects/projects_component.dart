@@ -3,9 +3,9 @@ import 'package:angular_components/angular_components.dart';
 import 'package:angular_forms/angular_forms.dart';
 
 import '../../models/project.dart';
-import '../../services/projects/mock_projects.dart';
 
 import '../../services/projects/projects_service.dart';
+import '../../services/projects/mock_projects.dart';
 
 @Component(
   selector: 'projects',
@@ -27,7 +27,7 @@ import '../../services/projects/projects_service.dart';
     MaterialInputComponent,
     materialInputDirectives,
   ],
-  providers: [const ClassProvider(ProjectsService)],
+  providers: [const ClassProvider(ProjectsService, useClass: MockProjects)],
 )
 class ProjectsComponent {
   final ProjectsService projectsService;
@@ -36,7 +36,7 @@ class ProjectsComponent {
   bool isEditing = true;
 
   Project selected;
-  List<Project> projects = mockProjects;
+  List<Project> projects;
 
   bool createProjectPanel = false;
 

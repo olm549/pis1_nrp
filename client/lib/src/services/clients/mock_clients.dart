@@ -36,7 +36,7 @@ class MockClients implements ClientsService {
     return Client(id, clientID, name, surname);
   }
 
-  Future<bool> deleteClient(int id) {
+  Future<bool> deleteClient(int id) async {
     return Future.delayed(Duration(seconds: 2), () => true);
   }
 }

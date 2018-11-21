@@ -1,18 +1,24 @@
 import 'dart:async';
 
-import 'package:angular/angular.dart';
-
 import '../../models/project.dart';
 
-@Injectable()
-class ProjectsService {
-  Future<List<Project>> getProjects() async => null;
+abstract class ProjectsService {
+  Future<List<Project>> getProjects();
 
-  Future<Project> createProject(String projectId, String name,
-          String description, double effortLimit, bool active) async =>
-      null;
+  Future<Project> createProject(
+    String projectID,
+    String name,
+    String description,
+  );
 
-  Future<Project> deleteProject(int projectId) async => null;
+  Future<Project> updateProject(
+    int id,
+    String projectID,
+    String name,
+    String description,
+    double effortLimit,
+    bool active,
+  );
 
-  Future activateProject(int projectId) async => null;
+  Future<bool> deleteProject(int id);
 }
