@@ -1,1 +1,30 @@
-<dashboard></dashboard>
+<material-drawer persistent [visible]="false" #drawer="drawer">
+    <material-list *deferredContent>
+        <div group class="mat-drawer-spacer"></div>
+        <div group>
+            <material-list-item [routerLink]="Paths.projects.toUrl()">Proyectos</material-list-item>
+            <material-list-item [routerLink]="Paths.requirements.toUrl()">Requisitos</material-list-item>
+            <material-list-item [routerLink]="Paths.clients.toUrl()">Clientes</material-list-item>
+        </div>
+        <div group>
+            <div label>Proyecto activo</div>
+            <material-list-item>Requisitos</material-list-item>
+            <material-list-item>Clientes</material-list-item>
+        </div>
+    </material-list>
+</material-drawer>
+<material-content>
+    <header class="material-header shadow dense-header">
+        <div class="material-header-row">
+            <material-button icon class="material-drawer-button" (trigger)="drawer.toggle()">
+                <material-icon icon="menu"></material-icon>
+            </material-button>
+            <span class="material-header-title">NRP</span>
+            <div class="material-spacer"></div>
+            <nav class="material-navigation">
+                <a>Cerrar sesión</a>
+            </nav>
+        </div>
+    </header>
+    <router-outlet [routes]="Routes.all"></router-outlet>
+</material-content>

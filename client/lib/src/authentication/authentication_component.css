@@ -1,18 +1,106 @@
-div {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 10vw;
+/***** ESTILOS LOGIN *****/
+
+/*
+ * TÍTULO TERCIARIO
+ *
+ * 1. Tamaño de fuente: 100
+ * 2. Anchura mínima: 480px
+*/
+h3 {
+    font-weight: 100;
+    min-width: 480px;
 }
 
+/*
+ * UNORDERED LISTS
+ *
+ * 1. Sin estilos de lista
+ * 2. Margen inferior y superior: 0
+ * 3. Márgenes laterales: auto
+ * 4. Sin padding
+*/
 ul {
-    list-style-type: none;
-    width: 100%;
+    list-style: none;
+    margin: 0 auto;
+    padding: 0;
 }
 
+/*
+ * MATERIAL INPUTS
+ *
+ * 1. Anchura 100% ajustada al padre
+ * 2. Anchura máxima: 350px
+ * 3. Alineamiento de los placeholder a la izquierda
+*/
 material-input {
-    width: 90%;
+    width: 100%;
+    max-width: 350px;
+    text-align: left;
 }
 
+/*
+ * MATERIAL BUTTONS
+ *
+ * 1. Desplazados desde la izquierda un 37%
+ * 2. Color de fondo: #3f51b5
+ * 3. Color de letra: blanco
+*/
 material-button {
-    left: 70%;
+    left: 37%;
+    background-color: #3f51b5;
+    color: white;
+}
+
+/*
+ * CLASE CENTERED (sub div principal)
+ *
+ * 1. Posición absoluta
+ * 2. Desplazado un 50% respecto al margen superior e izquierdo
+ * 3. Alineación de contenidos al centro
+*/
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+/*
+ * CLASE SPLIT (divs principales)
+ *
+ * 1. Altura 100%
+ * 2. Anchura del 50%
+ * 3. Posición fija
+ * 4. Margen superior 0
+ * 5. Overflow oculto
+ * 6. Padding superior: 20px
+*/
+.split {
+    height: 100%;
+    width: 50%;
+    position: fixed;
+    top: 0;
+    overflow-x: hidden;
+    padding-top: 20px;
+}
+
+/*
+ * INICIO DE SESIÓN
+ *
+ * 1. Sin desplazamiento desde la izquierda
+ * 2. Borde derecho (separación de divs)
+*/
+#signIn {
+    left: 0;
+    border-right: 1.5px solid rgba(117, 117, 117, 0.5);
+}
+
+/*
+ * REGISTRO
+ *
+ * 1. Sin desplazamiento desde la izquierda
+*/
+#signUp {
+    right: 0;
 }
