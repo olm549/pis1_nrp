@@ -1,4 +1,4 @@
-/**** ESTILOS *****/
+/***** ESTILOS LISTA PROYECTOS *****/
 
 /*
  * TÍTULO SECUNDARIO
@@ -95,16 +95,10 @@ span {
 /*
  * CLASE BADGE: ID de proyectos en vista master.
  *
- * 1. Display inline-block
- * 2. Posición relativa
- * 3. Padding superior, derecho e inferior: 0.5em
- * 4. Ancho de línea: 0.9em
- * 5. Ancho: 1.5em
- * 6. Margen derecho: .8em
- * 7. Tamaño de fuente pequeño
- * 8. Radio del borde: 4px
- * 9. Color de letra: Blanco
- * 10. Color de fondo: #3f51b5
+ * 1. Padding superior, derecho e inferior: 0.5em
+ * 2. Ancho de línea: 0.9em
+ * 3. Ancho: 1.5em
+ * 4. Color de fondo: #3f51b5
  */
 .badge {
     padding: 0.5em 0.5em 0 0.5em;
