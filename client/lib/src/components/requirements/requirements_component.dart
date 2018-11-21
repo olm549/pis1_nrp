@@ -52,7 +52,7 @@ class RequirementsComponent {
     if (createRq != null) createRequirementPanel = false;
   }
 
-//Editar requisito
+// Editar requisito
   void editRequirement() async {
     isEditing = true;
     createRequirementPanel = true;
@@ -62,17 +62,22 @@ class RequirementsComponent {
     selected = null;
   }
 
-//Confirmar editar requisito
+// Confirmar editar requisito
   void confirmEditRequirement() {
     if (!checkRequirement()) return;
   }
 
   void deleteRequirement() async {
-    Requirement deleted =
-        await requirementsService.deleteRequirement(selected.id);
+    bool deleted = await requirementsService.deleteRequirement(selected.id);
+
+    if (deleted) {
+      requirements.remove(selected);
+
+      selected = null;
+    }
   }
 
-  //Introducir requisito
+  // Introducir requisito
   void newRequirement() {
     if (createRequirementPanel == true)
       resetPanel();
@@ -84,7 +89,7 @@ class RequirementsComponent {
     if (selected != null) selected = null;
   }
 
-  //Reiniciar panel
+  // Reiniciar panel
   void resetPanel() {
     if (isEditing == false) createRequirementPanel = false;
 
@@ -100,7 +105,7 @@ class RequirementsComponent {
     createRequirementPanel = false;
   }
 
-  //Comprobar valores
+  // Comprobar valores
   bool checkRequirement() {
     if (requirementIdToAdd == null ||
         titleToAdd == null ||
