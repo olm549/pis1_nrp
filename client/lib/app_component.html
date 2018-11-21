@@ -1,15 +1,17 @@
 <material-drawer persistent [visible]="false" #drawer="drawer">
     <material-list *deferredContent>
         <div group class="mat-drawer-spacer"></div>
-        <div group>
-            <material-list-item [routerLink]="Paths.projects.toUrl()">Proyectos</material-list-item>
-            <material-list-item [routerLink]="Paths.requirements.toUrl()">Requisitos</material-list-item>
-            <material-list-item [routerLink]="Paths.clients.toUrl()">Clientes</material-list-item>
-        </div>
-        <div group>
-            <div label>Proyecto activo</div>
-            <material-list-item>Requisitos</material-list-item>
-            <material-list-item>Clientes</material-list-item>
+        <div *ngIf="userService.isUserLogged()">
+            <div group>
+                <material-list-item [routerLink]="Paths.projects.toUrl()">Proyectos</material-list-item>
+                <material-list-item [routerLink]="Paths.requirements.toUrl()">Requisitos</material-list-item>
+                <material-list-item [routerLink]="Paths.clients.toUrl()">Clientes</material-list-item>
+            </div>
+            <div group>
+                <div label>Proyecto activo</div>
+                <material-list-item>Requisitos</material-list-item>
+                <material-list-item>Clientes</material-list-item>
+            </div>
         </div>
     </material-list>
 </material-drawer>
@@ -21,9 +23,9 @@
             </material-button>
             <span class="material-header-title">NRP</span>
             <div class="material-spacer"></div>
-            <nav class="material-navigation">
-                <a>Cerrar sesión</a>
-            </nav>
+            <div *ngIf="userService.isUserLogged()">
+                <material-button (click)="signOut()">Cerrar sesión</material-button>
+            </div>
         </div>
     </header>
     <router-outlet [routes]="Routes.all"></router-outlet>

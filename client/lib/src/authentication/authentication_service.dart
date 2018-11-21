@@ -1,12 +1,7 @@
 import 'dart:async';
 
-import 'package:angular/angular.dart';
+abstract class AuthenticationService {
+  Future<bool> signIn(String email, String password);
 
-import '../model/user.dart';
-
-@Injectable()
-class AuthenticationService {
-  Future<User> signIn(String email, String password) async => null;
-
-  Future<bool> singUp(String email, String password) async => null;
+  Future<bool> signUp(String email, String password);
 }
