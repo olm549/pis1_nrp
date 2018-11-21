@@ -1,5 +1,5 @@
 // Set de datos de prueba
-import '../model/project.dart';
+import '../../models/project.dart';
 
 final mockProjects = <Project>[
   Project(1, 'P001', 'Hola', 'Adios', 3.0, false),

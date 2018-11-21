@@ -1,10 +1,12 @@
 import 'package:angular_router/angular_router.dart';
 
-import './authentication/authentication_component.template.dart'
+import '../components/authentication/authentication_component.template.dart'
     as authentication_template;
-import './projects/projects_component.template.dart' as projects_template;
-import './clients/clients_component.template.dart' as clients_template;
-import './requirements/requirements_component.template.dart'
+import '../components/projects/projects_component.template.dart'
+    as projects_template;
+import '../components/clients/clients_component.template.dart'
+    as clients_template;
+import '../components/requirements/requirements_component.template.dart'
     as requirements_template;
 
 class Paths {

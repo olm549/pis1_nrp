@@ -3,10 +3,11 @@ import 'package:angular_components/angular_components.dart';
 import 'package:angular_forms/angular_forms.dart';
 import 'package:angular_router/angular_router.dart';
 
-import '../routing.dart';
+import '../../utils/routing.dart';
 
-import './authentication_service.dart';
-import './authentication_mock.dart';
+import '../../services/loading_service.dart';
+import '../../services/authentication/authentication_service.dart';
+import '../../services/authentication/mock_authentication.dart';
 
 @Component(
   selector: 'auth',
@@ -17,16 +18,18 @@ import './authentication_mock.dart';
     formDirectives,
     MaterialInputComponent,
     MaterialButtonComponent,
+    MaterialSpinnerComponent,
   ],
   providers: [
-    const ClassProvider(AuthenticationService, useClass: AuthenticationMock),
+    const ClassProvider(AuthenticationService, useClass: MockAuthentication),
   ],
 )
 class AuthenticationComponent {
+  final LoadingService loadingService;
   final AuthenticationService authService;
   final Router router;
 
-  AuthenticationComponent(this.authService, this.router);
+  AuthenticationComponent(this.loadingService, this.authService, this.router);
 
   String signInEmail = "hola@test.com";
   String signInPassword = "asd";

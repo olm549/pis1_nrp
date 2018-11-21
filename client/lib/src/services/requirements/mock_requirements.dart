@@ -1,5 +1,5 @@
 // Set de datos de prueba
-import '../model/requirement.dart';
+import '../../models/requirement.dart';
 
 final mockRequirements = <Requirement>[
   Requirement(1, 'R001', 'Func1', 'Requisito'),

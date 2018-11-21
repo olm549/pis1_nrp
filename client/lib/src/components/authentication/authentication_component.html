@@ -12,6 +12,9 @@
             <li>
                 <material-button raised (click)="signIn()">Acceder</material-button>
             </li>
+            <li *ngIf="loadingService.isLoading()">
+                <material-spinner></material-spinner>
+            </li>
         </ul>
     </div>
 </div>

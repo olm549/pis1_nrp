@@ -2,8 +2,10 @@ import 'package:angular/angular.dart';
 import 'package:angular_components/angular_components.dart';
 import 'package:angular_router/angular_router.dart';
 
-import './src/routing.dart';
-import './src/user_service.dart';
+import './src/utils/routing.dart';
+
+import './src/services/loading_service.dart';
+import './src/services/user_service.dart';
 
 @Component(
   selector: 'nrp-app',
@@ -23,7 +25,10 @@ import './src/user_service.dart';
     MaterialIconComponent,
   ],
   exports: [Paths, Routes],
-  providers: [const ClassProvider(UserService)],
+  providers: [
+    const ClassProvider(LoadingService),
+    const ClassProvider(UserService),
+  ],
 )
 class AppComponent {
   final UserService userService;

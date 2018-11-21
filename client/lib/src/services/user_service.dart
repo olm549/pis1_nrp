@@ -1,11 +1,11 @@
 class UserService {
   String _accessToken;
 
-  logInUser(String accessToken) {
+  void logInUser(String accessToken) {
     _accessToken = accessToken;
   }
 
-  logOutUser() {
+  void logOutUser() {
     _accessToken = null;
   }
 

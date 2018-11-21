@@ -1,10 +1,10 @@
 import 'package:angular/angular.dart';
 import 'package:angular_components/angular_components.dart';
 
-import '../model/requirement.dart';
-import 'mock_requirements.dart';
+import '../../models/requirement.dart';
+import '../../services/requirements/mock_requirements.dart';
 
-import './requirements_service.dart';
+import '../../services/requirements/requirements_service.dart';
 
 @Component(
   selector: 'requirements',
@@ -24,11 +24,11 @@ import './requirements_service.dart';
   ],
   providers: [const ClassProvider(RequirementsService)],
 )
-
 class RequirementsComponent {
   final RequirementsService requirementsService;
 
-  @Input() bool isEditing = true;
+  @Input()
+  bool isEditing = true;
 
   Requirement selected;
   List<Requirement> requirements = mockRequirements;
@@ -42,15 +42,16 @@ class RequirementsComponent {
   void onSelect(Requirement requirement) => selected = requirement;
 
   void createRequirement() async {
-    if(!checkRequirement()) return;
+    if (!checkRequirement()) return;
 
-    Requirement createRq = await requirementsService.createRequirement(requirementIdToAdd,titleToAdd,descriptionToAdd);
+    Requirement createRq = await requirementsService.createRequirement(
+        requirementIdToAdd, titleToAdd, descriptionToAdd);
 
-    if(createRq != null) createRequirementPanel = false;
+    if (createRq != null) createRequirementPanel = false;
   }
 
 //Editar requisito
-  void editRequirement() async{
+  void editRequirement() async {
     isEditing = true;
     createRequirementPanel = true;
     requirementIdToAdd = selected.requirementID;
@@ -60,27 +61,30 @@ class RequirementsComponent {
   }
 
 //Confirmar editar requisito
-  void confirmEditRequirement(){
-    if(!checkRequirement()) return;
+  void confirmEditRequirement() {
+    if (!checkRequirement()) return;
   }
 
-  void deleteRequirement() async{
-    Requirement deleted = await requirementsService.deleteRequirement(selected.id);
+  void deleteRequirement() async {
+    Requirement deleted =
+        await requirementsService.deleteRequirement(selected.id);
   }
 
- //Introducir requisito
-  void newRequirement(){
-    if(createRequirementPanel == true) resetPanel();
-    else createRequirementPanel = true;
+  //Introducir requisito
+  void newRequirement() {
+    if (createRequirementPanel == true)
+      resetPanel();
+    else
+      createRequirementPanel = true;
 
     isEditing = false;
 
-    if(selected!=null) selected = null;
+    if (selected != null) selected = null;
   }
 
- //Reiniciar panel
-  void resetPanel(){
-    if(isEditing==false) createRequirementPanel = false;
+  //Reiniciar panel
+  void resetPanel() {
+    if (isEditing == false) createRequirementPanel = false;
 
     requirementIdToAdd = "";
     titleToAdd = "";
@@ -88,16 +92,18 @@ class RequirementsComponent {
   }
 
   //Cancelar edicion requisito
-  void cancelEditRequirement(){
+  void cancelEditRequirement() {
     resetPanel();
     isEditing = false;
     createRequirementPanel = false;
   }
 
   //Comprobar valores
-  bool checkRequirement(){
-    if(requirementIdToAdd==null || titleToAdd == null || descriptionToAdd == null) return false;
-    
+  bool checkRequirement() {
+    if (requirementIdToAdd == null ||
+        titleToAdd == null ||
+        descriptionToAdd == null) return false;
+
     return true;
   }
 }
