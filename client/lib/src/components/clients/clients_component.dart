@@ -54,9 +54,7 @@ class ClientsComponent implements OnInit {
     selected = client;
   }
 
-  /*
-  * Método para confirmar creación del cliente
-  */
+  // Método para confirmar creación del cliente
   void createClient() async {
     if (!comprobarClient()) return;
 
@@ -70,9 +68,7 @@ class ClientsComponent implements OnInit {
     }
   }
 
-  /*
-  * Método para abrir la ventana de edición de un cliente
-  */
+  // Método para abrir la ventana de edición de un cliente
   void editClient() async {
     isEditing = true;
     createClientPanel = true;
@@ -84,9 +80,7 @@ class ClientsComponent implements OnInit {
     selected = null;
   }
 
-  /*
-  * Método para confirmar la edición de un cliente
-  */
+  // Método para confirmar la edición de un cliente
   void confirmEditClient() async {
     if (!comprobarClient()) return;
 
@@ -106,9 +100,7 @@ class ClientsComponent implements OnInit {
     clients.add(updatedClient);
   }
 
-  /*
-  * Método para eliminar un cliente
-  */
+  // Método para eliminar un cliente
   void deleteClient() async {
     bool deleted = await clientsService.deleteClient(selected.id);
 
@@ -119,9 +111,7 @@ class ClientsComponent implements OnInit {
     }
   }
 
-  /*
-  * Método para abrir el panel de introducir formulario para agregar un cliente
-  */
+  // Método para abrir el panel de introducir formulario para agregar un cliente
   void newClient() {
     if (createClientPanel == true)
       resetPanel();
@@ -133,9 +123,7 @@ class ClientsComponent implements OnInit {
     if (selected != null) selected = null;
   }
 
-  /*
-  * Resetear valores del panel
-  */
+  // Resetear valores del panel
   void resetPanel() {
     if (isEditing == false) createClientPanel = false;
 
@@ -144,18 +132,14 @@ class ClientsComponent implements OnInit {
     surnameToAdd = "";
   }
 
-  /*
-  * Método para cerrar la vista de editar cliente
-  */
+  // Método para cerrar la vista de editar cliente
   void cancelEditClient() {
     resetPanel();
     isEditing = false;
     createClientPanel = false;
   }
 
-  /*
-  * Método para comprobar los valores del formulario
-  */
+  // Método para comprobar los valores del formulario
   bool comprobarClient() {
     if (clientIdToAdd == null || nameToAdd == null || surnameToAdd == null)
       return false;

@@ -58,7 +58,7 @@ class ProjectsComponent {
     if (!comprobarProject()) return;
 
     Project createProject = await projectsService.createProject(projectIdToAdd,
-        nameToAdd, descriptionToAdd, effortLimitToAdd, activeToAdd);
+        nameToAdd, descriptionToAdd);
 
     if (createProject != null) createProjectPanel = false;
   }
@@ -81,7 +81,13 @@ class ProjectsComponent {
   }
 
   void deleteProject() async {
-    Project deleted = await projectsService.deleteProject(selected.id);
+    bool deleted = await projectsService.deleteProject(selected.id);
+
+    if(deleted) {
+      projects.remove(selected);
+
+      selected = null;
+    }
   }
 
   void newProject() {
@@ -103,9 +109,7 @@ class ProjectsComponent {
     effortLimitToAdd = 0.0;
   }
 
-  /*
-  * Método para cerrar la vista de editar proyecto
-  */
+  // Método para cerrar la vista de editar proyecto
   void cancelEditProject() {
     resetPanel();
     isEditing = false;
@@ -122,7 +126,8 @@ class ProjectsComponent {
     return true;
   }
 
-  void activateProject(int projectId) {
-    projectsService.activateProject(projectId);
+  void activateProject() {
+    // TODO: llamada a método updateProject del proyecto activo para establecer su propiedad active a 'false'
+    projectsService.updateProject(selected.id, selected.projectID, selected.name, selected.description, selected.effortLimit, true);
   }
 }
