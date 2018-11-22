@@ -1,17 +1,6 @@
 /***** ESTILOS LOGIN *****/
 
 /*
- * TÍTULO TERCIARIO
- *
- * 1. Tamaño de fuente: 100
- * 2. Anchura mínima: 480px
-*/
-h3 {
-    font-weight: 100;
-    min-width: 480px;
-}
-
-/*
  * UNORDERED LISTS
  *
  * 1. Sin estilos de lista
@@ -20,22 +9,8 @@ h3 {
  * 4. Sin padding
 */
 ul {
-    list-style: none;
     margin: 0 auto;
     padding: 0;
-}
-
-/*
- * MATERIAL INPUTS
- *
- * 1. Anchura 100% ajustada al padre
- * 2. Anchura máxima: 350px
- * 3. Alineamiento de los placeholder a la izquierda
-*/
-material-input {
-    width: 100%;
-    max-width: 350px;
-    text-align: left;
 }
 
 /*
@@ -47,8 +22,6 @@ material-input {
 */
 material-button {
     left: 37%;
-    background-color: #3f51b5;
-    color: white;
 }
 
 /*

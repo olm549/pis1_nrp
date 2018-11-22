@@ -10,7 +10,10 @@ import '../../services/authentication/mock_authentication.dart';
 
 @Component(
   selector: 'auth',
-  styleUrls: const ['authentication_component.css'],
+  styleUrls: const [
+    '../../styles/styles.css',
+    '../../styles/authentication_component.css',
+  ],
   templateUrl: 'authentication_component.html',
   directives: [
     coreDirectives,

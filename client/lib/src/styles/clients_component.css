@@ -1,0 +1,39 @@
+/**** ESTILOS LISTA CLIENTES*****/
+
+/*
+ * CLASE BADGE: ID de clientes en vista master.
+ *
+ * 1. Display inline-block
+ * 2. Posición relativa
+ * 3. Padding superior, derecho e inferior: 0.5em
+ * 4. Ancho de línea: 0.9em
+ * 5. Ancho: 1.5em
+ * 6. Margen derecho: .8em
+ * 7. Tamaño de fuente pequeño
+ * 8. Radio del borde: 4px
+ * 9. Color de letra: Blanco
+ * 10. Color de fondo: #3f51b5
+ */
+.badge {
+    display: inline-block;
+    position: relative;
+    padding: 0.5em 0.5em 0 0.5em;
+    line-height: 0.9em;
+    height: 1.5em;
+    margin-right: .8em;
+    font-size: small;
+    border-radius: 4px 4px 4px 4px;
+    color: white;
+    background-color: #4f504d;
+}
+
+/*
+ * CLASE SELECTED: elementos de lista seleccionados.
+ *
+ * 1. Color de fondo: #f4b400
+ * 2. Color de texto: blanco
+ */
+.selected {
+    background-color: #f4b400 !important;
+    color: white;
+}

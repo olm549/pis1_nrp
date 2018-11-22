@@ -1,4 +1,4 @@
-/**** ESTILOS LISTA CLIENTES*****/
+/***** ESTILOS COMUNES A TODOS LOS COMPONENTES *****/
 
 /*
  * TÍTULO SECUNDARIO
@@ -9,6 +9,17 @@
 h2 {
     margin-left: 20px;
     display: inline-block;
+}
+
+/*
+ * TÍTULO TERCIARIO
+ *
+ * 1. Tamaño de fuente: 100
+ * 2. Anchura mínima: 480px
+*/
+h3 {
+    font-weight: 100;
+    min-width: 480px;
 }
 
 /*
@@ -32,19 +43,6 @@ li {
 }
 
 /*
- * ELEMENTOS DE MATERIAL LIST
- *
- * 1. Padding: 3px (superior e inferior) y 8px (lados)
- * 2. Margen izquierdo: 17px
- * 3. Radio del borde: 3px
- */
-material-list-item {
-    margin-left: 17px;
-    padding: 3px 8px;
-    border-radius: 3px 3px;
-}
-
-/*
  * LABELS
  *
  * 1. Texto en negrita
@@ -65,30 +63,29 @@ span {
 }
 
 /*
- * CLASE BADGE: ID de clientes en vista master.
+ * ELEMENTOS DE MATERIAL LIST
  *
- * 1. Display inline-block
- * 2. Posición relativa
- * 3. Padding superior, derecho e inferior: 0.5em
- * 4. Ancho de línea: 0.9em
- * 5. Ancho: 1.5em
- * 6. Margen derecho: .8em
- * 7. Tamaño de fuente pequeño
- * 8. Radio del borde: 4px
- * 9. Color de letra: Blanco
- * 10. Color de fondo: #3f51b5
+ * 1. Padding: 3px (superior e inferior) y 8px (lados)
+ * 2. Margen izquierdo: 17px
+ * 3. Radio del borde: 3px
  */
-.badge {
-    display: inline-block;
-    position: relative;
-    padding: 0.5em 0.5em 0 0.5em;
-    line-height: 0.9em;
-    height: 1.5em;
-    margin-right: .8em;
-    font-size: small;
-    border-radius: 4px 4px 4px 4px;
-    color: white;
-    background-color: #4f504d;
+material-list-item {
+    margin-left: 17px;
+    padding: 3px 8px;
+    border-radius: 3px 3px;
+}
+
+/*
+ * MATERIAL INPUTS
+ *
+ * 1. Anchura 100% ajustada al padre
+ * 2. Anchura máxima: 350px
+ * 3. Alineamiento de los placeholder a la izquierda
+*/
+material-input {
+    width: 100%;
+    max-width: 350px;
+    text-align: left;
 }
 
 /*
@@ -114,55 +111,18 @@ span {
 }
 
 /*
- * CLASE SELECTED: elementos de lista seleccionados.
- *
- * 1. Color de fondo: #f4b400
- * 2. Color de texto: blanco
- */
-.selected {
-    background-color: #f4b400 !important;
-    color: white;
-}
-
-/*
  * BOTÓN CANCELAR EDICIÓN
  *
  * 1. Fondo blanco
  * 2. Letra negra
  */
-#cancel-edit-client{
+.cancel-edit{
     background: white;
     color: black;
 }
 
 /*
- * LISTA DE CLIENTES
- *
- * 1. Float left
- * 2. Anchura 65%
- * 3. Overflow hidden
- * 4. Mínima altura: 550px
- * 5. Borde derecho 1.5px gris
- */
-#clients-list {
-    float: left;
-    width: 65%;
-    overflow: hidden;
-    min-height: 550px;
-    border-right: 1.5px solid rgba(117, 117, 117, 0.5);
-}
-
-/*
- * ÍTEM DE LISTA DE CLIENTES
- *
- * 1. Margen superior: 3px
- */
-#client-item {
-    margin-top: 3px;
-}
-
-/*
- * VISTA DETALLE DE CLIENTE
+ * VISTA DETALLE Y CREAR CLIENTE/PROYECTO/REQUISITO
  *
  * 1. Float left
  * 2. Anchura 30%
@@ -170,7 +130,7 @@ span {
  * 4. Mínima altura: 550px
  * 5. Padding top 10px
  */
-#client-detail {
+.create-panel, .detail-panel {
     float: left;
     width: 30%;
     overflow: hidden;
@@ -179,7 +139,33 @@ span {
 }
 
 /*
- * CABECERA CLIENTES
+ * ÍTEM DE LISTA
+ *
+ * 1. Margen superior: 3px
+ */
+.item {
+    margin-top: 3px;
+}
+
+/*
+ * LISTA DE PROYECTOS/CLIENTES/REQUISITOS
+ *
+ * 1. Float left
+ * 2. Anchura 65%
+ * 3. Overflow hidden
+ * 4. Mínima altura: 550px
+ * 5. Borde derecho 1.5px gris
+ */
+.items-list{
+    float: left;
+    width: 65%;
+    overflow: hidden;
+    min-height: 550px;
+    border-right: 1.5px solid rgba(117, 117, 117, 0.5);
+}
+
+/*
+ * BOTÓN NUEVO CLIENTE/REQUISITO/PROYECTO
  *
  * 1. Display inline-block
  * 2. Float right
@@ -190,7 +176,7 @@ span {
  * 7. Color de letra: Blanco
  * 8. Color de fondo: #f4b400
  */
-#new-client {
+.new-button {
     display: inline-block;
     float: right;
     margin-top: 10px;
@@ -199,32 +185,6 @@ span {
     font-size: small;
     color: white;
     background-color: #f4b400;
-}
-
-/*
- * VISTA CREAR CLIENTE
- *
- * 1. Float left
- * 2. Anchura 30%
- * 3. Overflow hidden
- * 4. Mínima altura: 550px
- * 5. Padding top 10px
- */
- #client-create {
-    float: left;
-    width: 30%;
-    overflow: hidden;
-    min-height: 550px;
-    padding-top: 10px;
-}
-
-/*
- * TÍTULO CABECERA CLIENTES
- *
- * 1. Altura de línea: 0.5em
- */
-#main-title {
-    line-height: 0.5em;
 }
 
 /*
@@ -237,4 +197,13 @@ input[type=text] {
     background: transparent;
     border: none;
     border-bottom: 1px solid #000000;
+}
+
+/*
+ * TÍTULO CABECERA
+ *
+ * 1. Altura de línea: 0.5em
+ */
+#main-title {
+    line-height: 0.5em;
 }

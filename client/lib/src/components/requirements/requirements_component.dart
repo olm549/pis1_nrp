@@ -10,7 +10,8 @@ import '../../services/requirements/mock_requirements.dart';
   selector: 'requirements',
   styleUrls: const [
     'package:angular_components/app_layout/layout.scss.css',
-    'requirements_component.css',
+    '../../styles/styles.css',
+    '../../styles/requirements_component.css',
   ],
   templateUrl: 'requirements_component.html',
   directives: [
