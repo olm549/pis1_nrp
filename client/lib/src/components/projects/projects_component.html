@@ -1,0 +1,91 @@
+<material-list id="projects-list">
+    <div>
+        <h2 id="main-title">Proyectos</h2>
+        <material-button id="new-project" raised (click)="newProject()">Nuevo proyecto</material-button>
+    </div>
+    <material-list-item id="project-item" *ngFor="let project of projects" [class.selected]="project === selected"
+        (click)="onSelect(project)">
+        <span class="badge">{{project.projectID}}</span> {{project.name}}
+        <span *ngIf="project.active == true" class="activo">Activo</span>
+    </material-list-item>
+</material-list>
+
+<div id="project-detail" *ngIf="selected != null">
+    <div id="title">
+        <h2>{{selected.name}}
+            <span *ngIf="selected.active == true" class="activo">Activo</span>
+            <material-button *ngIf="selected.active == false" id="activar-button" raised (click)="activateProject()">Establecer
+                como activo</material-button>
+        </h2>
+    </div>
+    <ul>
+        <li>
+            <label>ID:</label>{{selected.projectID}}
+        </li>
+
+        <li>
+            <label>Nombre: </label>{{selected.name}}
+        </li>
+
+        <li>
+            <label>Descripción: </label>{{selected.description}}
+        </li>
+
+        <li>
+            <label>Límite de esfuerzo: </label>{{selected.effortLimit}}
+        </li>
+
+        <div>
+            <material-button class="button" raised (click)="editProject()" style="float: left;">Editar</material-button>
+            <material-button class="delete-button" raised (click)="deleteProject()" style="float: right;">Eliminar</material-button>
+        </div>
+    </ul>
+</div>
+
+<div id="project-create" *ngIf="createProjectPanel">
+    <div *ngIf="isEditing==false">
+        <h2>Crear Proyecto</h2>
+    </div>
+    <div *ngIf="isEditing">
+        <h2>Editar Proyecto</h2>
+    </div>
+
+    <ul>
+        <li>
+            <material-input type="projectIdToAdd" label="ID" [floatingLabel]="true" [(ngModel)]="projectIdToAdd"
+                [required]="true"></material-input>
+        </li>
+
+        <li>
+            <material-input type="nameToAdd" label="Nombre" [floatingLabel]="true" [(ngModel)]="nameToAdd" [required]="true"></material-input>
+        </li>
+
+        <li>
+            <material-input type="descriptionToAdd" label="Descripción" [floatingLabel]="true" [(ngModel)]="descriptionToAdd"
+                [required]="true"></material-input>
+        </li>
+
+        <!--- da fallo: conflictos con double
+        <li>
+            <material-input type="number" label="Límite de esfuerzo" [floatingLabel]="true" [(ngModel)]="effortLimitToAdd" [required]="true"></material-input>
+        </li>
+        ---->
+
+        <li>
+            <material-checkbox label="Activo" [required]="true" [(ngModel)]="activeToAdd"></material-checkbox>
+        </li>
+
+        <div class="button" *ngIf="isEditing==false">
+            <material-button id="create-project" class="button" raised (click)="createProject()" style="float: right;">Crear</material-button>
+        </div>
+
+        <div class="button" *ngIf="isEditing">
+            <material-button class="delete-button" raised (click)="deleteProject()" style="float: right;">Eliminar</material-button>
+            <material-button id="edit-project" class="button" raised (click)="confirmEditProject()" style="float: right;">Editar</material-button>
+        </div>
+
+        <div>
+            <material-button id="cancel-edit-project" class="button" raised (click)="cancelEditProject()" style="float: left;">Cancelar</material-button>
+        </div>
+    </ul>
+</div>
