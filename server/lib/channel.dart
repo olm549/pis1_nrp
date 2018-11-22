@@ -1,3 +1,4 @@
+import './controller/active_project_controller.dart';
 import './controller/client_controller.dart';
 import './controller/project_client_controller.dart';
 import './controller/project_controller.dart';
@@ -54,6 +55,12 @@ class NrpServerChannel extends ApplicationChannel {
         .route('/register')
         .link(() => Authorizer.basic(authServer))
         .link(() => RegisterController(context, authServer));
+
+    // Access user's active project
+    router
+        .route('/projects/active')
+        .link(() => Authorizer.bearer(authServer))
+        .link(() => ActiveProjectController(context));
 
     // Access user's projects
     router

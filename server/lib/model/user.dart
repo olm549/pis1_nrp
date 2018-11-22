@@ -28,8 +28,4 @@ class _User extends ResourceOwnerTableDefinition {
   */
 
   ManagedSet<Project> projects;
-
-  ManagedSet<Requirement> requirements;
-
-  ManagedSet<Client> clients;
 }

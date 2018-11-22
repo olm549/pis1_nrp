@@ -1,4 +1,5 @@
 import '../model/project_client.dart';
+import '../model/project_requirement.dart';
 import '../model/requirement_value.dart';
 
 import '../nrp_server.dart';
@@ -19,6 +20,7 @@ class ProjectClientController extends ResourceController {
   ) async {
     final getAllProjectClientsQuery = Query<ProjectClient>(context)
       ..where((pc) => pc.project.id).equalTo(projectID)
+      ..returningProperties((pc) => [pc.id, pc.weight, pc.client])
       ..join(object: (pc) => pc.client);
 
     // TODO: Add pagination.
@@ -44,6 +46,7 @@ class ProjectClientController extends ResourceController {
     final getProjectClientQuery = Query<ProjectClient>(context)
       ..where((pc) => pc.project.id).equalTo(projectID)
       ..where((pc) => pc.client.id).equalTo(clientID)
+      ..returningProperties((pc) => [pc.id, pc.weight, pc.client])
       ..join(object: (pc) => pc.client);
 
     final fetchedProjectClient = await getProjectClientQuery.fetchOne();
@@ -57,17 +60,38 @@ class ProjectClientController extends ResourceController {
   /// must be sent in the request's body and are parsed into a
   /// [ProjectClient] object for insertion.
   ///
+  /// A row is also inserted in the [RequirementValue] table for each
+  /// [ProjectRequirement] that shares the same project ID.
+  ///
   /// Returns a 200 response with the new resource.
   @Operation.post('projectID')
   Future<Response> addProjectClient(
     @Bind.path('projectID') int projectID,
     @Bind.body() ProjectClient newProjectClient,
   ) async {
-    final addProjectClientQuery = Query<ProjectClient>(context)
-      ..values = newProjectClient
-      ..values.project.id = projectID;
+    final insertedProjectClient =
+        await context.transaction((transaction) async {
+      final getRequirementsQuery = Query<ProjectRequirement>(transaction)
+        ..where((pr) => pr.project.id).equalTo(projectID)
+        ..returningProperties((pr) => [pr.requirement.id]);
 
-    final insertedProjectClient = await addProjectClientQuery.insert();
+      final projectRequirements = await getRequirementsQuery.fetch();
+
+      projectRequirements.forEach((requirement) async {
+        final addRequirementValueQuery = Query<RequirementValue>(transaction)
+          ..values.project.id = projectID
+          ..values.requirement.id = requirement.id
+          ..values.client.id = newProjectClient.client.id;
+
+        await addRequirementValueQuery.insert();
+      });
+
+      final addProjectClientQuery = Query<ProjectClient>(transaction)
+        ..values = newProjectClient
+        ..values.project.id = projectID;
+
+      return await addProjectClientQuery.insert();
+    });
 
     return Response.ok(insertedProjectClient);
   }
