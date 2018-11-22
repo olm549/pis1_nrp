@@ -11,7 +11,8 @@ import '../../services/projects/mock_projects.dart';
   selector: 'projects',
   styleUrls: const [
     'package:angular_components/app_layout/layout.scss.css',
-    'projects_component.css',
+    '../../styles/styles.css',
+    '../../styles/projects_component.css',
   ],
   templateUrl: 'projects_component.html',
   directives: [

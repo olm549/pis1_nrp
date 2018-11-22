@@ -1,16 +1,16 @@
-<material-list id="requirements-list">
+<material-list class="items-list">
     <div>
         <h2 id="main-title">Requisitos</h2>
-        <material-button id="new-requirement" raised (click)="newRequirement()">Nuevo requisito</material-button>
+        <material-button class="new-button" raised (click)="newRequirement()">Nuevo requisito</material-button>
     </div>
-    <material-list-item id="requirement-item" *ngFor="let requirement of requirements"
+    <material-list-item class="item" *ngFor="let requirement of requirements"
                         [class.selected]="requirement === selected"
                         (click)="onSelect(requirement)">
         <span class="badge">{{requirement.requirementID}}</span> {{requirement.title}}
     </material-list-item>
 </material-list>
 
-<div id="requirement-detail" *ngIf="selected != null">
+<div class="detail-panel" *ngIf="selected != null">
     <div id="title">
         <h2>{{selected.title}}</h2>
     </div>
@@ -34,7 +34,7 @@
     </ul>
 </div>
 
-<div id="requirement-create" *ngIf="createRequirementPanel">
+<div class="create-panel" *ngIf="createRequirementPanel">
     <div *ngIf="isEditing==false">
         <h2>Crear Requisito</h2>
     </div>
@@ -64,7 +64,7 @@
             </div>
 
             <div>
-                <material-button id="cancel-edit-requirement" class="button" raised (click)="cancelEditRequirement()" style="float: left;">Cancelar</material-button>
+                <material-button class="button cancel-edit" raised (click)="cancelEditRequirement()" style="float: left;">Cancelar</material-button>
             </div>
         </ul>
         

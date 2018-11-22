@@ -11,7 +11,8 @@ import '../../services/clients/mock_clients.dart';
   selector: 'clients',
   styleUrls: const [
     'package:angular_components/app_layout/layout.scss.css',
-    'clients_component.css',
+    '../../styles/styles.css',
+    '../../styles/clients_component.css',
   ],
   templateUrl: 'clients_component.html',
   directives: [

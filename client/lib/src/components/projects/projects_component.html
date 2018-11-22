@@ -1,16 +1,16 @@
-<material-list id="projects-list">
+<material-list class="items-list">
     <div>
         <h2 id="main-title">Proyectos</h2>
-        <material-button id="new-project" raised (click)="newProject()">Nuevo proyecto</material-button>
+        <material-button class="new-button" raised (click)="newProject()">Nuevo proyecto</material-button>
     </div>
-    <material-list-item id="project-item" *ngFor="let project of projects" [class.selected]="project === selected"
+    <material-list-item class="item" *ngFor="let project of projects" [class.selected]="project === selected"
         (click)="onSelect(project)">
         <span class="badge">{{project.projectID}}</span> {{project.name}}
         <span *ngIf="project.active == true" class="activo">Activo</span>
     </material-list-item>
 </material-list>
 
-<div id="project-detail" *ngIf="selected != null">
+<div class="detail-panel" *ngIf="selected != null">
     <div id="title">
         <h2>{{selected.name}}
             <span *ngIf="selected.active == true" class="activo">Activo</span>
@@ -42,7 +42,7 @@
     </ul>
 </div>
 
-<div id="project-create" *ngIf="createProjectPanel">
+<div class="create-panel" *ngIf="createProjectPanel">
     <div *ngIf="isEditing==false">
         <h2>Crear Proyecto</h2>
     </div>
@@ -85,7 +85,7 @@
         </div>
 
         <div>
-            <material-button id="cancel-edit-project" class="button" raised (click)="cancelEditProject()" style="float: left;">Cancelar</material-button>
+            <material-button class="button cancel-edit" raised (click)="cancelEditProject()" style="float: left;">Cancelar</material-button>
         </div>
     </ul>
 </div>
