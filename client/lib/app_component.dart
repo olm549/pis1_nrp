@@ -4,7 +4,6 @@ import 'package:angular_router/angular_router.dart';
 
 import './src/utils/routing.dart';
 
-import './src/services/loading_service.dart';
 import './src/services/user_service.dart';
 import './src/services/http_service.dart';
 
@@ -27,19 +26,18 @@ import './src/services/http_service.dart';
   ],
   exports: [Paths, Routes],
   providers: [
-    const ClassProvider(LoadingService),
     const ClassProvider(UserService),
     const ClassProvider(HttpService),
   ],
 )
 class AppComponent {
-  final UserService _userService;
+  final UserService userService;
   final Router _router;
 
-  AppComponent(this._userService, this._router);
+  AppComponent(this.userService, this._router);
 
   void signOut() {
-    _userService.logOutUser();
+    userService.logOutUser();
 
     _router.navigateByUrl(Paths.auth.toUrl());
   }

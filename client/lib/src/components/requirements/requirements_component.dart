@@ -26,7 +26,7 @@ import '../../services/requirements/mock_requirements.dart';
     const ClassProvider(RequirementsService, useClass: MockRequirements)
   ],
 )
-class RequirementsComponent {
+class RequirementsComponent implements OnInit {
   final RequirementsService requirementsService;
 
   @Input()
@@ -40,6 +40,11 @@ class RequirementsComponent {
   String descriptionToAdd;
 
   RequirementsComponent(this.requirementsService);
+
+  @override
+  void ngOnInit() async {
+    requirements = await requirementsService.getRequirements();
+  }
 
   void onSelect(Requirement requirement) => selected = requirement;
 

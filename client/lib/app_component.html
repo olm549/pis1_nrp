@@ -18,9 +18,11 @@
 <material-content>
     <header class="material-header shadow dense-header">
         <div class="material-header-row">
-            <material-button icon class="material-drawer-button" (trigger)="drawer.toggle()">
-                <material-icon icon="menu"></material-icon>
-            </material-button>
+            <div *ngIf="userService.isUserLogged()">
+                <material-button icon class="material-drawer-button" (trigger)="drawer.toggle()">
+                    <material-icon icon="menu"></material-icon>
+                </material-button>
+            </div>
             <span class="material-header-title">NRP</span>
             <div class="material-spacer"></div>
             <div *ngIf="userService.isUserLogged()">

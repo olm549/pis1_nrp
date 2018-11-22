@@ -5,7 +5,6 @@ import 'package:angular_router/angular_router.dart';
 
 import '../../utils/routing.dart';
 
-import '../../services/loading_service.dart';
 import '../../services/authentication/authentication_service.dart';
 import '../../services/authentication/mock_authentication.dart';
 
@@ -18,18 +17,16 @@ import '../../services/authentication/mock_authentication.dart';
     formDirectives,
     MaterialInputComponent,
     MaterialButtonComponent,
-    MaterialSpinnerComponent,
   ],
   providers: [
     const ClassProvider(AuthenticationService, useClass: MockAuthentication),
   ],
 )
 class AuthenticationComponent {
-  final LoadingService loadingService;
   final AuthenticationService authService;
   final Router router;
 
-  AuthenticationComponent(this.loadingService, this.authService, this.router);
+  AuthenticationComponent(this.authService, this.router);
 
   String signInEmail = "hola@test.com";
   String signInPassword = "asd";

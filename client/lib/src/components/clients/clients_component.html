@@ -1,12 +1,9 @@
 <material-list id="clients-list">
     <div>
         <h2 id="main-title">Clientes</h2>
-                <material-button id="new-client" 
-                raised (click)="newClient()">Nuevo cliente</material-button>
+        <material-button id="new-client" raised (click)="newClient()">Nuevo cliente</material-button>
     </div>
-    <material-list-item id="client-item" *ngFor="let client of clients"
-                        [class.selected]="client === selected"
-                        (click)="onSelect(client)">
+    <material-list-item id="client-item" *ngFor="let client of clients" [class.selected]="client === selected" (click)="onSelect(client)">
         <span class="badge">{{client.clientID}}</span> {{client.name}} {{client.surname}}
     </material-list-item>
 </material-list>
@@ -45,7 +42,8 @@
 
     <ul>
         <li>
-            <material-input type="clientIdToAdd" label="ID" [floatingLabel]="true" [(ngModel)]="clientIdToAdd" [required]="true"></material-input>
+            <material-input type="clientIdToAdd" label="ID" [floatingLabel]="true" [(ngModel)]="clientIdToAdd"
+                [required]="true"></material-input>
         </li>
 
         <li>
@@ -53,11 +51,12 @@
         </li>
 
         <li>
-            <material-input type="surnameToAdd" label="Apellidos" [floatingLabel]="true" [(ngModel)]="surnameToAdd" [required]="true"></material-input>
+            <material-input type="surnameToAdd" label="Apellidos" [floatingLabel]="true" [(ngModel)]="surnameToAdd"
+                [required]="true"></material-input>
         </li>
 
         <div class="button" *ngIf="isEditing==false">
-            <material-button id="create-client" raised (click)="createClient()" style="float: right;">Crear</material-button>
+            <material-button id="create-client" class="button" raised (click)="createClient()" style="float: right;">Crear</material-button>
         </div>
 
         <div class="button" *ngIf="isEditing">

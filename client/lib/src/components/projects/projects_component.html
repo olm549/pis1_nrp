@@ -3,9 +3,8 @@
         <h2 id="main-title">Proyectos</h2>
         <material-button id="new-project" raised (click)="newProject()">Nuevo proyecto</material-button>
     </div>
-    <material-list-item id="project-item" *ngFor="let project of projects"
-                        [class.selected]="project === selected"
-                        (click)="onSelect(project)">
+    <material-list-item id="project-item" *ngFor="let project of projects" [class.selected]="project === selected"
+        (click)="onSelect(project)">
         <span class="badge">{{project.projectID}}</span> {{project.name}}
         <span *ngIf="project.active == true" class="activo">Activo</span>
     </material-list-item>
@@ -15,7 +14,8 @@
     <div id="title">
         <h2>{{selected.name}}
             <span *ngIf="selected.active == true" class="activo">Activo</span>
-            <material-button *ngIf="selected.active == false" id="activar-button" raised (click)="activateProject(selected.id)">Establecer como activo</material-button>
+            <material-button *ngIf="selected.active == false" id="activar-button" raised (click)="activateProject()">Establecer
+                como activo</material-button>
         </h2>
     </div>
     <ul>
@@ -52,7 +52,8 @@
 
     <ul>
         <li>
-            <material-input type="projectIdToAdd" label="ID" [floatingLabel]="true" [(ngModel)]="projectIdToAdd" [required]="true"></material-input>
+            <material-input type="projectIdToAdd" label="ID" [floatingLabel]="true" [(ngModel)]="projectIdToAdd"
+                [required]="true"></material-input>
         </li>
 
         <li>
@@ -60,7 +61,8 @@
         </li>
 
         <li>
-            <material-input type="descriptionToAdd" label="Descripción" [floatingLabel]="true" [(ngModel)]="descriptionToAdd" [required]="true"></material-input>
+            <material-input type="descriptionToAdd" label="Descripción" [floatingLabel]="true" [(ngModel)]="descriptionToAdd"
+                [required]="true"></material-input>
         </li>
 
         <!--- da fallo: conflictos con double

@@ -29,7 +29,7 @@ import '../../services/projects/mock_projects.dart';
   ],
   providers: [const ClassProvider(ProjectsService, useClass: MockProjects)],
 )
-class ProjectsComponent {
+class ProjectsComponent implements OnInit {
   final ProjectsService projectsService;
 
   @Input()
@@ -48,6 +48,11 @@ class ProjectsComponent {
 
   ProjectsComponent(this.projectsService);
 
+  @override
+  void ngOnInit() async {
+    projects = await projectsService.getProjects();
+  }
+
   void onSelect(Project project) {
     createProjectPanel = false;
     resetPanel();
@@ -57,8 +62,8 @@ class ProjectsComponent {
   void createProject() async {
     if (!comprobarProject()) return;
 
-    Project createProject = await projectsService.createProject(projectIdToAdd,
-        nameToAdd, descriptionToAdd);
+    Project createProject = await projectsService.createProject(
+        projectIdToAdd, nameToAdd, descriptionToAdd);
 
     if (createProject != null) createProjectPanel = false;
   }
@@ -83,7 +88,7 @@ class ProjectsComponent {
   void deleteProject() async {
     bool deleted = await projectsService.deleteProject(selected.id);
 
-    if(deleted) {
+    if (deleted) {
       projects.remove(selected);
 
       selected = null;
@@ -128,6 +133,7 @@ class ProjectsComponent {
 
   void activateProject() {
     // TODO: llamada a método updateProject del proyecto activo para establecer su propiedad active a 'false'
-    projectsService.updateProject(selected.id, selected.projectID, selected.name, selected.description, selected.effortLimit, true);
+    projectsService.updateProject(selected.id, selected.projectID,
+        selected.name, selected.description, selected.effortLimit, true);
   }
 }
