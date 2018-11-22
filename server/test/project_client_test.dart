@@ -99,17 +99,11 @@ Future main() async {
         body: {
           'id': createdProjectClient['id'],
           'weight': createdProjectClient['weight'],
-          'project': {
-            'id': testProject.id,
-          },
           'client': {
             'id': testClient.id,
             'clientID': testClient.clientID,
             'name': testClient.name,
             'surname': testClient.surname,
-            'owner': {
-              'id': isNumber,
-            },
           },
         },
       );
@@ -139,17 +133,11 @@ Future main() async {
         body: anyElement({
           'id': createdProjectClient['id'],
           'weight': createdProjectClient['weight'],
-          'project': {
-            'id': testProject.id,
-          },
           'client': {
             'id': testClient.id,
             'clientID': testClient.clientID,
             'name': testClient.name,
             'surname': testClient.surname,
-            'owner': {
-              'id': isNumber,
-            },
           },
         }),
       );

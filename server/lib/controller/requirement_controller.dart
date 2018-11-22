@@ -1,3 +1,4 @@
+import '../model/project.dart';
 import '../model/requirement.dart';
 
 import '../nrp_server.dart';
@@ -10,14 +11,10 @@ class RequirementController extends ResourceController {
 
   /// Fetches all requirements' data.
   ///
-  /// This method only returns data from requirements that have the requesting
-  /// user as [Requirement.owner].
-  ///
   /// A list of [Requirement] resources is returned in the body of a 200 response.
   @Operation.get()
   Future<Response> getAllRequirements() async {
-    final getAllRequirementsQuery = Query<Requirement>(context)
-      ..where((r) => r.owner.id).equalTo(request.authorization.ownerID);
+    final getAllRequirementsQuery = Query<Requirement>(context);
 
     // TODO: Add pagination.
 
@@ -31,21 +28,20 @@ class RequirementController extends ResourceController {
   /// The [Requirement.id] of the desired resource is taken from the path of the
   /// request.
   ///
-  /// Returns a 200 response with the [Requirement] resource in the body only if
-  /// the requesting user is specified as [Requirement.owner]. If not, returns
-  /// a 401 response.
+  /// Returns a 200 response with the [Requirement] resource in its body joined
+  /// with the list of [Project] resources it is associated to.
   @Operation.get('requirementID')
   Future<Response> getRequirement(@Bind.path('requirementID') int id) async {
     final getRequirementQuery = Query<Requirement>(context)
       ..where((r) => r.id).equalTo(id);
 
+    getRequirementQuery.join(set: (r) => r.projects)
+      ..returningProperties((pr) => [pr.id, pr.project])
+      ..join(object: (pr) => pr.project);
+
     final fetchedRequirement = await getRequirementQuery.fetchOne();
 
-    if (fetchedRequirement.owner.id != request.authorization.ownerID) {
-      return Response.unauthorized();
-    } else {
-      return Response.ok(fetchedRequirement);
-    }
+    return Response.ok(fetchedRequirement);
   }
 
   /// Inserts a new requirement.
@@ -53,16 +49,13 @@ class RequirementController extends ResourceController {
   /// Values of the new resource must be sent in the request's body and
   /// are parsed into a [Requirement] object for insertion.
   ///
-  /// The new resource is given the requesting user as [Requirement.owner].
-  ///
   /// Returns a 200 response with the new resource.
   @Operation.post()
   Future<Response> addRequirement(
     @Bind.body() Requirement newRequirement,
   ) async {
     final addRequirementQuery = Query<Requirement>(context)
-      ..values = newRequirement
-      ..values.owner.id = request.authorization.ownerID;
+      ..values = newRequirement;
 
     final insertedRequirement = await addRequirementQuery.insert();
 
@@ -77,9 +70,7 @@ class RequirementController extends ResourceController {
   /// New values for the resource must be sent in the request's body and
   /// are parsed into a [Requirement] object.
   ///
-  /// Returns a 200 response with the updated resource if the requesting user
-  /// is specified as [Requirement.owner] of the desired resource. If not, returns
-  /// a 401 response.
+  /// Returns a 200 response with the updated resource.
   @Operation.put('requirementID')
   Future<Response> modifyRequirement(
     @Bind.path('requirementID') int id,
@@ -89,15 +80,9 @@ class RequirementController extends ResourceController {
       ..where((r) => r.id).equalTo(id)
       ..values = requirement;
 
-    final requirementToUpdate = await modifyRequirementQuery.fetchOne();
+    final updatedRequirement = await modifyRequirementQuery.updateOne();
 
-    if (requirementToUpdate.owner.id != request.authorization.ownerID) {
-      return Response.unauthorized();
-    } else {
-      final updatedRequirement = await modifyRequirementQuery.updateOne();
-
-      return Response.ok(updatedRequirement);
-    }
+    return Response.ok(updatedRequirement);
   }
 
   /// Deletes a requirement.
@@ -105,9 +90,7 @@ class RequirementController extends ResourceController {
   /// The [Requirement.id] of the desired resource is taken from the path of the
   /// request.
   ///
-  /// Returns a 200 response with the number of rows deleted only if the
-  /// requesting user is specified as [Requirement.owner] of the desired resource.
-  /// If not, a 401 response is returned.
+  /// Returns a 200 response with the number of rows deleted.
   @Operation.delete('requirementID')
   Future<Response> deleteRequirement(
     @Bind.path('requirementID') int id,
@@ -115,16 +98,10 @@ class RequirementController extends ResourceController {
     final deleteRequirementQuery = Query<Requirement>(context)
       ..where((r) => r.id).equalTo(id);
 
-    final requirementToDelete = await deleteRequirementQuery.fetchOne();
+    final rowsDeleted = await deleteRequirementQuery.delete();
 
-    if (requirementToDelete.owner.id != request.authorization.ownerID) {
-      return Response.unauthorized();
-    } else {
-      final rowsDeleted = await deleteRequirementQuery.delete();
-
-      return Response.ok({
-        'rowsDeleted': rowsDeleted,
-      });
-    }
+    return Response.ok({
+      'rowsDeleted': rowsDeleted,
+    });
   }
 }

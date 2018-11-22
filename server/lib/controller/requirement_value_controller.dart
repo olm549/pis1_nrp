@@ -10,8 +10,8 @@ class RequirementValueController extends ResourceController {
 
   /// Fetches all requirement values for a project.
   ///
-  /// A list of [RequirementValue] resources joined with the client's data
-  /// is returned in the body of a 200 response.
+  /// A list of [RequirementValue] resources joined with the client and
+  /// project's data is returned in the body of a 200 response.
   @Operation.get('projectID', 'requirementID')
   Future<Response> getRequirementValues(
     @Bind.path('projectID') int projectID,
@@ -20,6 +20,13 @@ class RequirementValueController extends ResourceController {
     final getRequirementValuesQuery = Query<RequirementValue>(context)
       ..where((rv) => rv.project.id).equalTo(projectID)
       ..where((rv) => rv.requirement.id).equalTo(requirementID)
+      ..returningProperties((rv) => [
+            rv.id,
+            rv.value,
+            rv.requirement,
+            rv.client,
+          ])
+      ..join(object: (rv) => rv.requirement)
       ..join(object: (rv) => rv.client);
 
     // TODO: Add pagination.
@@ -36,7 +43,7 @@ class RequirementValueController extends ResourceController {
   /// [RequirementValue.client.id] are taken from the request´s path.
   ///
   /// Returns a 200 response with the [RequirementValue] resource and the
-  /// client's data.
+  /// client and project's data.
   @Operation.get('projectID', 'requirementID', 'clientID')
   Future<Response> getRequirementValue(
     @Bind.path('projectID') int projectID,
@@ -47,6 +54,13 @@ class RequirementValueController extends ResourceController {
       ..where((rv) => rv.project.id).equalTo(projectID)
       ..where((rv) => rv.requirement.id).equalTo(requirementID)
       ..where((rv) => rv.client.id).equalTo(clientID)
+      ..returningProperties((rv) => [
+            rv.id,
+            rv.value,
+            rv.requirement,
+            rv.client,
+          ])
+      ..join(object: (rv) => rv.requirement)
       ..join(object: (rv) => rv.client);
 
     final fetchedRequirementValue = await getRequirementValueQuery.fetchOne();

@@ -32,9 +32,6 @@ Future main() async {
         'clientID': testClient.clientID,
         'name': testClient.name,
         'surname': testClient.surname,
-        'owner': {
-          'id': isNumber,
-        },
       },
     );
   });
@@ -61,7 +58,7 @@ Future main() async {
         'clientID': createdClient['clientID'],
         'name': createdClient['name'],
         'surname': createdClient['surname'],
-        'owner': createdClient['owner'],
+        'projects': [],
       },
     );
   });
@@ -88,7 +85,6 @@ Future main() async {
         'clientID': createdClient['clientID'],
         'name': createdClient['name'],
         'surname': createdClient['surname'],
-        'owner': createdClient['owner'],
       }),
     );
   });
@@ -129,9 +125,6 @@ Future main() async {
         'clientID': testClient.clientID,
         'name': testClient.name,
         'surname': testClient.surname,
-        'owner': {
-          'id': isNumber,
-        },
       },
     );
   });

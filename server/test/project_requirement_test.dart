@@ -101,17 +101,11 @@ Future main() async {
           'id': createdProjectRequirement['id'],
           'estimatedEffort': createdProjectRequirement['estimatedEffort'],
           'satisfaction': createdProjectRequirement['satisfaction'],
-          'project': {
-            'id': testProject.id,
-          },
           'requirement': {
             'id': testRequirement.id,
             'requirementID': testRequirement.requirementID,
             'title': testRequirement.title,
             'description': testRequirement.description,
-            'owner': {
-              'id': isNumber,
-            },
           },
         },
       );
@@ -142,17 +136,11 @@ Future main() async {
           'id': createdProjectRequirement['id'],
           'estimatedEffort': createdProjectRequirement['estimatedEffort'],
           'satisfaction': createdProjectRequirement['satisfaction'],
-          'project': {
-            'id': testProject.id,
-          },
           'requirement': {
             'id': testRequirement.id,
             'requirementID': testRequirement.requirementID,
             'title': testRequirement.title,
             'description': testRequirement.description,
-            'owner': {
-              'id': isNumber,
-            },
           },
         }),
       );

@@ -11,7 +11,7 @@ class _Project {
   @primaryKey
   int id;
 
-  @Column(indexed: true)
+  @Column(unique: true, indexed: true)
   String projectID;
 
   String name;

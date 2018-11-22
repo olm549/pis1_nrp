@@ -32,9 +32,6 @@ Future main() async {
         'requirementID': testRequirement.requirementID,
         'title': testRequirement.title,
         'description': testRequirement.description,
-        'owner': {
-          'id': isNumber,
-        },
       },
     );
   });
@@ -63,7 +60,7 @@ Future main() async {
         'requirementID': createdRequirement['requirementID'],
         'title': createdRequirement['title'],
         'description': createdRequirement['description'],
-        'owner': createdRequirement['owner'],
+        'projects': [],
       },
     );
   });
@@ -90,7 +87,6 @@ Future main() async {
         'requirementID': createdRequirement['requirementID'],
         'title': createdRequirement['title'],
         'description': createdRequirement['description'],
-        'owner': createdRequirement['owner'],
       }),
     );
   });
@@ -131,9 +127,6 @@ Future main() async {
         'requirementID': testRequirement.requirementID,
         'title': testRequirement.title,
         'description': testRequirement.description,
-        'owner': {
-          'id': isNumber,
-        },
       },
     );
   });

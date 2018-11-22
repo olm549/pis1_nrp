@@ -122,20 +122,17 @@ Future main() async {
         body: {
           'id': createdRequirementValue['id'],
           'value': createdRequirementValue['value'],
-          'project': {
-            'id': testProject.id,
-          },
           'requirement': {
             'id': testRequirement.id,
+            'requirementID': testRequirement.requirementID,
+            'title': testRequirement.title,
+            'description': testRequirement.description,
           },
           'client': {
             'id': testClient.id,
             'clientID': testClient.clientID,
             'name': testClient.name,
             'surname': testClient.surname,
-            'owner': {
-              'id': isNumber,
-            },
           },
         },
       );
@@ -166,20 +163,17 @@ Future main() async {
         body: anyElement({
           'id': createdRequirementValue['id'],
           'value': createdRequirementValue['value'],
-          'project': {
-            'id': testProject.id,
-          },
           'requirement': {
             'id': testRequirement.id,
+            'requirementID': testRequirement.requirementID,
+            'title': testRequirement.title,
+            'description': testRequirement.description,
           },
           'client': {
             'id': testClient.id,
             'clientID': testClient.clientID,
             'name': testClient.name,
             'surname': testClient.surname,
-            'owner': {
-              'id': isNumber,
-            },
           },
         }),
       );
