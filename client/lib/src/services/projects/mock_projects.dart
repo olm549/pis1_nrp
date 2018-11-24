@@ -11,7 +11,7 @@ class MockProjects implements ProjectsService {
   final projects = <Project>[
     Project(1, 'P001', 'Hola', 'Adios', 3.0, false),
     Project(2, 'P002', 'PRIS2018', 'Proyecto de la asignatura', 5.0, false),
-    Project(3, 'P003', 'PRIS', 'Sin descripción', 4.2, true),
+    Project(3, 'P003', 'PRIS', 'Sin descripción', 4.2, false),
     Project(4, 'P004', 'Procesos de Ingeniería del Software', 'NRP', 7.8, false)
   ];
 
@@ -39,6 +39,10 @@ class MockProjects implements ProjectsService {
   }
 
   Future<bool> deleteProject(int id) async {
-    return Future.delayed(Duration(seconds: 2), () => true);
+    return Future.sync(() => true);
+  }
+
+  Future<void> changeActiveProject(int id) {
+    return null;
   }
 }

@@ -4,7 +4,9 @@ import 'package:angular_router/angular_router.dart';
 
 import './src/utils/routing.dart';
 
-import './src/services/user_service.dart';
+import './src/services/user/user_service.dart';
+import './src/services/user/mock_user.dart';
+
 import './src/services/http_service.dart';
 
 @Component(
@@ -26,7 +28,7 @@ import './src/services/http_service.dart';
   ],
   exports: [Paths, Routes],
   providers: [
-    const ClassProvider(UserService),
+    const ClassProvider(UserService, useClass: MockUser),
     const ClassProvider(HttpService),
   ],
 )

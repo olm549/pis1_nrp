@@ -133,8 +133,6 @@ class ProjectsComponent implements OnInit {
   }
 
   void activateProject() {
-    // TODO: llamada a método updateProject del proyecto activo para establecer su propiedad active a 'false'
-    projectsService.updateProject(selected.id, selected.projectID,
-        selected.name, selected.description, selected.effortLimit, true);
+    projectsService.changeActiveProject(selected.id);
   }
 }

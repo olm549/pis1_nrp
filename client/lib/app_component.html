@@ -3,9 +3,7 @@
         <div group class="mat-drawer-spacer"></div>
         <div *ngIf="userService.isUserLogged()">
             <div group>
-                <material-list-item [routerLink]="Paths.projects.toUrl()">Proyectos</material-list-item>
-                <material-list-item [routerLink]="Paths.requirements.toUrl()">Requisitos</material-list-item>
-                <material-list-item [routerLink]="Paths.clients.toUrl()">Clientes</material-list-item>
+                <material-list-item [routerLink]="Paths.projects.toUrl()">Mis proyectos</material-list-item>
             </div>
             <div group>
                 <div label>Proyecto activo</div>
@@ -26,6 +24,8 @@
             <span class="material-header-title">NRP</span>
             <div class="material-spacer"></div>
             <div *ngIf="userService.isUserLogged()">
+                <material-button [routerLink]="Paths.requirements.toUrl()">Requisitos</material-button>
+                <material-button [routerLink]="Paths.clients.toUrl()">Clientes</material-button>
                 <material-button (click)="signOut()">Cerrar sesión</material-button>
             </div>
         </div>
