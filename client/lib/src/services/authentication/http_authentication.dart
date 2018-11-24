@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:angular/angular.dart';
 
-import '../user_service.dart';
+import '../user/user_service.dart';
 import '../http_service.dart';
 
 import './authentication_service.dart';

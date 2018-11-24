@@ -4,7 +4,7 @@ import 'package:angular/angular.dart';
 
 import '../../models/project.dart';
 
-import '../user_service.dart';
+import '../user/user_service.dart';
 import '../http_service.dart';
 
 import './projects_service.dart';
@@ -128,5 +128,11 @@ class HttpProjects implements ProjectsService {
     } catch (e) {
       throw _httpService.handleError(e);
     }
+  }
+
+  Future<void> changeActiveProject(int id) {
+    // TODO: Call server and change active project.
+
+    return null;
   }
 }

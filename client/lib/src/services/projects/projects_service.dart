@@ -21,4 +21,6 @@ abstract class ProjectsService {
   );
 
   Future<bool> deleteProject(int id);
+
+  Future<void> changeActiveProject(int id);
 }

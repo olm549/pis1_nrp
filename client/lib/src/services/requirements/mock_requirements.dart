@@ -37,6 +37,6 @@ class MockRequirements implements RequirementsService {
   }
 
   Future<bool> deleteRequirement(int id) async {
-    return Future.delayed(Duration(seconds: 2), () => true);
+    return Future.sync(() => true);
   }
 }
