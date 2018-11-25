@@ -6,6 +6,8 @@ import '../../models/client.dart';
 
 import './clients_service.dart';
 
+import '../../models/project.dart';
+
 @Injectable()
 class MockClients implements ClientsService {
   final clients = <Client>[
@@ -38,5 +40,9 @@ class MockClients implements ClientsService {
 
   Future<bool> deleteClient(int id) async {
     return Future.sync(() => true);
+  }
+
+  Future<List<Client>> getActiveClients(Project currentProject) async {
+    return clients;
   }
 }
