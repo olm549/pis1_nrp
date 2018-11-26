@@ -1,5 +1,6 @@
 import 'package:angular/angular.dart';
 import 'package:angular_components/angular_components.dart';
+import 'package:angular_forms/angular_forms.dart';
 
 import '../../models/requirement.dart';
 
@@ -16,6 +17,7 @@ import '../../services/requirements/mock_requirements.dart';
   templateUrl: 'requirements_component.html',
   directives: [
     coreDirectives,
+    formDirectives,
     MaterialPersistentDrawerDirective,
     MaterialListComponent,
     MaterialListItemComponent,
@@ -47,7 +49,12 @@ class RequirementsComponent implements OnInit {
     requirements = await requirementsService.getRequirements();
   }
 
-  void onSelect(Requirement requirement) => selected = requirement;
+  //Seleccionar requisito
+  void onSelect(Requirement requirement){
+    createRequirementPanel = false;
+    resetPanel();
+    selected = requirement;
+  } 
 
   void createRequirement() async {
     if (!checkRequirement()) return;
