@@ -1,0 +1,72 @@
+<material-list class="items-list">
+    <div>
+        <h2 id="main-title">Requisitos</h2>
+        <material-button class="new-button" raised (click)="newRequirement()">Nuevo requisito</material-button>
+    </div>
+    <material-list-item class="item" *ngFor="let requirement of requirements"
+                        [class.selected]="requirement === selected"
+                        (click)="onSelect(requirement)">
+        <span class="badge">{{requirement.requirementID}}</span> {{requirement.title}}
+    </material-list-item>
+</material-list>
+
+<div class="detail-panel" *ngIf="selected != null">
+    <div id="title">
+        <h2>{{selected.title}}</h2>
+    </div>
+    <ul>
+        <li>
+            <label>ID:</label>{{selected.requirementID}}
+        </li>
+
+        <li>
+            <label>Nombre: </label>{{selected.title}}
+        </li>
+
+        <li>
+            <label>Descripción: </label>{{selected.description}}
+        </li>
+
+        <div>
+            <material-button class="button" raised (click)="editRequirement()" style="float: left;">Editar</material-button>
+            <material-button class="delete-button" raised (click)="deleteRequirement()" style="float: right;">Eliminar</material-button>
+        </div>
+    </ul>
+</div>
+
+<div class="create-panel" *ngIf="createRequirementPanel">
+    <div *ngIf="isEditing==false">
+        <h2>Crear Requisito</h2>
+    </div>
+    <div *ngIf="isEditing">
+        <h2>Editar Requisito</h2>
+    </div>
+        <ul>
+            <li>
+                <material-input type="requirementIdToAdd" label="ID" [floatingLabel]="true" [(ngModel)]="requirementIdToAdd" [required]="true"></material-input>
+            </li>
+
+            <li>
+                <material-input type="titleToAdd" label="Nombre" [floatingLabel]="true" [(ngModel)]="titleToAdd" [required]="true"></material-input>
+            </li>
+
+            <li>
+                <material-input type="descriptionToAdd" label="Descripcion" [floatingLabel]="true" [(ngModel)]="descriptionToAdd" [required]="true"></material-input>
+            </li>
+
+            <div class="button" *ngIf="isEditing==false">
+                <material-button id="create-requirement" class="button" raised (click)="createRequirement()" style="float: right;">Crear</material-button>
+            </div>
+
+            <div class="button" *ngIf="isEditing">
+                <material-button class="delete-button" raised (click)="deleteRequirement()" style="float: right;">Eliminar</material-button>
+                <material-button id="edit-requirement" class="button" raised (click)="confirmEditRequirement()" style="float: right;">Editar</material-button>
+            </div>
+
+            <div>
+                <material-button class="button cancel-edit" raised (click)="cancelEditRequirement()" style="float: left;">Cancelar</material-button>
+            </div>
+        </ul>
+        
+</div>
+
