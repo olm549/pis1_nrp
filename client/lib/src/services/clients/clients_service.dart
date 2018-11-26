@@ -18,4 +18,5 @@ abstract class ClientsService {
   Future<bool> deleteClient(int id);
 
   Future<List<Client>> getActiveClients(Project currentProject);
+  Future<bool> addClientToProject(Client client, Project project);
 }

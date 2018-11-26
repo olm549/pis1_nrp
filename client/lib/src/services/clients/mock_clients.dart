@@ -45,4 +45,7 @@ class MockClients implements ClientsService {
   Future<List<Client>> getActiveClients(Project currentProject) async {
     return clients;
   }
+  Future<bool> addClientToProject(Client client, Project project) async {
+    return true;
+  }
 }

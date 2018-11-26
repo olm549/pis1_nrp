@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:angular/angular.dart';
 
 import '../../models/requirement.dart';
+import '../../models/project.dart';
 
 import './requirements_service.dart';
 
@@ -38,5 +39,13 @@ class MockRequirements implements RequirementsService {
 
   Future<bool> deleteRequirement(int id) async {
     return Future.sync(() => true);
+  }
+
+  Future<List<Requirement>> getActiveRequirements(Project currentProject) async{
+    return requirements;
+  }
+
+  Future<bool> addRequirementToProject(Requirement requirement, Project project) async{
+    return true;
   }
 }

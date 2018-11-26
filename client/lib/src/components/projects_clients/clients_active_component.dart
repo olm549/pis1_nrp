@@ -4,6 +4,7 @@ import 'package:angular_forms/angular_forms.dart';
 
 import '../../models/client.dart';
 import '../../models/project.dart';
+import '../../models/project_client.dart';
 
 import '../../services/clients/clients_service.dart';
 import '../../services/clients/mock_clients.dart';
@@ -36,14 +37,10 @@ class ClientsComponent implements OnInit {
   ClientsComponent(this.clientsService);
 
   @Input()
-  bool isEditing = true;
 
   Client selected;
   List<Client> clients;
-  bool createClientPanel = false;
-  String clientIdToAdd;
-  String nameToAdd;
-  String surnameToAdd;
+  bool openClientPanel = true;
   Project currentProject;
 
   @override
@@ -52,12 +49,15 @@ class ClientsComponent implements OnInit {
   }
 
   void onSelect(Client client) {
-    createClientPanel = false;
+    openClientPanel = true;
     selected = client;
   }
 
   //Añadir cliente a un proyecto
-  void addToProject(){
+  void addClientToProject(){
+    if (selected == null) return;
+
+    Future<bool> b = clientsService.addClientToProject(selected, currentProject);
 
   }
   

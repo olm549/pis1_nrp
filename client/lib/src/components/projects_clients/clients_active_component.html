@@ -1,7 +1,6 @@
 <material-list class="items-list">
     <div>
         <h2 id="main-title">Clientes</h2>
-        <material-button class="new-button" raised (click)="addToProject()">Añadir al proyecto</material-button>
     </div>
     <material-list-item class="item" *ngFor="let client of clients" [class.selected]="client === selected" (click)="onSelect(client)">
         <span class="badge">{{client.clientID}}</span> {{client.name}} {{client.surname}}
@@ -26,46 +25,7 @@
         </li>
 
         <div>
-            <material-button class="button" raised (click)="addToProject()" style="float: left;">Editar</material-button>
-            <material-button class="delete-button" raised (click)="addToProject()" style="float: right;">Eliminar</material-button>
-        </div>
-    </ul>
-</div>
-
-<div class="create-panel" *ngIf="createClientPanel">
-    <div *ngIf="isEditing==false">
-        <h2>Crear Cliente</h2>
-    </div>
-    <div *ngIf="isEditing">
-        <h2>Editar Cliente</h2>
-    </div>
-
-    <ul>
-        <li>
-            <material-input type="clientIdToAdd" label="ID" [floatingLabel]="true" [(ngModel)]="clientIdToAdd"
-                [required]="true"></material-input>
-        </li>
-
-        <li>
-            <material-input type="nameToAdd" label="Nombre" [floatingLabel]="true" [(ngModel)]="nameToAdd" [required]="true"></material-input>
-        </li>
-
-        <li>
-            <material-input type="surnameToAdd" label="Apellidos" [floatingLabel]="true" [(ngModel)]="surnameToAdd"
-                [required]="true"></material-input>
-        </li>
-
-        <div class="button" *ngIf="isEditing==false">
-            <material-button id="create-client" class="button" raised (click)="addToProject()" style="float: right;">Crear</material-button>
-        </div>
-
-        <div class="button" *ngIf="isEditing">
-            <material-button class="delete-button" raised (click)="addToProject()" style="float: right;">Eliminar</material-button>
-            <material-button id="edit-client" class="button" raised (click)="addToProject()" style="float: right;">Editar</material-button>
-        </div>
-
-        <div>
-            <material-button class="button cancel-edit" raised (click)="addToProject()" style="float: left;">Cancelar</material-button>
+            <material-button class="button" style="float: right;" raised (click)="addClientToProject()">Añadir al proyecto</material-button>
         </div>
     </ul>
 </div>
