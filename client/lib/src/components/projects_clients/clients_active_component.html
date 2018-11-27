@@ -1,27 +1,38 @@
 <material-list class="items-list">
     <div>
-        <h2 id="main-title">Clientes</h2>
+        <h2 id="main-title">Clientes activos</h2>
     </div>
-    <material-list-item class="item" *ngFor="let client of clients" [class.selected]="client === selected" (click)="onSelect(client)">
-        <span class="badge">{{client.clientID}}</span> {{client.name}} {{client.surname}}
+    <material-list-item class="item" *ngFor="let projectclient of activeClients" [class.selected]="projectclient === selected" (click)="onSelect(projectclient)">
+        <span class="badge">{{projectclient.client.clientID}}</span> {{projectclient.client.name}} {{projectclient.client.surname}}
     </material-list-item>
 </material-list>
 
 <div class="detail-panel" *ngIf="selected != null">
     <div>
-        <h2>{{selected.name}} {{selected.surname}}</h2>
+        <h2>{{selected.client.name}} {{selected.client.surname}}</h2>
     </div>
     <ul>
         <li>
-            <label>ID:</label>{{selected.clientID}}
+            <label>ID:</label>{{selected.client.clientID}}
         </li>
 
         <li>
-            <label>Nombre: </label>{{selected.name}}
+            <label>Nombre: </label>{{selected.client.name}}
         </li>
 
         <li>
-            <label>Apellidos: </label>{{selected.surname}}
+            <label>Apellidos: </label>{{selected.client.surname}}
+        </li>
+
+        <li>
+            <label>Peso: </label>{{selected.weight}}
+        </li>
+
+        <li>
+            <label>Proyectos a los que pertenece: </label>
+            <div *ngFor="let project of projectsClient">
+                - {{project.projectID}}
+            </div>
         </li>
 
         <div>

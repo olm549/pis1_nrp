@@ -38,27 +38,35 @@ class ClientsComponent implements OnInit {
 
   @Input()
 
-  Client selected;
-  List<Client> clients;
+  ProjectClient selected;
+  List<ProjectClient> activeClients;
   bool openClientPanel = true;
   Project currentProject;
+  List<Project> projectsClient; //Proyectos en los que está un cliente
 
   @override
   void ngOnInit() async {
-    clients = await clientsService.getActiveClients(currentProject);
+    activeClients = await clientsService.getActiveClients(currentProject);
+
   }
 
-  void onSelect(Client client) {
+  void onSelect(ProjectClient activeClient) {
     openClientPanel = true;
-    selected = client;
+    selected = activeClient;
+    getProjectsFromClient(activeClient.client);
   }
 
   //Añadir cliente a un proyecto
   void addClientToProject(){
     if (selected == null) return;
+    Future<bool> b = clientsService.addClientToProject(selected.client, currentProject);
 
-    Future<bool> b = clientsService.addClientToProject(selected, currentProject);
+  }
 
+  void getProjectsFromClient(Client client){
+
+    projectsClient = clientsService.getProjectsFromClients(client);
+    
   }
   
 }

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import '../../models/client.dart';
 import '../../models/project.dart';
+import '../../models/project_client.dart';
 
 abstract class ClientsService {
   Future<List<Client>> getClients();
@@ -17,6 +18,7 @@ abstract class ClientsService {
 
   Future<bool> deleteClient(int id);
 
-  Future<List<Client>> getActiveClients(Project currentProject);
+  Future<List<ProjectClient>> getActiveClients(Project currentProject);
   Future<bool> addClientToProject(Client client, Project project);
+  List<Project> getProjectsFromClients(Client client);
 }
