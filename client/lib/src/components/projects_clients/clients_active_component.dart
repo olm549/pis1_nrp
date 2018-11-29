@@ -65,7 +65,7 @@ class ClientsComponent implements OnInit {
   //Añadir cliente a un proyecto
   void addClientToProject(){
     if (selected == null) return;
-    Future<bool> b = clientsService.addClientToProject(selected.client);
+    Future<bool> clientAdded = clientsService.addClientToProject(selected.client);
 
   }
 
@@ -96,6 +96,7 @@ class ClientsComponent implements OnInit {
 
     bool weightEdited = await clientsService.updateWeightClient(selected.id ,weightToAdd);
 
+    if (weightEdited) isEditing = false;
   }
   
 }
