@@ -1,0 +1,59 @@
+<material-list class="items-list">
+    <div>
+        <h2 id="main-title">Requisitos activos</h2>
+        <material-button class="new-button" [routerLink]="Paths.requirements.toUrl()">Añadir requisito</material-button>
+    </div>
+    <material-list-item class="item" *ngFor="let projectrequirement of activeRequirements"
+                        [class.selected]="projectrequirement === selected"
+                        (click)="onSelect(projectrequirement)">
+        <span class="badge">{{projectrequirement.requirement.requirementID}}</span> {{projectrequirement.requirement.title}}
+    </material-list-item>
+</material-list>
+
+<div class="detail-panel" *ngIf="selected != null">
+    <div id="title">
+        <h2>{{selected.requirement.title}}</h2>
+    </div>
+    <ul>
+        <li>
+            <label>ID:</label>{{selected.requirement.requirementID}}
+        </li>
+
+        <li>
+            <label>Nombre: </label>{{selected.requirement.title}}
+        </li>
+
+        <li>
+            <label>Descripción: </label>{{selected.requirement.description}}
+        </li>
+
+        <li>
+            <label>Satisfacción: </label>{{selected.satisfaction}}
+        </li>
+
+        <li>
+            <div *ngIf="isEditing">
+                <material-input type="effortToAdd" label="Nuevo esfuerzo estimado:"  [floatingLabel]="true" [(ngModel)]="effortToAdd"
+                    [required]="true"></material-input>
+                <material-button raised (click)="confirmEditEffort()" style="float: right; vertical-align: middle;">Aceptar</material-button>
+                <material-button raised (click)="editEffort()" style="float: left; vertical-align: middle;">Cancelar</material-button>
+            </div>
+            <div *ngIf="isEditing==false">
+                    <label>Esfuerzo estimado: </label>{{selected.estimatedEffort}}
+                <material-button raised (click)="editEffort()" style="float: right; vertical-align: middle;">Editar</material-button> 
+            </div>    
+        </li>
+
+        <li>
+            <br/> 
+            <label>Proyectos a los que pertenece: </label>
+            <div *ngFor="let project of projectsRequirement">
+                - {{project.projectID}}
+            </div>
+        </li>
+
+        <div class = "button">
+            <material-button class="delete-button" raised (click)="removeActiveRequirement()" style="float: right;">Quitar de la lista</material-button>
+        </div>
+    </ul>
+</div>
