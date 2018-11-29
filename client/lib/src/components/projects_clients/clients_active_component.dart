@@ -1,6 +1,7 @@
 import 'package:angular/angular.dart';
 import 'package:angular_components/angular_components.dart';
 import 'package:angular_forms/angular_forms.dart';
+import 'package:angular_router/angular_router.dart';
 
 import '../../models/client.dart';
 import '../../models/project.dart';
@@ -8,6 +9,8 @@ import '../../models/project_client.dart';
 
 import '../../services/clients/clients_service.dart';
 import '../../services/clients/mock_clients.dart';
+
+import '../../utils/routing.dart';
 
 @Component(
   selector: 'clients',
@@ -18,6 +21,7 @@ import '../../services/clients/mock_clients.dart';
   ],
   templateUrl: 'clients_active_component.html',
   directives: [
+    routerDirectives,
     coreDirectives,
     formDirectives,
     MaterialPersistentDrawerDirective,
@@ -27,6 +31,7 @@ import '../../services/clients/mock_clients.dart';
     MaterialInputComponent,
     materialInputDirectives,
   ],
+  exports: [Paths, Routes],
   providers: [
     const ClassProvider(ClientsService, useClass: MockClients),
   ],
@@ -41,25 +46,26 @@ class ClientsComponent implements OnInit {
   ProjectClient selected;
   List<ProjectClient> activeClients;
   bool openClientPanel = true;
-  Project currentProject;
   List<Project> projectsClient; //Proyectos en los que está un cliente
+  bool isEditing = false;
+  double weightToAdd;
 
   @override
   void ngOnInit() async {
-    activeClients = await clientsService.getActiveClients(currentProject);
-
+    activeClients = await clientsService.getProjectClients();
   }
 
   void onSelect(ProjectClient activeClient) {
     openClientPanel = true;
     selected = activeClient;
     getProjectsFromClient(activeClient.client);
+    isEditing = false;
   }
 
   //Añadir cliente a un proyecto
   void addClientToProject(){
     if (selected == null) return;
-    Future<bool> b = clientsService.addClientToProject(selected.client, currentProject);
+    Future<bool> b = clientsService.addClientToProject(selected.client);
 
   }
 
@@ -67,6 +73,29 @@ class ClientsComponent implements OnInit {
 
     projectsClient = clientsService.getProjectsFromClients(client);
     
+  }
+
+  void removeActiveClient() async{
+    bool deletedActiveClient = await clientsService.deleteActiveClient(selected.id);
+    if (deletedActiveClient) {
+      activeClients.remove(selected);
+      selected = null;
+    }
+  }
+  
+  void editWeight(){
+    if (isEditing == false){
+      isEditing = true;
+    }else{
+      isEditing = false;
+    }
+  }
+
+  void confirmEditWeight() async{
+    if (weightToAdd == null || weightToAdd == "") return;
+
+    bool weightEdited = await clientsService.updateWeightClient(selected.id ,weightToAdd);
+
   }
   
 }

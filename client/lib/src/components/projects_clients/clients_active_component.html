@@ -1,6 +1,7 @@
 <material-list class="items-list">
     <div>
         <h2 id="main-title">Clientes activos</h2>
+        <material-button class="new-button" [routerLink]="Paths.clients.toUrl()">Añadir cliente</material-button>
     </div>
     <material-list-item class="item" *ngFor="let projectclient of activeClients" [class.selected]="projectclient === selected" (click)="onSelect(projectclient)">
         <span class="badge">{{projectclient.client.clientID}}</span> {{projectclient.client.name}} {{projectclient.client.surname}}
@@ -25,18 +26,31 @@
         </li>
 
         <li>
-            <label>Peso: </label>{{selected.weight}}
+            <div *ngIf="isEditing">
+                <material-input type="weightToAdd" label="Nuevo peso:"  [floatingLabel]="true" [(ngModel)]="weightToAdd"
+                    [required]="true"></material-input>
+                    <material-button raised (click)="confirmEditWeight()" style="float: right; vertical-align: middle;">Aceptar</material-button>
+                    <material-button raised (click)="editWeight()" style="float: left; vertical-align: middle;">Cancelar</material-button>
+                    <br/>    
+
+            </div>
+            <div *ngIf="isEditing==false">
+                <label>Peso: </label>{{selected.weight}}
+                <material-button raised (click)="editWeight()" style="float: right; vertical-align: middle;">Editar</material-button> 
+            </div>
+            
+
         </li>
 
         <li>
+            <br/>
             <label>Proyectos a los que pertenece: </label>
             <div *ngFor="let project of projectsClient">
                 - {{project.projectID}}
             </div>
         </li>
-
-        <div>
-            <material-button class="button" style="float: right;" raised (click)="addClientToProject()">Añadir al proyecto</material-button>
+        <div class = "button">
+            <material-button class="delete-button" raised (click)="removeActiveClient()" style="float: right;">Quitar de la lista</material-button>
         </div>
     </ul>
 </div>

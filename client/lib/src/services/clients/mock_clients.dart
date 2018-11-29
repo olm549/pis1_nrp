@@ -53,15 +53,23 @@ class MockClients implements ClientsService {
     return Future.sync(() => true);
   }
 
-  Future<List<ProjectClient>> getActiveClients(Project currentProject) async {
+  Future<List<ProjectClient>> getProjectClients() async {
     return activeClients;
   }
 
-  Future<bool> addClientToProject(Client client, Project project) async {
+  Future<bool> addClientToProject(Client client) async {
     return true;
   }
 
   List<Project> getProjectsFromClients(Client client) {
     return projectsInClient;
+  }
+
+  Future<bool> updateWeightClient(int id, double weight) async{
+     return Future.sync(() => true);
+  }
+
+  Future<bool> deleteActiveClient(int id) async {
+    return Future.sync(() => true);
   }
 }
