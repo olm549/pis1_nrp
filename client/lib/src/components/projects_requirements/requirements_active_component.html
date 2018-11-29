@@ -37,15 +37,11 @@
                     [required]="true"></material-input>
                 <material-button raised (click)="confirmEditEffort()" style="float: right; vertical-align: middle;">Aceptar</material-button>
                 <material-button raised (click)="editEffort()" style="float: left; vertical-align: middle;">Cancelar</material-button>
-                <br/>    
-    
             </div>
             <div *ngIf="isEditing==false">
                     <label>Esfuerzo estimado: </label>{{selected.estimatedEffort}}
                 <material-button raised (click)="editEffort()" style="float: right; vertical-align: middle;">Editar</material-button> 
-            </div>
-                
-    
+            </div>    
         </li>
 
         <li>

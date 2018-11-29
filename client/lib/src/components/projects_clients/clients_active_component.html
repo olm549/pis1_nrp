@@ -31,8 +31,6 @@
                     [required]="true"></material-input>
                     <material-button raised (click)="confirmEditWeight()" style="float: right; vertical-align: middle;">Aceptar</material-button>
                     <material-button raised (click)="editWeight()" style="float: left; vertical-align: middle;">Cancelar</material-button>
-                    <br/>    
-
             </div>
             <div *ngIf="isEditing==false">
                 <label>Peso: </label>{{selected.weight}}

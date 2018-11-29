@@ -67,6 +67,7 @@ class RequirementsComponent implements OnInit {
     Future<bool> b = requirementsService.addRequirementToProject(selected);
   } 
 
+  //Elimina un requisito activo
   void removeActiveRequirement() async{
     bool deleteActiveRequirement = await requirementsService.deleteActiveRequirement(selected.id);
 
@@ -76,20 +77,24 @@ class RequirementsComponent implements OnInit {
     }
   }
 
-    void getProjectsFromRequirement(Requirement requirement){
+  //Devuelve los proyectos a los que pertenece un requisito
+  void getProjectsFromRequirement(Requirement requirement){
 
     projectsRequirement = requirementsService.getProjectsFromRequirement(requirement);
     
   }
 
+  //Abre el panel de editar esfuerzo
   void editEffort(){
     if (isEditing == false){
       isEditing = true;
     }else{
       isEditing = false;
+      effortToAdd = null;
     }
   }
 
+  //Edita el peso de un requisito
   void confirmEditEffort() async{
     if (effortToAdd == null || effortToAdd == "") return;
     double effort;

@@ -69,12 +69,14 @@ class ClientsComponent implements OnInit {
 
   }
 
+  //Devuelve los proyectos a los que pertenece un cliente
   void getProjectsFromClient(Client client){
 
     projectsClient = clientsService.getProjectsFromClients(client);
     
   }
 
+  //Elimina un cliente activo
   void removeActiveClient() async{
     bool deletedActiveClient = await clientsService.deleteActiveClient(selected.id);
     if (deletedActiveClient) {
@@ -83,14 +85,17 @@ class ClientsComponent implements OnInit {
     }
   }
   
+  //Abre el panel de editar peso
   void editWeight(){
     if (isEditing == false){
       isEditing = true;
     }else{
       isEditing = false;
+      weightToAdd = null;
     }
   }
 
+  //Edita el peso de un cliente específico
   void confirmEditWeight() async{
     if (weightToAdd == null || weightToAdd == "") return;
 
