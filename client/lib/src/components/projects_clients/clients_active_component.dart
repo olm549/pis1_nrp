@@ -48,7 +48,7 @@ class ClientsComponent implements OnInit {
   bool openClientPanel = true;
   List<Project> projectsClient; //Proyectos en los que está un cliente
   bool isEditing = false;
-  double weightToAdd;
+  String weightToAdd;
 
   @override
   void ngOnInit() async {
@@ -94,9 +94,18 @@ class ClientsComponent implements OnInit {
   void confirmEditWeight() async{
     if (weightToAdd == null || weightToAdd == "") return;
 
-    bool weightEdited = await clientsService.updateWeightClient(selected.id ,weightToAdd);
+    double weight;
+    try{
+      weight = double.parse(weightToAdd);
+    }catch(e){
+      return;
+    }
+    bool weightEdited = await clientsService.updateWeightClient(selected.id ,weight);
 
-    if (weightEdited) isEditing = false;
+    if (weightEdited) {
+      isEditing = false;
+      selected.weight = weight;
+    }
   }
   
 }

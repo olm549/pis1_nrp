@@ -94,14 +94,16 @@ class RequirementsComponent implements OnInit {
     if (effortToAdd == null || effortToAdd == "") return;
     double effort;
     try{
-      effort = effortToAdd as double;
+      effort = double.parse(effortToAdd);
     }catch(e){
       return;
     }
 
     bool effortEdited = await requirementsService.updateEffortClient(selected.id, effort);
-
-    if(effortEdited) isEditing = false;
+    if(effortEdited){
+      isEditing = false;
+      selected.estimatedEffort = effort;
+    }
 
   }
 }
