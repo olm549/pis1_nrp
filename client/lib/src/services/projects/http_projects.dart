@@ -34,6 +34,7 @@ class HttpProjects implements ProjectsService {
 
         return projects;
       } else {
+        // 404 response.
         return [];
       }
     } catch (e) {
@@ -103,6 +104,7 @@ class HttpProjects implements ProjectsService {
 
         return updatedProject;
       } else {
+        // 401 response.
         return null;
       }
     } catch (e) {
@@ -123,6 +125,7 @@ class HttpProjects implements ProjectsService {
       if (response.statusCode == 200) {
         return true;
       } else {
+        // 401 response.
         return false;
       }
     } catch (e) {
@@ -131,7 +134,7 @@ class HttpProjects implements ProjectsService {
   }
 
   Future<void> changeActiveProject(int id) {
-    // TODO: Call server and change active project.
+    _userService.changeActiveProject(id);
 
     return null;
   }

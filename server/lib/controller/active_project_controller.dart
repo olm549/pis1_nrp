@@ -61,7 +61,14 @@ class ActiveProjectController extends ResourceController {
 
       updateActiveProjectQuery = Query<Project>(transaction)
         ..where((p) => p.id).equalTo(newProjectID)
-        ..values.active = true;
+        ..values.active = true
+        ..returningProperties((p) => [
+              p.id,
+              p.projectID,
+              p.name,
+              p.description,
+              p.effortLimit,
+            ]);
 
       return await updateActiveProjectQuery.updateOne();
     });
