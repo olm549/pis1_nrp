@@ -3,8 +3,6 @@ import 'package:angular_components/angular_components.dart';
 import 'package:angular_forms/angular_forms.dart';
 
 import '../../models/requirement_value.dart';
-import '../../models/requirement.dart';
-import '../../models/client.dart';
 import '../../models/project_requirement.dart';
 import '../../models/project_client.dart';
 
@@ -15,29 +13,26 @@ import '../../services/requirements/mock_requirements.dart';
 import '../../utils/routing.dart';
 
 @Component(
-  selector: 'requirements',
+  selector: 'requirement-values',
   styleUrls: const [
-    'package:angular_components/app_layout/layout.scss.css',
     '../../styles/styles.css',
-    '../../styles/requirements_component.css',
   ],
-  templateUrl: 'requirements_values_component.html',
+  templateUrl: 'requirement_values_component.html',
   directives: [
     coreDirectives,
     formDirectives,
-    MaterialPersistentDrawerDirective,
     MaterialListComponent,
     MaterialListItemComponent,
     MaterialButtonComponent,
     MaterialInputComponent,
     materialInputDirectives,
   ],
-   exports: [Paths, Routes],
+  exports: [Paths, Routes],
   providers: [
     const ClassProvider(RequirementsService, useClass: MockRequirements)
   ],
 )
-class RequirementsComponent implements OnInit {
+class RequirementValuesComponent implements OnInit {
   final RequirementsService requirementsService;
   final ClientsService clientsService;
 
@@ -48,7 +43,7 @@ class RequirementsComponent implements OnInit {
   List<ProjectRequirement> requirements;
   ProjectClient selectedC;
   List<ProjectClient> clients;
-  List<RequirementValue> values; 
+  List<RequirementValue> values;
   RequirementValue reValue;
   bool assignValuePanel = false;
   int requirementIdToAdd;
@@ -57,7 +52,7 @@ class RequirementsComponent implements OnInit {
   String descriptionToAdd;
   double valueToAdd;
 
-  RequirementsComponent(this.requirementsService, this.clientsService);
+  RequirementValuesComponent(this.requirementsService, this.clientsService);
 
   @override
   void ngOnInit() async {
@@ -66,22 +61,20 @@ class RequirementsComponent implements OnInit {
   }
 
   //Seleccionar requisito
-  void onSelectRequirement(ProjectRequirement requirement){
+  void onSelectRequirement(ProjectRequirement requirement) {
     assignValuePanel = false;
     resetPanel();
     selected = requirement;
-    isEditing=false;
-  } 
+    isEditing = false;
+  }
 
   //Seleccionar cliente
-  void onSelectRequirementValue(RequirementValue value){
+  void onSelectRequirementValue(RequirementValue value) {
     assignValuePanel = false;
     resetPanel();
     reValue = value;
     isEditing = false;
-  } 
-
-
+  }
 
   // Reiniciar panel
   void resetPanel() {
@@ -116,11 +109,9 @@ class RequirementsComponent implements OnInit {
 
   // Comprobar campos en blanco
   bool checkValue() {
-    if (valueToAdd == null ||
-        titleToAdd == null ||
-        nameToAdd == null ) return false;
+    if (valueToAdd == null || titleToAdd == null || nameToAdd == null)
+      return false;
 
     return true;
   }
-
 }

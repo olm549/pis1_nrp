@@ -8,16 +8,16 @@ import '../components/clients/clients_component.template.dart'
     as clients_template;
 import '../components/requirements/requirements_component.template.dart'
     as requirements_template;
-import '../components/requirements_values/requirements_values_component.template.dart'
-    as requirements_values_template;
-
+import '../components/requirement_values/requirement_values_component.template.dart'
+    as requirement_values_template;
 
 class Paths {
   static final auth = RoutePath(path: 'auth');
   static final projects = RoutePath(path: 'projects');
   static final clients = RoutePath(path: 'clients');
   static final requirements = RoutePath(path: 'requirements');
-  static final requirements_values = RoutePath(path: 'requirements_values');
+  static final requirementValues =
+      RoutePath(path: 'project/requirements/values');
 }
 
 class Routes {
@@ -42,9 +42,9 @@ class Routes {
     component: requirements_template.RequirementsComponentNgFactory,
   );
 
-  static final requirements_values = RouteDefinition(
-    routePath: Paths.requirements_values,
-    component: requirements_values_template.RequirementsComponentNgFactory,
+  static final requirementValues = RouteDefinition(
+    routePath: Paths.requirementValues,
+    component: requirement_values_template.RequirementValuesComponentNgFactory,
   );
 
   static final all = <RouteDefinition>[
@@ -52,6 +52,6 @@ class Routes {
     projects,
     clients,
     requirements,
-    requirements_values,
+    requirementValues,
   ];
 }
