@@ -2,10 +2,17 @@ import 'package:angular/angular.dart';
 import 'package:angular_components/angular_components.dart';
 import 'package:angular_forms/angular_forms.dart';
 
+import '../../models/requirement_value.dart';
 import '../../models/requirement.dart';
+import '../../models/client.dart';
+import '../../models/project_requirement.dart';
+import '../../models/project_client.dart';
 
 import '../../services/requirements/requirements_service.dart';
+import '../../services/clients/clients_service.dart';
 import '../../services/requirements/mock_requirements.dart';
+
+import '../../utils/routing.dart';
 
 @Component(
   selector: 'requirements',
@@ -25,18 +32,22 @@ import '../../services/requirements/mock_requirements.dart';
     MaterialInputComponent,
     materialInputDirectives,
   ],
+   exports: [Paths, Routes],
   providers: [
     const ClassProvider(RequirementsService, useClass: MockRequirements)
   ],
 )
 class RequirementsComponent implements OnInit {
   final RequirementsService requirementsService;
+  final ClientsService clientsService;
 
   @Input()
   bool isEditing = true;
 
   Requirement selected;
-  List<Requirement> requirements;
+  List<ProjectRequirement> requirements;
+  Client selectedC;
+  List<ProjectClient> clients; 
   bool assignValuePanel = false;
   String requirementIdToAdd;
   String titleToAdd;
@@ -44,18 +55,26 @@ class RequirementsComponent implements OnInit {
   String descriptionToAdd;
   double valueToAdd;
 
-  RequirementsComponent(this.requirementsService);
+  RequirementsComponent(this.requirementsService, this.clientsService);
 
   @override
   void ngOnInit() async {
-    requirements = await requirementsService.getRequirements();
+    requirements = await requirementsService.getProjectRequirements();
+    clients = await clientsService.getProjectClients();
   }
 
   //Seleccionar requisito
-  void onSelect(Requirement requirement){
+  void onSelectRequirement(Requirement requirement){
     assignValuePanel = false;
     resetPanel();
     selected = requirement;
+  } 
+
+  //Seleccionar cliente
+  void onSelectClient(Client client){
+    assignValuePanel = false;
+    resetPanel();
+    selectedC = client;
   } 
 
 
@@ -70,7 +89,7 @@ class RequirementsComponent implements OnInit {
   }
 
   // Editar valor de un requisito-cliente
-  void editRequirement() async {
+  void editValue() async {
     isEditing = true;
     assignValuePanel = true;
     requirementIdToAdd = selected.requirementID;
@@ -80,7 +99,7 @@ class RequirementsComponent implements OnInit {
   }
 
   //Cancelar edicion valor
-  void cancelEditRequirement() {
+  void cancelEditValue() {
     resetPanel();
     isEditing = false;
     assignValuePanel = false;
