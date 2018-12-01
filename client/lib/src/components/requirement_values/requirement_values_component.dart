@@ -1,6 +1,7 @@
 import 'package:angular/angular.dart';
 import 'package:angular_components/angular_components.dart';
 import 'package:angular_forms/angular_forms.dart';
+import 'package:client/src/models/requirement.dart';
 
 import '../../models/requirement_value.dart';
 import '../../models/project_requirement.dart';
@@ -9,8 +10,9 @@ import '../../models/project_client.dart';
 import '../../services/requirements/requirements_service.dart';
 import '../../services/clients/clients_service.dart';
 import '../../services/requirements/mock_requirements.dart';
+import '../../services/clients/mock_clients.dart';
 
-import '../../utils/routing.dart';
+//import '../../utils/routing.dart';
 
 @Component(
   selector: 'requirement-values',
@@ -27,15 +29,17 @@ import '../../utils/routing.dart';
     MaterialInputComponent,
     materialInputDirectives,
   ],
-  exports: [Paths, Routes],
+  //exports: [Paths, Routes],
   providers: [
-    const ClassProvider(RequirementsService, useClass: MockRequirements)
+    const ClassProvider(RequirementsService, useClass: MockRequirements), 
+    const ClassProvider(ClientsService, useClass: MockClients),
   ],
 )
 class RequirementValuesComponent implements OnInit {
   final RequirementsService requirementsService;
   final ClientsService clientsService;
 
+ 
   @Input()
   bool isEditing = true;
 
@@ -62,7 +66,7 @@ class RequirementValuesComponent implements OnInit {
 
   //Seleccionar requisito
   void onSelectRequirement(ProjectRequirement requirement) {
-    assignValuePanel = false;
+    assignValuePanel = true;
     resetPanel();
     selected = requirement;
     isEditing = false;

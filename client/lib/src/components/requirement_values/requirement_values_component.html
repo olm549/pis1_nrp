@@ -1,16 +1,18 @@
-<material-list class = "item-list" *ngIf="selected == null">
+<!--<material-list class = "item-list">
     <div>
         <h2 id = "main-title">Asignar valor</h2>
     </div>
 
     <material-dropdown-select>
-         <material-list-item class="item" *ngFor="let projectrequirement of requirements"
-                        [class.selected]="projectrequirement === selected"
-                        (click)="onSelectRequirement(projectrequirement)">
+        <material-list-item class="item" *ngFor="let projectrequirement of requirements"
+            [class.selected]="projectrequirement === selected"
+            (click)="onSelectRequirement(projectrequirement)">
             {{projectrequirement.requirement.title}}
         </material-list-item>
 
     </material-dropdown-select>
+    
+          
 
 </material-list>
 
@@ -27,22 +29,22 @@
     
     </material-list>
 
-<div class = "detail-panel" *ngIf = "reValue != null">
+<div class = "detail-panel" *ngIf = "selected != null">
     <div id = "title">
-        <h2>{{reValue.requirement}}</h2>
+        <h2>{{selected.requirement.title}}</h2>
     </div>
 
     <ul>    
             <li>
-                <label>Nombre: </label>{{reValue.requirement}}
+                <label>Nombre: </label>{{selected.requirement.title}}
             </li>
     
             <li>
-                <label>Cliente: </label>{{reValue.client}}
+                <label>Cliente: </label>{{selected.requirement.title}}
             </li>
 
             <li>
-                <label>Valor: </label>{{reValue.value}}
+                <label>Valor: </label>{{selected.requirement.title}}
             </li>
     
             <div>
@@ -50,4 +52,78 @@
             </div>
         </ul>
 
-</div>
+</div>-->
+
+<material-list class="items-list">
+        <div>
+            <h2 id="main-title">Asignar valor</h2>
+            
+        </div>
+        <material-dropdown-select>
+                <material-list-item class="item" *ngFor="let projectrequirement of requirements"
+                    [class.selected]="projectrequirement === selected"
+                    (click)="onSelectRequirement(projectrequirement)">
+                    {{projectrequirement.requirement.title}}
+                </material-list-item>
+        
+        </material-dropdown-select>
+    </material-list>
+    
+    <div class="detail-panel" *ngIf="selected != null">
+        <div id="title">
+            <h2>{{selected.requirement.title}}</h2>
+        </div>
+        <ul>
+            <li>
+                <label>Requisito:</label>{{selected.requirement.title}}
+            </li>
+    
+            <li>
+                <label>Cliente: </label>{{selected.requirement.title}}
+            </li>
+    
+            <li>
+                <label>Valor: </label>{{selected.requirement.title}}
+            </li>
+    
+            <div>
+                <material-button class="button" raised (click)="editValue()" style="float: left;">Editar Valor</material-button>
+            </div>
+        </ul>
+    </div>
+    
+    <div class="create-panel" *ngIf="assignValuePanel">
+        <div *ngIf="isEditing==false">
+            <h2>Asignar Valor</h2>
+        </div>
+        <div *ngIf="isEditing">
+            <h2>Asignar Valor</h2>
+        </div>
+            <ul>
+                <li>
+                    <material-input type="requirementIdToAdd" label="ID" [floatingLabel]="true" [(ngModel)]="nameToAdd" [required]="true"></material-input>
+                </li>
+    
+                <li>
+                    <material-input type="titleToAdd" label="Nombre" [floatingLabel]="true" [(ngModel)]="titleToAdd" [required]="true"></material-input>
+                </li>
+    
+                <li>
+                    <material-input type="descriptionToAdd" label="Descripcion" [floatingLabel]="true" [(ngModel)]="descriptionToAdd" [required]="true"></material-input>
+                </li>
+    
+                <div class="button" *ngIf="isEditing==false">
+                </div>
+    
+                <div class="button" *ngIf="isEditing">
+
+                </div>
+    
+                <div>
+                    
+                </div>
+            </ul>
+            
+    </div>
+    
+    

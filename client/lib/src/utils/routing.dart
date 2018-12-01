@@ -16,8 +16,7 @@ class Paths {
   static final projects = RoutePath(path: 'projects');
   static final clients = RoutePath(path: 'clients');
   static final requirements = RoutePath(path: 'requirements');
-  static final requirementValues =
-      RoutePath(path: 'project/requirements/values');
+  static final requirement_values = RoutePath(path: 'requirement_values');
 }
 
 class Routes {
@@ -42,9 +41,10 @@ class Routes {
     component: requirements_template.RequirementsComponentNgFactory,
   );
 
-  static final requirementValues = RouteDefinition(
-    routePath: Paths.requirementValues,
+  static final requirement_values = RouteDefinition(
+    routePath: Paths.requirement_values,
     component: requirement_values_template.RequirementValuesComponentNgFactory,
+    //useAsDefault: true,
   );
 
   static final all = <RouteDefinition>[
@@ -52,6 +52,6 @@ class Routes {
     projects,
     clients,
     requirements,
-    requirementValues,
+    requirement_values,
   ];
 }
