@@ -4,15 +4,17 @@
         <material-button class="new-button" raised (click)="editValue()">Asignar Valor</material-button>
     </div>
 
-    <material-list-item class="item" *ngFor="let projectrequirement of requirements"
+    <material-dropdown-select>
+         <material-list-item class="item" *ngFor="let projectrequirement of requirements"
                         [class.selected]="projectrequirement === selected"
                         (click)="onSelectRequirement(projectrequirement)">
-        <span class="badge">{{projectrequirement.requirement.requirementID}}</span> {{projectrequirement.requirement.title}}
-    </material-list-item>
+            <span class="badge">{{projectrequirement.requirement.requirementID}}</span> {{projectrequirement.requirement.title}}
+        </material-list-item>
 
-    <material-list-item class="item" *ngFor="let projectclient of clients" [class.selected]="projectclient === selected" (click)="onSelectClient(projectclient)">
-        <span class="badge">{{projectclient.client.clientID}}</span> {{projectclient.client.name}} {{projectclient.client.surname}}
-    </material-list-item>
+    </material-dropdown-select>
+
+
+
 
 
 </material-list>

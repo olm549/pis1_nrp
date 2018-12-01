@@ -44,12 +44,14 @@ class RequirementsComponent implements OnInit {
   @Input()
   bool isEditing = true;
 
-  Requirement selected;
+  ProjectRequirement selected;
   List<ProjectRequirement> requirements;
-  Client selectedC;
-  List<ProjectClient> clients; 
+  ProjectClient selectedC;
+  List<ProjectClient> clients;
+  List<RequirementValue> values; 
+  RequirementValue reValue;
   bool assignValuePanel = false;
-  String requirementIdToAdd;
+  int requirementIdToAdd;
   String titleToAdd;
   String nameToAdd;
   String descriptionToAdd;
@@ -64,17 +66,19 @@ class RequirementsComponent implements OnInit {
   }
 
   //Seleccionar requisito
-  void onSelectRequirement(Requirement requirement){
+  void onSelectRequirement(ProjectRequirement requirement){
     assignValuePanel = false;
     resetPanel();
     selected = requirement;
+    isEditing=false;
   } 
 
   //Seleccionar cliente
-  void onSelectClient(Client client){
+  void onSelectRequirementValue(RequirementValue value){
     assignValuePanel = false;
     resetPanel();
-    selectedC = client;
+    reValue = value;
+    isEditing = false;
   } 
 
 
@@ -83,7 +87,7 @@ class RequirementsComponent implements OnInit {
   void resetPanel() {
     if (isEditing == false) assignValuePanel = false;
 
-    requirementIdToAdd = "";
+    requirementIdToAdd = "" as int;
     titleToAdd = "";
     descriptionToAdd = "";
   }
@@ -92,9 +96,9 @@ class RequirementsComponent implements OnInit {
   void editValue() async {
     isEditing = true;
     assignValuePanel = true;
-    requirementIdToAdd = selected.requirementID;
-    titleToAdd = selected.title;
-    descriptionToAdd = selected.description;
+    requirementIdToAdd = reValue.id;
+    titleToAdd = reValue.requirement as String;
+    descriptionToAdd = reValue.client as String;
     selected = null;
   }
 
