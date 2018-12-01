@@ -1,21 +1,53 @@
-<!--<material-list class = "item-list">
+<material-list class = "item-list" *ngIf="selected == null">
     <div>
         <h2 id = "main-title">Asignar valor</h2>
-        <material-button class="new-button" raised (click)="editValue()">Asignar Valor</material-button>
     </div>
 
     <material-dropdown-select>
          <material-list-item class="item" *ngFor="let projectrequirement of requirements"
                         [class.selected]="projectrequirement === selected"
                         (click)="onSelectRequirement(projectrequirement)">
-            <span class="badge">{{projectrequirement.requirement.requirementID}}</span> {{projectrequirement.requirement.title}}
+            {{projectrequirement.requirement.title}}
         </material-list-item>
 
     </material-dropdown-select>
 
+</material-list>
 
+<material-list class = "item-list" *ngIf="selected != null">
+        <div>
+            <h2 id = "main-title">{{selected.requirement}}</h2>
 
+        </div>
+        <material-list-item class="item" *ngFor="let requirementvalues of values"
+            [class.selected]="requirementvalues === reValue"
+            (click)="onSelectRequirementValue(requirementvalues)">
+            {{requirementvalues.requirement.title}}
+        </material-list-item>
+    
+    </material-list>
 
+<div class = "detail-panel" *ngIf = "reValue != null">
+    <div id = "title">
+        <h2>{{reValue.requirement}}</h2>
+    </div>
 
-</material-list>-->
-<h1>Test</h1>
+    <ul>    
+            <li>
+                <label>Nombre: </label>{{reValue.requirement}}
+            </li>
+    
+            <li>
+                <label>Cliente: </label>{{reValue.client}}
+            </li>
+
+            <li>
+                <label>Valor: </label>{{reValue.value}}
+            </li>
+    
+            <div>
+                <material-button class="button" raised (click)="editValue()" style="float: left;">Editar Valor</material-button>
+            </div>
+        </ul>
+
+</div>

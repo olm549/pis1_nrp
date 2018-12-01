@@ -89,10 +89,12 @@ class RequirementValuesComponent implements OnInit {
   void editValue() async {
     isEditing = true;
     assignValuePanel = true;
-    requirementIdToAdd = reValue.id;
-    titleToAdd = reValue.requirement as String;
-    descriptionToAdd = reValue.client as String;
+    //requirementIdToAdd = reValue.id;
+    //titleToAdd = reValue.requirement as String;
+    //descriptionToAdd = reValue.client as String;
+    valueToAdd = reValue.value;
     selected = null;
+    reValue = null;
   }
 
   //Cancelar edicion valor
