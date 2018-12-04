@@ -10,7 +10,7 @@
     </material-list-item>
 </material-list>
 
-<div class="detail-panel" *ngIf="selected != null">
+<div class="detail-panel" *ngIf="isEditing==false">
     <div id="title">
         <h2>{{selected.name}}
             <span *ngIf="selected.active == true" class="activo">Activo</span>
@@ -43,7 +43,7 @@
 </div>
 
 <div class="create-panel" *ngIf="createProjectPanel">
-    <div *ngIf="isEditing==false">
+    <div *ngIf="isCreating">
         <h2>Crear Proyecto</h2>
     </div>
     <div *ngIf="isEditing">
@@ -64,12 +64,6 @@
             <material-input type="descriptionToAdd" label="Descripción" [floatingLabel]="true" [(ngModel)]="descriptionToAdd"
                 [required]="true"></material-input>
         </li>
-
-        <!--- da fallo: conflictos con double
-        <li>
-            <material-input type="number" label="Límite de esfuerzo" [floatingLabel]="true" [(ngModel)]="effortLimitToAdd" [required]="true"></material-input>
-        </li>
-        ---->
 
         <li>
             <material-checkbox label="Activo" [required]="true" [(ngModel)]="activeToAdd"></material-checkbox>

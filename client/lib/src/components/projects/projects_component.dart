@@ -35,6 +35,7 @@ class ProjectsComponent implements OnInit {
 
   @Input()
   bool isEditing = true;
+  bool isCreating = false;
 
   Project selected;
   List<Project> projects;
@@ -56,6 +57,7 @@ class ProjectsComponent implements OnInit {
 
   void onSelect(Project project) {
     createProjectPanel = false;
+    isEditing = false;
     resetPanel();
     selected = project;
   }
@@ -79,7 +81,7 @@ class ProjectsComponent implements OnInit {
     effortLimitToAdd = selected.effortLimit;
     activeToAdd = selected.active;
 
-    selected = null;
+    //selected = null;
   }
 
   void confirmEditProject() {
@@ -102,13 +104,14 @@ class ProjectsComponent implements OnInit {
     else
       createProjectPanel = true;
 
-    isEditing = false;
+    isCreating = true;
 
     if (selected != null) selected = null;
   }
 
   void resetPanel() {
     if (isEditing == false) createProjectPanel = false;
+
     projectIdToAdd = "";
     nameToAdd = "";
     descriptionToAdd = "";

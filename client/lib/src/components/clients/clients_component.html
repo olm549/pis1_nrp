@@ -8,7 +8,7 @@
     </material-list-item>
 </material-list>
 
-<div class="detail-panel" *ngIf="selected != null">
+<div class="detail-panel" *ngIf="isEditing==false">
     <div>
         <h2>{{selected.name}} {{selected.surname}}</h2>
     </div>
@@ -33,7 +33,7 @@
 </div>
 
 <div class="create-panel" *ngIf="createClientPanel">
-    <div *ngIf="isEditing==false">
+    <div *ngIf="isCreating">
         <h2>Crear Cliente</h2>
     </div>
     <div *ngIf="isEditing">

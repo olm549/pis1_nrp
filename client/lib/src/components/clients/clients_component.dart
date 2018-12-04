@@ -36,6 +36,7 @@ class ClientsComponent implements OnInit {
 
   @Input()
   bool isEditing = true;
+  bool isCreating = false;
 
   Client selected;
   List<Client> clients;
@@ -51,6 +52,7 @@ class ClientsComponent implements OnInit {
 
   void onSelect(Client client) {
     createClientPanel = false;
+    isEditing = false;
     resetPanel();
     selected = client;
   }
@@ -78,7 +80,7 @@ class ClientsComponent implements OnInit {
     nameToAdd = selected.name;
     surnameToAdd = selected.surname;
 
-    selected = null;
+    //selected = null;
   }
 
   // Método para confirmar la edición de un cliente
@@ -119,7 +121,7 @@ class ClientsComponent implements OnInit {
     else
       createClientPanel = true;
 
-    isEditing = false;
+    isCreating = true;
 
     if (selected != null) selected = null;
   }

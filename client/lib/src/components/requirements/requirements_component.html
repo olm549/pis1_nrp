@@ -10,7 +10,7 @@
     </material-list-item>
 </material-list>
 
-<div class="detail-panel" *ngIf="selected != null">
+<div class="detail-panel" *ngIf="isEditing==false">
     <div id="title">
         <h2>{{selected.title}}</h2>
     </div>
@@ -35,7 +35,7 @@
 </div>
 
 <div class="create-panel" *ngIf="createRequirementPanel">
-    <div *ngIf="isEditing==false">
+    <div *ngIf="isCreating">
         <h2>Crear Requisito</h2>
     </div>
     <div *ngIf="isEditing">
