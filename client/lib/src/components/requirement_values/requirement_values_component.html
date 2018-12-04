@@ -63,67 +63,77 @@
                 <material-list-item class="item" *ngFor="let projectrequirement of requirements"
                     [class.selected]="projectrequirement === selected"
                     (click)="onSelectRequirement(projectrequirement)">
-                    {{projectrequirement.requirement.title}}
+                    <span class="badge">{{projectrequirement.requirement.id}}</span>{{projectrequirement.requirement.title}}
                 </material-list-item>
         
         </material-dropdown-select>
-    </material-list>
+</material-list>
     
-    <div class="detail-panel" *ngIf="selected != null">
-        <div id="title">
-            <h2>{{selected.requirement.title}}</h2>
-        </div>
-        <ul>
-            <li>
-                <label>Requisito:</label>{{selected.requirement.title}}
-            </li>
-    
-            <li>
-                <label>Cliente: </label>{{selected.requirement.title}}
-            </li>
-    
-            <li>
-                <label>Valor: </label>{{selected.requirement.title}}
-            </li>
-    
-            <div>
-                <material-button class="button" raised (click)="editValue()" style="float: left;">Editar Valor</material-button>
-            </div>
-        </ul>
+<!--<div class="detail-panel" *ngIf="selected != null">
+    <div id="title">
+        <h2>{{selected.requirement.title}}</h2>
     </div>
+    <ul>
+        <li>
+            <label>ID:</label>{{selected.requirement.title}}
+        </li>
+
+        <li>
+            <label>Nombre: </label>{{selected.requirement.title}}
+        </li>
+
+        <li>
+            <label>Descripción: </label>{{selected.requirement.title}}
+        </li>
+
+        <div>
+            <material-button class="button" raised (click)="editValue()" style="float: left;">Editar</material-button>
+        </div>
+    </ul>
+</div>-->
     
-    <div class="create-panel" *ngIf="assignValuePanel">
+<div class="create-panel" *ngIf="assignValuePanel">
         <div *ngIf="isEditing==false">
-            <h2>Asignar Valor</h2>
+            <h2>Asignar valor</h2>
         </div>
         <div *ngIf="isEditing">
-            <h2>Asignar Valor</h2>
+            <h2>Clientes</h2>
         </div>
-            <ul>
+
+            <material-list class="items-list" *ngIf="isEditing">
+                <material-dropdown-select>
+                    <material-list-item class="item1" *ngFor="let projectclients of clients"
+                        [class.selected]="projectclients === selectedC"
+                        (click)="onSelectClient(projectclients)">
+                        <span class="badge">{{projectclients.client.id}}</span>{{projectclients.client.name}}
+                    </material-list-item>
+            
+                </material-dropdown-select>
+            </material-list>
+            <ul *ngIf="isEditing==false">
                 <li>
-                    <material-input type="requirementIdToAdd" label="ID" [floatingLabel]="true" [(ngModel)]="nameToAdd" [required]="true"></material-input>
+                    <label>Requisito:</label>{{selected.id}}
                 </li>
     
                 <li>
-                    <material-input type="titleToAdd" label="Nombre" [floatingLabel]="true" [(ngModel)]="titleToAdd" [required]="true"></material-input>
+                    <label>Cliente: </label>{{selectedC.id}}
                 </li>
     
                 <li>
-                    <material-input type="descriptionToAdd" label="Descripcion" [floatingLabel]="true" [(ngModel)]="descriptionToAdd" [required]="true"></material-input>
+                    <material-input type="valueToAdd" label="Valor" [floatingLabel]="true" [(ngModel)]="valueToAdd" [required]="true"></material-input>
                 </li>
     
                 <div class="button" *ngIf="isEditing==false">
+                        <material-button id="edit-requirement" class="button" raised (click)="confirmEditValue()" style="float: right;">Editar</material-button>
                 </div>
     
-                <div class="button" *ngIf="isEditing">
+                <!--<div class="button" *ngIf="isEditing">
 
-                </div>
+                </div>-->
     
                 <div>
                     
                 </div>
             </ul>
             
-    </div>
-    
-    
+</div>

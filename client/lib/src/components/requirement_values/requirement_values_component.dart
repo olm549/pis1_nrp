@@ -72,6 +72,14 @@ class RequirementValuesComponent implements OnInit {
     isEditing = false;
   }
 
+    //Seleccionar cliente
+  void onSelectClient(ProjectClient client) {
+    assignValuePanel = true;
+    //resetPanel();
+    selectedC = client;
+    isEditing = false;
+  }
+
   //Seleccionar cliente
   void onSelectRequirementValue(RequirementValue value) {
     assignValuePanel = false;
