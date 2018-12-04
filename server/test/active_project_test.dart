@@ -70,7 +70,17 @@ Future main() async {
         '/projects/active?newID=${createdProject['id']}',
       );
 
-      expectResponse(response, 200);
+      expectResponse(
+        response,
+        200,
+        body: {
+          'id': createdProject['id'],
+          'projectID': createdProject['projectID'],
+          'name': createdProject['name'],
+          'description': createdProject['description'],
+          'effortLimit': createdProject['effortLimit'],
+        },
+      );
 
       response = await harness.userAgent.get('/projects/active');
 

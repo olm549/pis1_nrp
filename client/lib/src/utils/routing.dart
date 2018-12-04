@@ -8,6 +8,10 @@ import '../components/clients/clients_component.template.dart'
     as clients_template;
 import '../components/requirements/requirements_component.template.dart'
     as requirements_template;
+import '../components/projects_clients/clients_active_component.template.dart'
+    as clients_active_template;
+import '../components/projects_requirements/requirements_active_component.template.dart' 
+    as requirements_active_template;
 import '../components/requirement_values/requirement_values_component.template.dart'
     as requirement_values_template;
 
@@ -16,6 +20,8 @@ class Paths {
   static final projects = RoutePath(path: 'projects');
   static final clients = RoutePath(path: 'clients');
   static final requirements = RoutePath(path: 'requirements');
+  static final clients_active = RoutePath(path: 'clients_active');
+  static final requirements_active = RoutePath(path: 'requirements_active');
   static final requirement_values = RoutePath(path: 'requirement_values');
 }
 
@@ -41,17 +47,28 @@ class Routes {
     component: requirements_template.RequirementsComponentNgFactory,
   );
 
-  static final requirement_values = RouteDefinition(
-    routePath: Paths.requirement_values,
-    component: requirement_values_template.RequirementValuesComponentNgFactory,
-    //useAsDefault: true,
+  static final clients_active = RouteDefinition(
+    routePath: Paths.clients_active,
+    component: clients_active_template.ClientsComponentNgFactory,
   );
 
+  static final requirements_active = RouteDefinition(
+    routePath: Paths.requirements_active,
+    component: requirements_active_template.RequirementsComponentNgFactory,
+  );
+  
+  static final requirement_values = RouteDefinition(
+  routePath: Paths.requirement_values,
+  component: requirement_values_template.RequirementValuesComponentNgFactory,
+  //useAsDefault: true,
+   
   static final all = <RouteDefinition>[
     auth,
     projects,
     clients,
     requirements,
+    clients_active,
+    requirements_active,
     requirement_values,
   ];
 }

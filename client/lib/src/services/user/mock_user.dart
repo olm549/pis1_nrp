@@ -36,7 +36,5 @@ class MockUser extends UserService {
     return _activeProject;
   }
 
-  void changeActiveProject(Project newProject) {
-    _activeProject = newProject;
-  }
+  void changeActiveProject(int id) {}
 }
