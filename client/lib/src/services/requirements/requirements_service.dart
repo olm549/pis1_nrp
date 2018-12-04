@@ -25,6 +25,7 @@ abstract class RequirementsService {
 
   Future<List<ProjectRequirement>> getProjectRequirements();
   Future<bool> addRequirementToProject(ProjectRequirement requirement);
+  Future<bool> addToActiveProject(Requirement requirement);
   Future<bool> deleteActiveRequirement(int id);
   List<Project> getProjectsFromRequirement(Requirement requirement);
   Future<bool> updateEffortClient(int id, double effort);
