@@ -1,6 +1,6 @@
 import '../model/requirement_value.dart';
 
-import '../nrp_server.dart';
+import '../server.dart';
 
 /// A controller that handles requests for the [RequirementValue] resources.
 class RequirementValueController extends ResourceController {

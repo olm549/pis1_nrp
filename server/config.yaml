@@ -1,6 +1,6 @@
 database:
- username: dart
- password: dart
+ username: test
+ password: test
  host: localhost
  port: 5432
- databaseName: dart_test
+ databaseName: nrp_app

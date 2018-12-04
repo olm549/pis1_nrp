@@ -6,6 +6,7 @@ import 'package:angular_router/angular_router.dart';
 import '../../utils/routing.dart';
 
 import '../../services/authentication/authentication_service.dart';
+import '../../services/authentication/http_authentication.dart';
 import '../../services/authentication/mock_authentication.dart';
 
 @Component(
@@ -20,9 +21,10 @@ import '../../services/authentication/mock_authentication.dart';
     formDirectives,
     MaterialInputComponent,
     MaterialButtonComponent,
+    materialInputDirectives,
   ],
   providers: [
-    const ClassProvider(AuthenticationService, useClass: MockAuthentication),
+    const ClassProvider(AuthenticationService, useClass: HttpAuthentication),
   ],
 )
 class AuthenticationComponent {
@@ -31,8 +33,8 @@ class AuthenticationComponent {
 
   AuthenticationComponent(this.authService, this.router);
 
-  String signInEmail = "hola@test.com";
-  String signInPassword = "asd";
+  String signInEmail;
+  String signInPassword;
 
   String signUpEmail;
   String signUpPassword;
@@ -48,7 +50,11 @@ class AuthenticationComponent {
 
   void signUp() async {
     if (signUpPassword == signUpPassword2) {
-      await authService.signUp(signUpEmail, signUpPassword);
+      bool succesful = await authService.signUp(signUpEmail, signUpPassword);
+
+      if (succesful) {
+        print("Registro correcto");
+      }
     }
   }
 }

@@ -1,7 +1,7 @@
 import '../model/client.dart';
 import '../model/project.dart';
 
-import '../nrp_server.dart';
+import '../server.dart';
 
 /// A controller that handles requests for the [Client] resources.
 class ClientController extends ResourceController {

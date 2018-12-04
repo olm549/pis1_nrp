@@ -1,6 +1,6 @@
 import '../model/project.dart';
 
-import '../nrp_server.dart';
+import '../server.dart';
 
 /// A controller that handles requests for the [Project] resources.
 class ProjectController extends ResourceController {

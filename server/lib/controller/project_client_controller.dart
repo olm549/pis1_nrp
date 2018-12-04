@@ -2,7 +2,7 @@ import '../model/project_client.dart';
 import '../model/project_requirement.dart';
 import '../model/requirement_value.dart';
 
-import '../nrp_server.dart';
+import '../server.dart';
 
 /// A controller that handles requests for the [ProjectClient] resources.
 class ProjectClientController extends ResourceController {

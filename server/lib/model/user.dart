@@ -1,8 +1,6 @@
-import '../nrp_server.dart';
+import '../server.dart';
 
-import './client.dart';
 import './project.dart';
-import './requirement.dart';
 
 class User extends ManagedObject<_User>
     implements _User, ManagedAuthResourceOwner<_User> {
