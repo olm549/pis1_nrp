@@ -12,7 +12,9 @@
 
 <div class="detail-panel" *ngIf="selected != null">
     <div id="title">
-        <h2>{{selected.title}}</h2>
+        <h2>{{selected.title}}
+            <material-button id="anadir-button" class="button" raised (click)="addToActiveProject()">Añadir a proyecto activo</material-button>
+        </h2>
     </div>
     <ul>
         <li>
@@ -29,7 +31,6 @@
 
         <div>
             <material-button class="button" raised (click)="editRequirement()" style="float: left;">Editar</material-button>
-            <material-button id="activar-button" class="button" raised (click)="addToActiveProject()" style="float: left;">Añadir a proyecto activo</material-button>
             <material-button class="delete-button" raised (click)="deleteRequirement()" style="float: right;">Eliminar</material-button>
         </div>
     </ul>
@@ -68,6 +69,5 @@
                 <material-button class="button cancel-edit" raised (click)="cancelEditRequirement()" style="float: left;">Cancelar</material-button>
             </div>
         </ul>
-        
 </div>
 
