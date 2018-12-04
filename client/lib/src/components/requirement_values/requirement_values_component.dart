@@ -1,7 +1,6 @@
 import 'package:angular/angular.dart';
 import 'package:angular_components/angular_components.dart';
 import 'package:angular_forms/angular_forms.dart';
-import 'package:client/src/models/requirement.dart';
 
 import '../../models/requirement_value.dart';
 import '../../models/project_requirement.dart';
@@ -18,6 +17,7 @@ import '../../services/clients/mock_clients.dart';
   selector: 'requirement-values',
   styleUrls: const [
     '../../styles/styles.css',
+    '../../styles/requirement_values_component.css',
   ],
   templateUrl: 'requirement_values_component.html',
   directives: [
@@ -38,22 +38,18 @@ import '../../services/clients/mock_clients.dart';
 class RequirementValuesComponent implements OnInit {
   final RequirementsService requirementsService;
   final ClientsService clientsService;
-
  
   @Input()
   bool isEditing = true;
 
-  ProjectRequirement selected;
+  ProjectRequirement selectedReq;
   List<ProjectRequirement> requirements;
-  ProjectClient selectedC;
+  ProjectClient selectedClient;
   List<ProjectClient> clients;
   List<RequirementValue> values;
   RequirementValue reValue;
   bool assignValuePanel = false;
-  int requirementIdToAdd;
-  String titleToAdd;
-  String nameToAdd;
-  String descriptionToAdd;
+
   double valueToAdd;
 
   RequirementValuesComponent(this.requirementsService, this.clientsService);
@@ -67,16 +63,15 @@ class RequirementValuesComponent implements OnInit {
   //Seleccionar requisito
   void onSelectRequirement(ProjectRequirement requirement) {
     assignValuePanel = true;
-    resetPanel();
-    selected = requirement;
-    isEditing = false;
+    selectedReq = requirement;
+    selectedClient = null;
+    isEditing = true;
   }
 
-    //Seleccionar cliente
+  //Seleccionar cliente
   void onSelectClient(ProjectClient client) {
     assignValuePanel = true;
-    //resetPanel();
-    selectedC = client;
+    selectedClient = client;
     isEditing = false;
   }
 
@@ -91,21 +86,14 @@ class RequirementValuesComponent implements OnInit {
   // Reiniciar panel
   void resetPanel() {
     if (isEditing == false) assignValuePanel = false;
-
-    requirementIdToAdd = "" as int;
-    titleToAdd = "";
-    descriptionToAdd = "";
   }
 
   // Editar valor de un requisito-cliente
   void editValue() async {
     isEditing = true;
     assignValuePanel = true;
-    //requirementIdToAdd = reValue.id;
-    //titleToAdd = reValue.requirement as String;
-    //descriptionToAdd = reValue.client as String;
     valueToAdd = reValue.value;
-    selected = null;
+    selectedReq = null;
     reValue = null;
   }
 
@@ -123,7 +111,7 @@ class RequirementValuesComponent implements OnInit {
 
   // Comprobar campos en blanco
   bool checkValue() {
-    if (valueToAdd == null || titleToAdd == null || nameToAdd == null)
+    if (valueToAdd == null)
       return false;
 
     return true;

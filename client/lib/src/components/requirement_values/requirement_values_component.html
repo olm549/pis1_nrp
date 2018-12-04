@@ -1,139 +1,45 @@
-<!--<material-list class = "item-list">
+<material-list class="items-list">
     <div>
-        <h2 id = "main-title">Asignar valor</h2>
+        <h2 id="main-title">Requisitos del proyecto</h2>
     </div>
-
-    <material-dropdown-select>
-        <material-list-item class="item" *ngFor="let projectrequirement of requirements"
-            [class.selected]="projectrequirement === selected"
-            (click)="onSelectRequirement(projectrequirement)">
-            {{projectrequirement.requirement.title}}
-        </material-list-item>
-
-    </material-dropdown-select>
-    
-          
-
+    <material-list-item class="item" *ngFor="let projectrequirement of requirements"
+                        [class.selected]="projectrequirement === selectedReq"
+                        (click)="onSelectRequirement(projectrequirement)">
+        <span class="badge req">{{projectrequirement.requirement.id}}</span>{{projectrequirement.requirement.title}}
+    </material-list-item>
 </material-list>
-
-<material-list class = "item-list" *ngIf="selected != null">
-        <div>
-            <h2 id = "main-title">{{selected.requirement}}</h2>
-
-        </div>
-        <material-list-item class="item" *ngFor="let requirementvalues of values"
-            [class.selected]="requirementvalues === reValue"
-            (click)="onSelectRequirementValue(requirementvalues)">
-            {{requirementvalues.requirement.title}}
-        </material-list-item>
     
-    </material-list>
-
-<div class = "detail-panel" *ngIf = "selected != null">
-    <div id = "title">
-        <h2>{{selected.requirement.title}}</h2>
-    </div>
-
-    <ul>    
+<div class="detail-panel" *ngIf="assignValuePanel">
+    <div *ngIf="isEditing==false">
+        <h2>Asignar valor</h2>
+        <ul>
             <li>
-                <label>Nombre: </label>{{selected.requirement.title}}
-            </li>
-    
-            <li>
-                <label>Cliente: </label>{{selected.requirement.title}}
+                <label>Requisito:</label>{{selectedReq.id}}
             </li>
 
             <li>
-                <label>Valor: </label>{{selected.requirement.title}}
+                <label>Cliente: </label>{{selectedClient.id}}
             </li>
-    
-            <div>
-                <material-button class="button" raised (click)="editValue()" style="float: left;">Editar Valor</material-button>
+
+            <li>
+                <material-input type="valueToAdd" label="Valor" [floatingLabel]="true" [(ngModel)]="valueToAdd" [required]="true"></material-input>
+            </li>
+
+            <div class="button" *ngIf="isEditing==false">
+                <material-button id="edit-requirement" class="button" raised (click)="confirmEditValue()" style="float: right;">Editar</material-button>
             </div>
         </ul>
-
-</div>-->
-
-<material-list class="items-list">
-        <div>
-            <h2 id="main-title">Asignar valor</h2>
-            
-        </div>
-        <material-dropdown-select>
-                <material-list-item class="item" *ngFor="let projectrequirement of requirements"
-                    [class.selected]="projectrequirement === selected"
-                    (click)="onSelectRequirement(projectrequirement)">
-                    <span class="badge">{{projectrequirement.requirement.id}}</span>{{projectrequirement.requirement.title}}
-                </material-list-item>
-        
-        </material-dropdown-select>
-</material-list>
-    
-<!--<div class="detail-panel" *ngIf="selected != null">
-    <div id="title">
-        <h2>{{selected.requirement.title}}</h2>
     </div>
-    <ul>
-        <li>
-            <label>ID:</label>{{selected.requirement.title}}
-        </li>
 
-        <li>
-            <label>Nombre: </label>{{selected.requirement.title}}
-        </li>
+    <div *ngIf="isEditing">
+        <h2>Clientes relacionados</h2>
 
-        <li>
-            <label>Descripción: </label>{{selected.requirement.title}}
-        </li>
-
-        <div>
-            <material-button class="button" raised (click)="editValue()" style="float: left;">Editar</material-button>
-        </div>
-    </ul>
-</div>-->
-    
-<div class="create-panel" *ngIf="assignValuePanel">
-        <div *ngIf="isEditing==false">
-            <h2>Asignar valor</h2>
-        </div>
-        <div *ngIf="isEditing">
-            <h2>Clientes</h2>
-        </div>
-
-            <material-list class="items-list" *ngIf="isEditing">
-                <material-dropdown-select>
-                    <material-list-item class="item1" *ngFor="let projectclients of clients"
-                        [class.selected]="projectclients === selectedC"
-                        (click)="onSelectClient(projectclients)">
-                        <span class="badge">{{projectclients.client.id}}</span>{{projectclients.client.name}}
-                    </material-list-item>
-            
-                </material-dropdown-select>
-            </material-list>
-            <ul *ngIf="isEditing==false">
-                <li>
-                    <label>Requisito:</label>{{selected.id}}
-                </li>
-    
-                <li>
-                    <label>Cliente: </label>{{selectedC.id}}
-                </li>
-    
-                <li>
-                    <material-input type="valueToAdd" label="Valor" [floatingLabel]="true" [(ngModel)]="valueToAdd" [required]="true"></material-input>
-                </li>
-    
-                <div class="button" *ngIf="isEditing==false">
-                        <material-button id="edit-requirement" class="button" raised (click)="confirmEditValue()" style="float: right;">Editar</material-button>
-                </div>
-    
-                <!--<div class="button" *ngIf="isEditing">
-
-                </div>-->
-    
-                <div>
-                    
-                </div>
-            </ul>
-            
+        <material-list *ngIf="isEditing">
+            <material-list-item *ngFor="let projectclients of clients"
+                                [class.selected]="projectclients === selectedClient"
+                                (click)="onSelectClient(projectclients)">
+                <span class="badge client">{{projectclients.client.id}}</span>{{projectclients.client.name}}
+            </material-list-item>
+        </material-list>
+    </div>
 </div>
