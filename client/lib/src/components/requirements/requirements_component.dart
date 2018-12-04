@@ -129,4 +129,8 @@ class RequirementsComponent implements OnInit {
 
     return true;
   }
+  void addToActiveProject() async{
+    if (selected == null) return;
+    Future<bool> requirementadded = requirementsService.addToActiveProject(selected);
+  }
 }

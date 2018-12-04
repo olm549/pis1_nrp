@@ -115,3 +115,16 @@ material-list-item {
     min-height: 550px;
     padding-top: 10px;
 }
+
+/*
+ * BOTÓN AÑADIR A PROYECTO ACTIVO
+ *
+ * 1. Color de fondo: red
+ * 2. Color de texto: blanco
+ */
+#anadir-button{
+    border-radius: 4px 4px 4px 4px;
+    font-size: small;
+    color: white;
+    background: #f4b400;
+}

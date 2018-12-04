@@ -12,7 +12,9 @@
 
 <div class="detail-panel" *ngIf="isEditing==false">
     <div id="title">
-        <h2>{{selected.title}}</h2>
+        <h2>{{selected.title}}
+            <material-button id="anadir-button" class="button" raised (click)="addToActiveProject()">Añadir a proyecto activo</material-button>
+        </h2>
     </div>
     <ul>
         <li>
@@ -67,6 +69,5 @@
                 <material-button class="button cancel-edit" raised (click)="cancelEditRequirement()" style="float: left;">Cancelar</material-button>
             </div>
         </ul>
-        
 </div>
 
