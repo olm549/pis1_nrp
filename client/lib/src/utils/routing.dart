@@ -58,10 +58,10 @@ class Routes {
   );
   
   static final requirement_values = RouteDefinition(
-  routePath: Paths.requirement_values,
-  component: requirement_values_template.RequirementValuesComponentNgFactory,
-  //useAsDefault: true,
-   
+    routePath: Paths.requirement_values,
+    component: requirement_values_template.RequirementValuesComponentNgFactory,
+  );
+
   static final all = <RouteDefinition>[
     auth,
     projects,
