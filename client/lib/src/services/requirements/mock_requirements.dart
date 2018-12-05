@@ -17,22 +17,8 @@ class MockRequirements implements RequirementsService {
   ];
 
   static final requirementProjects = <Project>[
-    Project(
-      id: 1,
-      projectID: 'P001',
-      name: 'Hola',
-      description: 'Adios',
-      effortLimit: 3.0,
-      active: false,
-    ),
-    Project(
-      id: 2,
-      projectID: 'P002',
-      name: 'PRIS2018',
-      description: 'Proyecto de la asignatura',
-      effortLimit: 5.0,
-      active: false,
-    ),
+    Project(1, 'P001', 'Hola', 'Adios', 3.0, false),
+    Project(2, 'P002', 'PRIS2018', 'Proyecto de la asignatura', 5.0, false),
   ];
 
   Future<List<Requirement>> getRequirements() async {

@@ -9,10 +9,11 @@ class ProjectClient {
 
   factory ProjectClient.fromJson(Map<String, dynamic> projectClient) {
     return ProjectClient(
-      projectClient['id'],
-      projectClient['weight'],
-      Client.fromJson(projectClient[
-          'client']), // TODO: Check nullability of client's values.
+      projectClient.containsKey('id') ? projectClient['id'] : null,
+      projectClient.containsKey('weight') ? projectClient['weight'] : null,
+      projectClient.containsKey('client')
+          ? Client.fromJson(projectClient['client'])
+          : null,
     );
   }
 
@@ -20,6 +21,7 @@ class ProjectClient {
     return {
       'id': id,
       'weight': weight,
+      'client': client.toJson(),
     };
   }
 }

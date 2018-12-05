@@ -9,7 +9,7 @@
     </material-list-item>
 </material-list>
 
-<div class="detail-panel" *ngIf="isEditing==false">
+<div class="detail-panel" *ngIf="selected!=null&&!createProjectPanel">
     <div id="title">
         <h2>{{selected.name}}
             <span *ngIf="selected.active == true" class="activo">Activo</span>
@@ -68,7 +68,7 @@
                 [required]="true"></material-input>
         </li>
 
-        <div class="button" *ngIf="isEditing==false">
+        <div class="button" *ngIf="isCreating">
             <material-button id="create-project" class="button" raised (click)="createProject()" style="float: right;">Crear</material-button>
         </div>
 

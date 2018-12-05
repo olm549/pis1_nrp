@@ -15,11 +15,16 @@ class ProjectRequirement {
 
   factory ProjectRequirement.fromJson(Map<String, dynamic> projectRequirement) {
     return ProjectRequirement(
-      projectRequirement['id'],
-      projectRequirement['estimatedEffort'],
-      projectRequirement['satisfaction'],
-      Requirement.fromJson(projectRequirement[
-          'requirement']), // TODO: Check nullability of requirement's values.
+      projectRequirement.containsKey('id') ? projectRequirement['id'] : null,
+      projectRequirement.containsKey('estimatedEffort')
+          ? projectRequirement['estimatedEffort']
+          : null,
+      projectRequirement.containsKey('satisfaction')
+          ? projectRequirement['satisfaction']
+          : null,
+      projectRequirement.containsKey('requirement')
+          ? Requirement.fromJson(projectRequirement['requirement'])
+          : null,
     );
   }
 
@@ -28,6 +33,7 @@ class ProjectRequirement {
       'id': id,
       'estimatedEffort': estimatedEffort,
       'satisfaction': satisfaction,
+      'requirement': requirement.toJson(),
     };
   }
 }

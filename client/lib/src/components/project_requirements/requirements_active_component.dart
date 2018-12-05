@@ -7,8 +7,9 @@ import '../../models/requirement.dart';
 import '../../models/project.dart';
 import '../../models/project_requirement.dart';
 
-import '../../services/requirements/requirements_service.dart';
-import '../../services/requirements/mock_requirements.dart';
+import '../../services/project_requirements/project_requirements_service.dart';
+import '../../services/project_requirements/http_project_requirements.dart';
+import '../../services/project_requirements/mock_project_requirements.dart';
 
 @Component(
   selector: 'requirements',
@@ -27,24 +28,23 @@ import '../../services/requirements/mock_requirements.dart';
     MaterialButtonComponent,
     MaterialInputComponent,
     materialInputDirectives,
+    materialNumberInputDirectives,
   ],
   exports: [Paths, Routes],
   providers: [
-    const ClassProvider(RequirementsService, useClass: MockRequirements)
+    const ClassProvider(ProjectRequirementService,
+        useClass: HttpProjectRequirements)
   ],
 )
 class RequirementsComponent implements OnInit {
-  final RequirementsService requirementsService;
+  final ProjectRequirementService requirementsService;
 
-  @Input()
-  
+  bool isEditing = false;
+
   ProjectRequirement selected;
   List<ProjectRequirement> activeRequirements;
-  bool createRequirementPanel = true;
-  Project currentProject;
-  bool isEditing = false;
-  List<Project> projectsRequirement;  //Lista de proyectos a los que pertenece
-  String effortToAdd;
+
+  double effortToAdd;
 
   RequirementsComponent(this.requirementsService);
 
@@ -53,62 +53,48 @@ class RequirementsComponent implements OnInit {
     activeRequirements = await requirementsService.getProjectRequirements();
   }
 
-  void onSelect(ProjectRequirement activeRequirement){
-    getProjectsFromRequirement(activeRequirement.requirement);
-    createRequirementPanel = true;
+  void onSelect(ProjectRequirement activeRequirement) {
     selected = activeRequirement;
+
     isEditing = false;
   }
 
-  //Añadir requisito al proyecto
-  void addRequirementToProject(){
-    if (selected == null) return;
-
-    Future<bool> b = requirementsService.addRequirementToProject(selected);
-  } 
-
   //Elimina un requisito activo
-  void removeActiveRequirement() async{
-    bool deleteActiveRequirement = await requirementsService.deleteActiveRequirement(selected.id);
+  void removeActiveRequirement() async {
+    bool deleted =
+        await requirementsService.deleteProjectRequirement(selected.id);
 
-    if (deleteActiveRequirement) {
+    if (deleted) {
       activeRequirements.remove(selected);
+
       selected = null;
+      isEditing = false;
     }
-  }
-
-  //Devuelve los proyectos a los que pertenece un requisito
-  void getProjectsFromRequirement(Requirement requirement){
-
-    projectsRequirement = requirementsService.getProjectsFromRequirement(requirement);
-    
   }
 
   //Abre el panel de editar esfuerzo
-  void editEffort(){
-    if (isEditing == false){
-      isEditing = true;
-    }else{
-      isEditing = false;
-      effortToAdd = null;
-    }
+  void editEffort() {
+    isEditing = true;
+
+    effortToAdd = selected.estimatedEffort;
   }
 
   //Edita el peso de un requisito
-  void confirmEditEffort() async{
-    if (effortToAdd == null || effortToAdd == "") return;
-    double effort;
-    try{
-      effort = double.parse(effortToAdd);
-    }catch(e){
-      return;
-    }
+  void confirmEditEffort() async {
+    ProjectRequirement updatedRequirement = await requirementsService
+        .updateProjectRequirement(selected.id, effortToAdd);
 
-    bool effortEdited = await requirementsService.updateEffortClient(selected.id, effort);
-    if(effortEdited){
+    if (updatedRequirement != null) {
+      activeRequirements.remove(selected);
+      activeRequirements.add(updatedRequirement);
+
       isEditing = false;
-      selected.estimatedEffort = effort;
-    }
 
+      selected = updatedRequirement;
+    }
+  }
+
+  void cancelEditEffort() {
+    isEditing = false;
   }
 }

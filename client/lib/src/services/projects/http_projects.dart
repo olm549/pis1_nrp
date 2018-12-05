@@ -85,7 +85,6 @@ class HttpProjects implements ProjectsService {
     String name,
     String description,
     double effortLimit,
-    bool active,
   ) async {
     try {
       final response = await _httpService.getClient().put(
@@ -100,7 +99,6 @@ class HttpProjects implements ProjectsService {
               'name': name,
               'description': description,
               'effortLimit': effortLimit,
-              'active': active,
             }),
           );
 

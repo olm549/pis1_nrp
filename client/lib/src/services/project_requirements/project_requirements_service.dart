@@ -8,7 +8,6 @@ abstract class ProjectRequirementService {
   Future<ProjectRequirement> updateProjectRequirement(
     int requirementID,
     double estimatedEffort,
-    double satisfaction,
   );
 
   Future<bool> deleteProjectRequirement(int requirementID);

@@ -18,13 +18,82 @@ class HttpProjectRequirements extends ProjectRequirementService {
 
   HttpProjectRequirements(this._httpService, this._userService);
 
-  Future<List<ProjectRequirement>> getProjectRequirements() async {}
+  Future<List<ProjectRequirement>> getProjectRequirements() async {
+    try {
+      final response = await _httpService.getClient().get(
+        '${_httpService.getUrl()}/projects/${_userService.getActiveProject().id}/requirements',
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader:
+              'Bearer ${_userService.getAccessToken()}',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final projectRequirements = (_httpService.extractData(response) as List)
+            .map((value) => ProjectRequirement.fromJson(value))
+            .toList();
+
+        return projectRequirements;
+      } else {
+        // 404 response.
+        return [];
+      }
+    } catch (e) {
+      _httpService.handleError(e);
+    }
+  }
 
   Future<ProjectRequirement> updateProjectRequirement(
     int requirementID,
     double estimatedEffort,
-    double satisfaction,
-  ) async {}
+  ) async {
+    try {
+      final response = await _httpService.getClient().put(
+            '${_httpService.getUrl()}/projects/${_userService.getActiveProject().id}/requirements/$requirementID',
+            headers: {
+              HttpHeaders.contentTypeHeader: 'application/json',
+              HttpHeaders.authorizationHeader:
+                  'Bearer ${_userService.getAccessToken()}',
+            },
+            body: jsonEncode({
+              'estimatedEffort': estimatedEffort,
+            }),
+          );
 
-  Future<bool> deleteProjectRequirement(int requirementID) async {}
+      if (response.statusCode == 200) {
+        final updatedProjectRequirement =
+            ProjectRequirement.fromJson(_httpService.extractData(response));
+
+        return updatedProjectRequirement;
+      } else {
+        // 401 response.
+        return null;
+      }
+    } catch (e) {
+      _httpService.handleError(e);
+    }
+  }
+
+  Future<bool> deleteProjectRequirement(int requirementID) async {
+    try {
+      final response = await _httpService.getClient().delete(
+        '${_httpService.getUrl()}/projects/${_userService.getActiveProject().id}/requirements/$requirementID',
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader:
+              'Bearer ${_userService.getAccessToken()}',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        // 401 response.
+        return false;
+      }
+    } catch (e) {
+      _httpService.handleError(e);
+    }
+  }
 }

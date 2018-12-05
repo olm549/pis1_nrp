@@ -7,8 +7,9 @@ import '../../models/client.dart';
 import '../../models/project.dart';
 import '../../models/project_client.dart';
 
-import '../../services/clients/clients_service.dart';
-import '../../services/clients/mock_clients.dart';
+import '../../services/project_clients/project_clients_service.dart';
+import '../../services/project_clients/http_project_clients.dart';
+import '../../services/project_clients/mock_project_clients.dart';
 
 import '../../utils/routing.dart';
 
@@ -30,25 +31,24 @@ import '../../utils/routing.dart';
     MaterialButtonComponent,
     MaterialInputComponent,
     materialInputDirectives,
+    materialNumberInputDirectives,
   ],
   exports: [Paths, Routes],
   providers: [
-    const ClassProvider(ClientsService, useClass: MockClients),
+    const ClassProvider(ProjectClientsService, useClass: HttpProjectClients),
   ],
 )
 class ClientsComponent implements OnInit {
-  final ClientsService clientsService;
+  final ProjectClientsService clientsService;
 
   ClientsComponent(this.clientsService);
 
-  @Input()
+  bool isEditing = false;
 
   ProjectClient selected;
   List<ProjectClient> activeClients;
-  bool openClientPanel = true;
-  List<Project> projectsClient; //Proyectos en los que está un cliente
-  bool isEditing = false;
-  String weightToAdd;
+
+  double weightToAdd;
 
   @override
   void ngOnInit() async {
@@ -56,61 +56,46 @@ class ClientsComponent implements OnInit {
   }
 
   void onSelect(ProjectClient activeClient) {
-    openClientPanel = true;
     selected = activeClient;
-    getProjectsFromClient(activeClient.client);
+
     isEditing = false;
   }
 
-  //Añadir cliente a un proyecto
-  void addClientToProject(){
-    if (selected == null) return;
-    Future<bool> clientAdded = clientsService.addClientToProject(selected.client);
-
-  }
-
-  //Devuelve los proyectos a los que pertenece un cliente
-  void getProjectsFromClient(Client client){
-
-    projectsClient = clientsService.getProjectsFromClients(client);
-    
-  }
-
   //Elimina un cliente activo
-  void removeActiveClient() async{
-    bool deletedActiveClient = await clientsService.deleteActiveClient(selected.id);
-    if (deletedActiveClient) {
+  void removeActiveClient() async {
+    bool deleted = await clientsService.deleteProjectClient(selected.id);
+
+    if (deleted) {
       activeClients.remove(selected);
+
       selected = null;
+      isEditing = false;
     }
   }
-  
+
   //Abre el panel de editar peso
-  void editWeight(){
-    if (isEditing == false){
-      isEditing = true;
-    }else{
-      isEditing = false;
-      weightToAdd = null;
-    }
+  void editWeight() {
+    isEditing = true;
+
+    weightToAdd = selected.weight;
   }
 
   //Edita el peso de un cliente específico
-  void confirmEditWeight() async{
-    if (weightToAdd == null || weightToAdd == "") return;
+  void confirmEditWeight() async {
+    ProjectClient updatedClient =
+        await clientsService.updateProjectClient(selected.id, weightToAdd);
 
-    double weight;
-    try{
-      weight = double.parse(weightToAdd);
-    }catch(e){
-      return;
-    }
-    bool weightEdited = await clientsService.updateWeightClient(selected.id ,weight);
+    if (updatedClient != null) {
+      activeClients.remove(selected);
+      activeClients.add(updatedClient);
 
-    if (weightEdited) {
       isEditing = false;
-      selected.weight = weight;
+
+      selected = updatedClient;
     }
   }
-  
+
+  void cancelEditWeight() {
+    isEditing = false;
+  }
 }

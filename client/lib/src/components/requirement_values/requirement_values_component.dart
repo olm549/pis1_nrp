@@ -7,8 +7,10 @@ import '../../models/project_requirement.dart';
 import '../../models/project_client.dart';
 
 import '../../services/project_requirements/project_requirements_service.dart';
+import '../../services/project_requirements/http_project_requirements.dart';
 import '../../services/project_requirements/mock_project_requirements.dart';
 import '../../services/project_clients/project_clients_service.dart';
+import '../../services/project_clients/http_project_clients.dart';
 import '../../services/project_clients/mock_project_clients.dart';
 
 //import '../../utils/routing.dart';
@@ -32,8 +34,8 @@ import '../../services/project_clients/mock_project_clients.dart';
   //exports: [Paths, Routes],
   providers: [
     const ClassProvider(ProjectRequirementService,
-        useClass: MockProjectRequirements),
-    const ClassProvider(ProjectClientsService, useClass: MockProjectClients),
+        useClass: HttpProjectRequirements),
+    const ClassProvider(ProjectClientsService, useClass: HttpProjectClients),
   ],
 )
 class RequirementValuesComponent implements OnInit {

@@ -2,27 +2,28 @@
     <div>
         <h2 id="main-title">Requisitos del proyecto</h2>
     </div>
-    <material-list-item class="item" *ngFor="let projectrequirement of requirements"
-                        [class.selected]="projectrequirement === selectedReq"
-                        (click)="onSelectRequirement(projectrequirement)">
-        <span class="badge req">{{projectrequirement.requirement.id}}</span>{{projectrequirement.requirement.title}}
+    <material-list-item class="item" *ngFor="let projectrequirement of requirements" [class.selected]="projectrequirement === selectedReq"
+        (click)="onSelectRequirement(projectrequirement)">
+        <span class="badge req">{{projectrequirement.requirement.requirementID}}</span>{{projectrequirement.requirement.title}}
     </material-list-item>
 </material-list>
-    
+
 <div class="detail-panel" *ngIf="assignValuePanel">
     <div *ngIf="isEditing==false">
         <h2>Asignar valor</h2>
         <ul>
             <li>
-                <label>Requisito:</label>{{selectedReq.id}}
+                <label>Requisito:</label>{{selectedReq.requirement.requirementID}} - {{selectedReq.requirement.title}}
             </li>
 
             <li>
-                <label>Cliente: </label>{{selectedClient.id}}
+                <label>Cliente: </label>{{selectedClient.client.clientID}} - {{selectedClient.client.name}}
+                {{selectedClient.client.surname}}
             </li>
 
             <li>
-                <material-input type="valueToAdd" label="Valor" [floatingLabel]="true" [(ngModel)]="valueToAdd" [required]="true"></material-input>
+                <material-input type="valueToAdd" label="Valor" [floatingLabel]="true" [(ngModel)]="valueToAdd"
+                    [required]="true"></material-input>
             </li>
 
             <div class="button" *ngIf="isEditing==false">
@@ -35,10 +36,10 @@
         <h2>Clientes relacionados</h2>
 
         <material-list *ngIf="isEditing">
-            <material-list-item *ngFor="let projectclients of clients"
-                                [class.selected]="projectclients === selectedClient"
-                                (click)="onSelectClient(projectclients)">
-                <span class="badge client">{{projectclients.client.id}}</span>{{projectclients.client.name}}
+            <material-list-item *ngFor="let projectclients of clients" [class.selected]="projectclients === selectedClient"
+                (click)="onSelectClient(projectclients)">
+                <span class="badge client">{{projectclients.client.clientID}}</span>{{projectclients.client.name}}
+                {{projectclients.client.surname}}
             </material-list-item>
         </material-list>
     </div>

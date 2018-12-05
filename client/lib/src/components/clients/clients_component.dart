@@ -5,6 +5,7 @@ import 'package:angular_forms/angular_forms.dart';
 import '../../models/client.dart';
 
 import '../../services/clients/clients_service.dart';
+import '../../services/clients/http_clients.dart';
 import '../../services/clients/mock_clients.dart';
 
 @Component(
@@ -26,7 +27,7 @@ import '../../services/clients/mock_clients.dart';
     materialInputDirectives,
   ],
   providers: [
-    const ClassProvider(ClientsService, useClass: MockClients),
+    const ClassProvider(ClientsService, useClass: HttpClients),
   ],
 )
 class ClientsComponent implements OnInit {
@@ -34,13 +35,14 @@ class ClientsComponent implements OnInit {
 
   ClientsComponent(this.clientsService);
 
-  @Input()
-  bool isEditing = true;
+  bool isEditing = false;
   bool isCreating = false;
 
   Client selected;
   List<Client> clients;
+
   bool createClientPanel = false;
+
   String clientIdToAdd;
   String nameToAdd;
   String surnameToAdd;
@@ -53,54 +55,52 @@ class ClientsComponent implements OnInit {
   void onSelect(Client client) {
     createClientPanel = false;
     isEditing = false;
-    resetPanel();
+    isCreating = false;
+
     selected = client;
   }
 
   // Método para confirmar creación del cliente
   void createClient() async {
-    if (!comprobarClient()) return;
-
     Client createdClient = await clientsService.createClient(
         clientIdToAdd, nameToAdd, surnameToAdd);
 
     if (createdClient != null) {
-      clients.add(createdClient);
-
       createClientPanel = false;
+
+      clients.add(createdClient);
     }
   }
 
   // Método para abrir la ventana de edición de un cliente
   void editClient() async {
     isEditing = true;
+    isCreating = false;
     createClientPanel = true;
 
     clientIdToAdd = selected.clientID;
     nameToAdd = selected.name;
     surnameToAdd = selected.surname;
-
-    //selected = null;
   }
 
   // Método para confirmar la edición de un cliente
   void confirmEditClient() async {
-    if (!comprobarClient()) return;
-
     Client updatedClient = await clientsService.updateClient(
       selected.id,
-      selected.clientID,
-      selected.name,
-      selected.surname,
+      clientIdToAdd,
+      nameToAdd,
+      surnameToAdd,
     );
 
-    // TODO: Revisar implementación.
-    clients.remove(selected);
+    if (updatedClient != null) {
+      clients.remove(selected);
+      clients.add(updatedClient);
 
-    isEditing = false;
-    createClientPanel = false;
+      createClientPanel = false;
+      isEditing = false;
 
-    clients.add(updatedClient);
+      selected = updatedClient;
+    }
   }
 
   // Método para eliminar un cliente
@@ -111,49 +111,32 @@ class ClientsComponent implements OnInit {
       clients.remove(selected);
 
       selected = null;
+      isEditing = false;
+      createClientPanel = false;
     }
   }
 
   // Método para abrir el panel de introducir formulario para agregar un cliente
   void newClient() {
-    if (createClientPanel == true)
-      resetPanel();
-    else
-      createClientPanel = true;
-
+    isEditing = false;
     isCreating = true;
+    createClientPanel = true;
 
     if (selected != null) selected = null;
-  }
 
-  // Resetear valores del panel
-  void resetPanel() {
-    if (isEditing == false) createClientPanel = false;
-
-    clientIdToAdd = "";
-    nameToAdd = "";
-    surnameToAdd = "";
+    clientIdToAdd = null;
+    nameToAdd = null;
+    surnameToAdd = null;
   }
 
   // Método para cerrar la vista de editar cliente
   void cancelEditClient() {
-    resetPanel();
     isEditing = false;
+    isCreating = false;
     createClientPanel = false;
   }
 
-  // Método para comprobar los valores del formulario
-  bool comprobarClient() {
-    if (clientIdToAdd == null || nameToAdd == null || surnameToAdd == null)
-      return false;
-    if (clientIdToAdd == "" || nameToAdd == "" || surnameToAdd == "")
-      return false;
-
-    return true;
-  }
-
   void addToActiveProject() async {
-    if (selected == null) return;
-    Future<bool> clientAdded = clientsService.addClientToProject(selected.id);
+    await clientsService.addClientToProject(selected.id);
   }
 }

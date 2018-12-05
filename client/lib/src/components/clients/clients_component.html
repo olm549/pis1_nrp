@@ -8,10 +8,11 @@
     </material-list-item>
 </material-list>
 
-<div class="detail-panel" *ngIf="isEditing==false">
+<div class="detail-panel" *ngIf="selected!=null&&!createClientPanel">
     <div>
         <h2>{{selected.name}} {{selected.surname}}
-            <material-button id="anadir-button" class="button" raised (click)="addToActiveProject()">Añadir a proyecto activo</material-button>
+            <material-button id="anadir-button" class="button" raised (click)="addToActiveProject()">Añadir a proyecto
+                activo</material-button>
         </h2>
     </div>
     <ul>
@@ -57,7 +58,7 @@
                 [required]="true"></material-input>
         </li>
 
-        <div class="button" *ngIf="isEditing==false">
+        <div class="button" *ngIf="isCreating">
             <material-button id="create-client" class="button" raised (click)="createClient()" style="float: right;">Crear</material-button>
         </div>
 
