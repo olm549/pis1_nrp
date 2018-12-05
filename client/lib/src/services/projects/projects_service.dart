@@ -18,7 +18,6 @@ abstract class ProjectsService {
     String name,
     String description,
     double effortLimit,
-    bool active,
   );
 
   Future<bool> deleteProject(int id);

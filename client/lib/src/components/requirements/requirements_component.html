@@ -9,7 +9,7 @@
     </material-list-item>
 </material-list>
 
-<div class="detail-panel" *ngIf="isEditing==false">
+<div class="detail-panel" *ngIf="selected!=null&&!createRequirementPanel">
     <div id="title">
         <h2>{{selected.title}}
             <material-button id="anadir-button" class="button" raised (click)="addToActiveProject()">Añadir a proyecto
@@ -57,7 +57,7 @@
                 [required]="true"></material-input>
         </li>
 
-        <div class="button" *ngIf="isEditing==false">
+        <div class="button" *ngIf="isCreating">
             <material-button id="create-requirement" class="button" raised (click)="createRequirement()" style="float: right;">Crear</material-button>
         </div>
 

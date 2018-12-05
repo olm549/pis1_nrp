@@ -34,9 +34,8 @@ class MockProjects implements ProjectsService {
     String name,
     String description,
     double effortLimit,
-    bool active,
   ) async {
-    return Project(id, projectID, name, description, effortLimit, active);
+    return Project(id, projectID, name, description, effortLimit, false);
   }
 
   Future<bool> deleteProject(int id) async {

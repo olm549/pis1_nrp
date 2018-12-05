@@ -30,7 +30,6 @@ class MockProjectRequirements extends ProjectRequirementService {
   Future<ProjectRequirement> updateProjectRequirement(
     int requirementID,
     double estimatedEffort,
-    double satisfaction,
   ) async {
     return null;
   }

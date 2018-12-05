@@ -47,7 +47,6 @@ class HttpProjectRequirements extends ProjectRequirementService {
   Future<ProjectRequirement> updateProjectRequirement(
     int requirementID,
     double estimatedEffort,
-    double satisfaction,
   ) async {
     try {
       final response = await _httpService.getClient().put(
@@ -59,7 +58,6 @@ class HttpProjectRequirements extends ProjectRequirementService {
             },
             body: jsonEncode({
               'estimatedEffort': estimatedEffort,
-              'satisfaction': satisfaction,
             }),
           );
 

@@ -5,6 +5,7 @@ import 'package:angular_forms/angular_forms.dart';
 import '../../models/requirement.dart';
 
 import '../../services/requirements/requirements_service.dart';
+import '../../services/requirements/http_requirements.dart';
 import '../../services/requirements/mock_requirements.dart';
 
 @Component(
@@ -26,19 +27,20 @@ import '../../services/requirements/mock_requirements.dart';
     materialInputDirectives,
   ],
   providers: [
-    const ClassProvider(RequirementsService, useClass: MockRequirements)
+    const ClassProvider(RequirementsService, useClass: HttpRequirements)
   ],
 )
 class RequirementsComponent implements OnInit {
   final RequirementsService requirementsService;
 
-  @Input()
-  bool isEditing = true;
+  bool isEditing = false;
   bool isCreating = false;
 
   Requirement selected;
   List<Requirement> requirements;
+
   bool createRequirementPanel = false;
+
   String requirementIdToAdd;
   String titleToAdd;
   String descriptionToAdd;
@@ -54,33 +56,52 @@ class RequirementsComponent implements OnInit {
   void onSelect(Requirement requirement) {
     createRequirementPanel = false;
     isEditing = false;
-    resetPanel();
+    isCreating = false;
+
     selected = requirement;
   }
 
   void createRequirement() async {
-    if (!checkRequirement()) return;
+    Requirement createdRequirement = await requirementsService
+        .createRequirement(requirementIdToAdd, titleToAdd, descriptionToAdd);
 
-    Requirement createRq = await requirementsService.createRequirement(
-        requirementIdToAdd, titleToAdd, descriptionToAdd);
+    if (createdRequirement != null) {
+      createRequirementPanel = false;
 
-    if (createRq != null) createRequirementPanel = false;
+      requirements.add(createdRequirement);
+    }
   }
 
 // Editar requisito
   void editRequirement() async {
     isEditing = true;
+    isCreating = false;
     createRequirementPanel = true;
 
     requirementIdToAdd = selected.requirementID;
     titleToAdd = selected.title;
     descriptionToAdd = selected.description;
-    //selected = null;
   }
 
 // Confirmar editar requisito
-  void confirmEditRequirement() {
-    if (!checkRequirement()) return;
+  void confirmEditRequirement() async {
+    Requirement updatedRequirement =
+        await requirementsService.updateRequirement(
+      selected.id,
+      requirementIdToAdd,
+      titleToAdd,
+      descriptionToAdd,
+    );
+
+    if (updatedRequirement != null) {
+      requirements.remove(selected);
+      requirements.add(updatedRequirement);
+
+      createRequirementPanel = false;
+      isEditing = false;
+
+      selected = updatedRequirement;
+    }
   }
 
   void deleteRequirement() async {
@@ -90,48 +111,32 @@ class RequirementsComponent implements OnInit {
       requirements.remove(selected);
 
       selected = null;
+      isEditing = false;
+      createRequirementPanel = false;
     }
   }
 
   // Introducir requisito
   void newRequirement() {
-    if (createRequirementPanel == true)
-      resetPanel();
-    else
-      createRequirementPanel = true;
-
+    isEditing = false;
     isCreating = true;
+    createRequirementPanel = true;
 
     if (selected != null) selected = null;
-  }
 
-  // Reiniciar panel
-  void resetPanel() {
-    if (isEditing == false) createRequirementPanel = false;
-
-    requirementIdToAdd = "";
-    titleToAdd = "";
-    descriptionToAdd = "";
+    requirementIdToAdd = null;
+    titleToAdd = null;
+    descriptionToAdd = null;
   }
 
   //Cancelar edicion requisito
   void cancelEditRequirement() {
-    resetPanel();
     isEditing = false;
+    isCreating = false;
     createRequirementPanel = false;
   }
 
-  // Comprobar valores
-  bool checkRequirement() {
-    if (requirementIdToAdd == null ||
-        titleToAdd == null ||
-        descriptionToAdd == null) return false;
-
-    return true;
-  }
-
   void addToActiveProject() async {
-    if (selected == null) return;
-    var added = await requirementsService.addRequirementToProject(selected.id);
+    await requirementsService.addRequirementToProject(selected.id);
   }
 }

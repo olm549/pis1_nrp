@@ -35,7 +35,7 @@ import '../../services/projects/mock_projects.dart';
 class ProjectsComponent implements OnInit {
   final ProjectsService projectsService;
 
-  bool isEditing = true;
+  bool isEditing = false;
   bool isCreating = false;
 
   Project selected;
@@ -58,13 +58,12 @@ class ProjectsComponent implements OnInit {
   void onSelect(Project project) {
     createProjectPanel = false;
     isEditing = false;
-    resetPanel();
+    isCreating = false;
+
     selected = project;
   }
 
   void createProject() async {
-    //if (!comprobarProject()) return;
-
     Project createdProject = await projectsService.createProject(
         projectIdToAdd, nameToAdd, descriptionToAdd, effortLimitToAdd);
 
@@ -77,27 +76,33 @@ class ProjectsComponent implements OnInit {
 
   void editProject() async {
     isEditing = true;
+    isCreating = false;
     createProjectPanel = true;
 
     projectIdToAdd = selected.projectID;
     nameToAdd = selected.name;
     descriptionToAdd = selected.description;
     effortLimitToAdd = selected.effortLimit;
-
-    //selected = null;
   }
 
   void confirmEditProject() async {
-    //if (!comprobarProject()) return;
-
     Project updatedProject = await projectsService.updateProject(
       selected.id,
-      selected.projectID,
-      selected.name,
-      selected.description,
-      selected.effortLimit,
-      selected.active,
+      projectIdToAdd,
+      nameToAdd,
+      descriptionToAdd,
+      effortLimitToAdd,
     );
+
+    if (updatedProject != null) {
+      projects.remove(selected);
+      projects.add(updatedProject);
+
+      createProjectPanel = false;
+      isEditing = false;
+
+      selected = updatedProject;
+    }
   }
 
   void deleteProject() async {
@@ -107,22 +112,18 @@ class ProjectsComponent implements OnInit {
       projects.remove(selected);
 
       selected = null;
+      isEditing = false;
+      createProjectPanel = false;
     }
   }
 
   void newProject() {
-    if (createProjectPanel == true)
-      resetPanel();
-    else
-      createProjectPanel = true;
-
+    isEditing = false;
     isCreating = true;
+    createProjectPanel = true;
 
     if (selected != null) selected = null;
-  }
 
-  void resetPanel() {
-    if (isEditing == false) createProjectPanel = false;
     projectIdToAdd = null;
     nameToAdd = null;
     descriptionToAdd = null;
@@ -131,21 +132,17 @@ class ProjectsComponent implements OnInit {
 
   // Método para cerrar la vista de editar proyecto
   void cancelEditProject() {
-    resetPanel();
     isEditing = false;
+    isCreating = false;
     createProjectPanel = false;
   }
 
-  bool comprobarProject() {
-    if (projectIdToAdd == null ||
-        nameToAdd == null ||
-        descriptionToAdd == null ||
-        effortLimitToAdd == null) return false;
+  void activateProject() async {
+    await projectsService.changeActiveProject(selected.id);
 
-    return true;
-  }
+    selected = null;
 
-  void activateProject() {
-    projectsService.changeActiveProject(selected.id);
+    // TODO: No funciona, arreglar implementación.
+    projects.setAll(0, await projectsService.getProjects());
   }
 }
