@@ -5,7 +5,7 @@ import 'package:http/http.dart';
 
 @Injectable()
 class HttpService {
-  static final _serverUrl = '';
+  static final _serverUrl = 'http://localhost:8888';
   static final _clientID = 'com.nrp.webapp';
 
   final basicAuth = Base64Encoder().convert('$_clientID:'.codeUnits);

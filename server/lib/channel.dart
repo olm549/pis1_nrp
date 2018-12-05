@@ -9,7 +9,7 @@ import './controller/requirement_value_controller.dart';
 
 import './model/user.dart';
 
-import './nrp_server.dart';
+import './server.dart';
 
 /// This type initializes an application.
 ///

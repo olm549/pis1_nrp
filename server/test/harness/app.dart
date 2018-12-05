@@ -1,8 +1,8 @@
-import 'package:server/nrp_server.dart';
+import 'package:server/server.dart';
 import 'package:server/model/user.dart';
 import 'package:aqueduct_test/aqueduct_test.dart';
 
-export 'package:server/nrp_server.dart';
+export 'package:server/server.dart';
 export 'package:aqueduct_test/aqueduct_test.dart';
 export 'package:test/test.dart';
 export 'package:aqueduct/aqueduct.dart';

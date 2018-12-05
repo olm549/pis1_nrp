@@ -8,9 +8,9 @@ import '../components/clients/clients_component.template.dart'
     as clients_template;
 import '../components/requirements/requirements_component.template.dart'
     as requirements_template;
-import '../components/projects_clients/clients_active_component.template.dart'
+import '../components/project_clients/clients_active_component.template.dart'
     as clients_active_template;
-import '../components/projects_requirements/requirements_active_component.template.dart' 
+import '../components/project_requirements/requirements_active_component.template.dart'
     as requirements_active_template;
 import '../components/requirement_values/requirement_values_component.template.dart'
     as requirement_values_template;
@@ -56,7 +56,7 @@ class Routes {
     routePath: Paths.requirements_active,
     component: requirements_active_template.RequirementsComponentNgFactory,
   );
-  
+
   static final requirement_values = RouteDefinition(
     routePath: Paths.requirement_values,
     component: requirement_values_template.RequirementValuesComponentNgFactory,

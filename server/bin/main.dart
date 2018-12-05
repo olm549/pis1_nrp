@@ -1,4 +1,4 @@
-import 'package:server/nrp_server.dart';
+import 'package:server/server.dart';
 
 Future main() async {
   final app = Application<NrpServerChannel>()

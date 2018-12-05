@@ -1,7 +1,7 @@
 import '../model/project.dart';
 import '../model/requirement.dart';
 
-import '../nrp_server.dart';
+import '../server.dart';
 
 /// A controller that handles requests for the [Requirement] resources.
 class RequirementController extends ResourceController {

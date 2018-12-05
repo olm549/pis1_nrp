@@ -4,10 +4,10 @@
         <h3>Usa tus credenciales para acceder a tu cuenta</h3>
         <ul>
             <li>
-                <material-input type="email" label="Email" [floatingLabel]="true"></material-input>
+                <material-input type="email" label="Email" [floatingLabel]="true" [(ngModel)]="signInEmail"></material-input>
             </li>
             <li>
-                <material-input type="password" label="Contraseña" [floatingLabel]="true"></material-input>
+                <material-input type="password" label="Contraseña" [floatingLabel]="true" [(ngModel)]="signInPassword"></material-input>
             </li>
             <li>
                 <material-button class="button" raised (click)="signIn()">Acceder</material-button>
@@ -21,13 +21,13 @@
         <h3>Crea una nueva cuenta para gestionar tus proyectos</h3>
         <ul>
             <li>
-                <material-input type="email" label="Email" [floatingLabel]="true"></material-input>
+                <material-input type="email" label="Email" [floatingLabel]="true" [(ngModel)]="signUpEmail"></material-input>
             </li>
             <li>
-                <material-input type="password" label="Contraseña" [floatingLabel]="true"></material-input>
+                <material-input type="password" label="Contraseña" [floatingLabel]="true" [(ngModel)]="signUpPassword"></material-input>
             </li>
             <li>
-                <material-input type="password" label="Repita contraseña" [floatingLabel]="true"></material-input>
+                <material-input type="password" label="Repita contraseña" [floatingLabel]="true" [(ngModel)]="signUpPassword2"></material-input>
             </li>
             <li>
                 <material-button class="button" raised (click)="signUp()">Registrarse</material-button>

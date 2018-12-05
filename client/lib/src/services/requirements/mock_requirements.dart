@@ -4,7 +4,7 @@ import 'package:angular/angular.dart';
 
 import '../../models/requirement.dart';
 import '../../models/project.dart';
-import '../../models/project_requirement.dart';
+
 import './requirements_service.dart';
 
 @Injectable()
@@ -16,14 +16,23 @@ class MockRequirements implements RequirementsService {
     Requirement(4, 'R004', 'Func2', 'NRP')
   ];
 
-  final activeRequirements = <ProjectRequirement>[
-    ProjectRequirement(1, 0.2, 0.4, requirements[0]),
-    ProjectRequirement(2, 7.2, 8.9, requirements[3]),
-  ];
-
-  final projectsInRequirement = <Project>[
-    Project(1, 'P001', 'Hola', 'Adios', 3.0, false),
-    Project(2, 'P002', 'PRIS2018', 'Proyecto de la asignatura', 5.0, false),
+  static final requirementProjects = <Project>[
+    Project(
+      id: 1,
+      projectID: 'P001',
+      name: 'Hola',
+      description: 'Adios',
+      effortLimit: 3.0,
+      active: false,
+    ),
+    Project(
+      id: 2,
+      projectID: 'P002',
+      name: 'PRIS2018',
+      description: 'Proyecto de la asignatura',
+      effortLimit: 5.0,
+      active: false,
+    ),
   ];
 
   Future<List<Requirement>> getRequirements() async {
@@ -51,27 +60,11 @@ class MockRequirements implements RequirementsService {
     return Future.sync(() => true);
   }
 
-  Future<List<ProjectRequirement>> getProjectRequirements() async{
-    return activeRequirements;
+  Future<List<Project>> getRequirementProjects(int id) async {
+    return requirementProjects;
   }
 
-  Future<bool> addRequirementToProject(ProjectRequirement requirement) async{
+  Future<bool> addRequirementToProject(int id) async {
     return true;
-  }
-  
-  Future<bool> addToActiveProject(Requirement requirement) async{
-    return true;
-  }
-
-  Future<bool> deleteActiveRequirement(int id) async {
-    return Future.sync(() => true);
-  }
-
-  List<Project> getProjectsFromRequirement(Requirement requirement) {
-    return projectsInRequirement;
-  }
-
-  Future<bool> updateEffortClient(int id, double effort){
-    return Future.sync(() => true);
   }
 }

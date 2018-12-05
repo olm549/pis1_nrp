@@ -151,8 +151,9 @@ class ClientsComponent implements OnInit {
 
     return true;
   }
-  void addToActiveProject() async{
+
+  void addToActiveProject() async {
     if (selected == null) return;
-    Future<bool> clientAdded = clientsService.addToActiveProject(selected);
+    Future<bool> clientAdded = clientsService.addClientToProject(selected.id);
   }
 }

@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
 
 import 'package:angular/angular.dart';
 
@@ -19,8 +21,9 @@ class HttpAuthentication implements AuthenticationService {
       final response = await _httpService.getClient().post(
             '${_httpService.getUrl()}/auth/token',
             headers: {
-              'Content-Type': 'application/x-www-form-urlencoded',
-              'Authorization': 'Basic ${_httpService.basicAuth}'
+              HttpHeaders.contentTypeHeader:
+                  'application/x-www-form-urlencoded',
+              HttpHeaders.authorizationHeader: 'Basic ${_httpService.basicAuth}'
             },
             body: 'username=$email&password=$password&grant_type=password',
           );
@@ -42,16 +45,16 @@ class HttpAuthentication implements AuthenticationService {
   Future<bool> signUp(String email, String password) async {
     try {
       final response = await _httpService.getClient().post(
-        '${_httpService.getUrl()}/register',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Basic ${_httpService.basicAuth}'
-        },
-        body: {
-          'username': email,
-          'password': password,
-        },
-      );
+            '${_httpService.getUrl()}/register',
+            headers: {
+              HttpHeaders.contentTypeHeader: 'application/json',
+              HttpHeaders.authorizationHeader: 'Basic ${_httpService.basicAuth}'
+            },
+            body: jsonEncode({
+              'username': email,
+              'password': password,
+            }),
+          );
 
       if (response.statusCode == 200) {
         return true;

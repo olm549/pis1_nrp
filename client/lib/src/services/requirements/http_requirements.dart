@@ -5,23 +5,24 @@ import 'dart:io';
 import 'package:angular/angular.dart';
 
 import '../../models/project.dart';
+import '../../models/requirement.dart';
 
 import '../user/user_service.dart';
 import '../http_service.dart';
 
-import './projects_service.dart';
+import './requirements_service.dart';
 
 @Injectable()
-class HttpProjects implements ProjectsService {
+class HttpRequirements implements RequirementsService {
   final HttpService _httpService;
   final UserService _userService;
 
-  HttpProjects(this._httpService, this._userService);
+  HttpRequirements(this._httpService, this._userService);
 
-  Future<List<Project>> getProjects() async {
+  Future<List<Requirement>> getRequirements() async {
     try {
       final response = await _httpService.getClient().get(
-        '${_httpService.getUrl()}/projects',
+        '${_httpService.getUrl()}/requirements',
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.authorizationHeader:
@@ -30,85 +31,79 @@ class HttpProjects implements ProjectsService {
       );
 
       if (response.statusCode == 200) {
-        final projects = (_httpService.extractData(response) as List)
-            .map((value) => Project.fromJson(value))
+        final requirements = (_httpService.extractData(response) as List)
+            .map((value) => Requirement.fromJson(value))
             .toList();
 
-        return projects;
+        return requirements;
       } else {
         // 404 response.
         return [];
       }
     } catch (e) {
-      throw _httpService.handleError(e);
+      _httpService.handleError(e);
     }
   }
 
-  Future<Project> createProject(
-    String projectID,
-    String name,
+  Future<Requirement> createRequirement(
+    String requirementID,
+    String title,
     String description,
-    double effortLimit,
   ) async {
     try {
       final response = await _httpService.getClient().post(
-            '${_httpService.getUrl()}/projects',
+            '${_httpService.getUrl()}/requirements',
             headers: {
               HttpHeaders.contentTypeHeader: 'application/json',
               HttpHeaders.authorizationHeader:
                   'Bearer ${_userService.getAccessToken()}',
             },
             body: jsonEncode({
-              'projectID': projectID,
-              'name': name,
+              'requirementID': requirementID,
+              'title': title,
               'description': description,
-              'effortLimit': effortLimit,
             }),
           );
 
       if (response.statusCode == 200) {
-        final createdProject =
-            Project.fromJson(_httpService.extractData(response));
+        final createdRequirement =
+            Requirement.fromJson(_httpService.extractData(response));
 
-        return createdProject;
+        return createdRequirement;
       } else {
         return null;
       }
     } catch (e) {
-      throw _httpService.handleError(e);
+      _httpService.handleError(e);
     }
   }
 
-  Future<Project> updateProject(
+  Future<Requirement> updateRequirement(
     int id,
-    String projectID,
-    String name,
+    String requirementID,
+    String title,
     String description,
-    double effortLimit,
-    bool active,
   ) async {
     try {
       final response = await _httpService.getClient().put(
-            '${_httpService.getUrl()}/projects/$id',
+            '${_httpService.getUrl()}/requirements/$id',
             headers: {
               HttpHeaders.contentTypeHeader: 'application/json',
               HttpHeaders.authorizationHeader:
                   'Bearer ${_userService.getAccessToken()}',
             },
             body: jsonEncode({
-              'projectID': projectID,
-              'name': name,
+              'requirementID': requirementID,
+              'title': title,
               'description': description,
-              'effortLimit': effortLimit,
-              'active': active,
             }),
           );
 
       if (response.statusCode == 200) {
-        final updatedProject =
-            Project.fromJson(_httpService.extractData(response));
+        final updatedRequirement =
+            Requirement.fromJson(_httpService.extractData(response));
 
-        return updatedProject;
+        return updatedRequirement;
       } else {
         // 401 response.
         return null;
@@ -118,10 +113,10 @@ class HttpProjects implements ProjectsService {
     }
   }
 
-  Future<bool> deleteProject(int id) async {
+  Future<bool> deleteRequirement(int id) async {
     try {
       final response = await _httpService.getClient().delete(
-        '${_httpService.getUrl()}/projects/$id',
+        '${_httpService.getUrl()}/requirements/$id',
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.authorizationHeader:
@@ -140,9 +135,7 @@ class HttpProjects implements ProjectsService {
     }
   }
 
-  Future<void> changeActiveProject(int id) {
-    _userService.changeActiveProject(id);
+  Future<List<Project>> getRequirementProjects(int id) async {}
 
-    return null;
-  }
+  Future<bool> addRequirementToProject(int id) async {}
 }

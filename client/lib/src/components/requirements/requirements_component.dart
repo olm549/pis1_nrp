@@ -51,12 +51,12 @@ class RequirementsComponent implements OnInit {
   }
 
   //Seleccionar requisito
-  void onSelect(Requirement requirement){
+  void onSelect(Requirement requirement) {
     createRequirementPanel = false;
     isEditing = false;
     resetPanel();
     selected = requirement;
-  } 
+  }
 
   void createRequirement() async {
     if (!checkRequirement()) return;
@@ -129,8 +129,9 @@ class RequirementsComponent implements OnInit {
 
     return true;
   }
-  void addToActiveProject() async{
+
+  void addToActiveProject() async {
     if (selected == null) return;
-    Future<bool> requirementadded = requirementsService.addToActiveProject(selected);
+    var added = await requirementsService.addRequirementToProject(selected.id);
   }
 }

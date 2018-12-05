@@ -1,4 +1,4 @@
-import '../nrp_server.dart';
+import '../server.dart';
 
 import './project_client.dart';
 import './requirement_value.dart';
