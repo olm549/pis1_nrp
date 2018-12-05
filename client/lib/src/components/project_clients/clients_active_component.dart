@@ -31,6 +31,7 @@ import '../../utils/routing.dart';
     MaterialButtonComponent,
     MaterialInputComponent,
     materialInputDirectives,
+    materialNumberInputDirectives,
   ],
   exports: [Paths, Routes],
   providers: [
@@ -42,13 +43,12 @@ class ClientsComponent implements OnInit {
 
   ClientsComponent(this.clientsService);
 
-  @Input()
+  bool isEditing = false;
+
   ProjectClient selected;
   List<ProjectClient> activeClients;
-  bool openClientPanel = true;
-  //List<Project> projectsClient; //Proyectos en los que está un cliente
-  bool isEditing = false;
-  String weightToAdd;
+
+  double weightToAdd;
 
   @override
   void ngOnInit() async {
@@ -56,53 +56,46 @@ class ClientsComponent implements OnInit {
   }
 
   void onSelect(ProjectClient activeClient) {
-    openClientPanel = true;
     selected = activeClient;
-    //getProjectsFromClient(activeClient.client);
-    isEditing = false;
-  }
 
-  //Devuelve los proyectos a los que pertenece un cliente
-  void getProjectsFromClient(Client client) {
-    //projectsClient = clientsService.getProjectsFromClients(client);
+    isEditing = false;
   }
 
   //Elimina un cliente activo
   void removeActiveClient() async {
-    bool deletedActiveClient =
-        await clientsService.deleteProjectClient(selected.id);
-    if (deletedActiveClient) {
+    bool deleted = await clientsService.deleteProjectClient(selected.id);
+
+    if (deleted) {
       activeClients.remove(selected);
+
       selected = null;
+      isEditing = false;
     }
   }
 
   //Abre el panel de editar peso
   void editWeight() {
-    if (isEditing == false) {
-      isEditing = true;
-    } else {
-      isEditing = false;
-      weightToAdd = null;
-    }
+    isEditing = true;
+
+    weightToAdd = selected.weight;
   }
 
   //Edita el peso de un cliente específico
   void confirmEditWeight() async {
-    if (weightToAdd == null || weightToAdd == "") return;
-
-    double weight;
-    try {
-      weight = double.parse(weightToAdd);
-    } catch (e) {
-      return;
-    }
     ProjectClient updatedClient =
-        await clientsService.updateProjectClient(selected.id, weight);
+        await clientsService.updateProjectClient(selected.id, weightToAdd);
 
     if (updatedClient != null) {
+      activeClients.remove(selected);
+      activeClients.add(updatedClient);
+
       isEditing = false;
-      selected.weight = weight;
+
+      selected = updatedClient;
     }
+  }
+
+  void cancelEditWeight() {
+    isEditing = false;
   }
 }

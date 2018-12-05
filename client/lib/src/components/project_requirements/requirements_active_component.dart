@@ -28,6 +28,7 @@ import '../../services/project_requirements/mock_project_requirements.dart';
     MaterialButtonComponent,
     MaterialInputComponent,
     materialInputDirectives,
+    materialNumberInputDirectives,
   ],
   exports: [Paths, Routes],
   providers: [
@@ -38,14 +39,12 @@ import '../../services/project_requirements/mock_project_requirements.dart';
 class RequirementsComponent implements OnInit {
   final ProjectRequirementService requirementsService;
 
-  @Input()
+  bool isEditing = false;
+
   ProjectRequirement selected;
   List<ProjectRequirement> activeRequirements;
-  bool createRequirementPanel = true;
-  Project currentProject;
-  bool isEditing = false;
-  //List<Project> projectsRequirement; //Lista de proyectos a los que pertenece
-  String effortToAdd;
+
+  double effortToAdd;
 
   RequirementsComponent(this.requirementsService);
 
@@ -55,54 +54,47 @@ class RequirementsComponent implements OnInit {
   }
 
   void onSelect(ProjectRequirement activeRequirement) {
-    //getProjectsFromRequirement(activeRequirement.requirement);
-    createRequirementPanel = true;
     selected = activeRequirement;
+
     isEditing = false;
   }
 
   //Elimina un requisito activo
   void removeActiveRequirement() async {
-    bool deleteActiveRequirement =
+    bool deleted =
         await requirementsService.deleteProjectRequirement(selected.id);
 
-    if (deleteActiveRequirement) {
+    if (deleted) {
       activeRequirements.remove(selected);
-      selected = null;
-    }
-  }
 
-  //Devuelve los proyectos a los que pertenece un requisito
-  void getProjectsFromRequirement(Requirement requirement) {
-    //projectsRequirement =
-    //requirementsService.getProjectsFromRequirement(requirement);
+      selected = null;
+      isEditing = false;
+    }
   }
 
   //Abre el panel de editar esfuerzo
   void editEffort() {
-    if (isEditing == false) {
-      isEditing = true;
-    } else {
-      isEditing = false;
-      effortToAdd = null;
-    }
+    isEditing = true;
+
+    effortToAdd = selected.estimatedEffort;
   }
 
   //Edita el peso de un requisito
   void confirmEditEffort() async {
-    if (effortToAdd == null || effortToAdd == "") return;
-    double effort;
-    try {
-      effort = double.parse(effortToAdd);
-    } catch (e) {
-      return;
-    }
+    ProjectRequirement updatedRequirement = await requirementsService
+        .updateProjectRequirement(selected.id, effortToAdd);
 
-    ProjectRequirement updatedRequirement =
-        await requirementsService.updateProjectRequirement(selected.id, effort);
     if (updatedRequirement != null) {
+      activeRequirements.remove(selected);
+      activeRequirements.add(updatedRequirement);
+
       isEditing = false;
-      selected.estimatedEffort = effort;
+
+      selected = updatedRequirement;
     }
+  }
+
+  void cancelEditEffort() {
+    isEditing = false;
   }
 }
