@@ -135,7 +135,55 @@ class HttpRequirements implements RequirementsService {
     }
   }
 
-  Future<List<Project>> getRequirementProjects(int id) async {}
+  Future<List<Project>> getRequirementProjects(int id) async {
+    try {
+      final response = await _httpService.getClient().get(
+        '${_httpService.getUrl()}/requirements/$id',
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader:
+              'Bearer ${_userService.getAccessToken()}',
+        },
+      );
 
-  Future<bool> addRequirementToProject(int id) async {}
+      if (response.statusCode == 200) {
+        final projects = _httpService
+            .extractData(response)['projects']
+            .map((value) => Project.fromJson(value['project']))
+            .toList();
+
+        return projects;
+      } else {
+        return [];
+      }
+    } catch (e) {
+      _httpService.handleError(e);
+    }
+  }
+
+  Future<bool> addRequirementToProject(int id) async {
+    try {
+      final response = await _httpService.getClient().post(
+            '${_httpService.getUrl()}/projects/${_userService.getActiveProject().id}/requirements',
+            headers: {
+              HttpHeaders.contentTypeHeader: 'application/json',
+              HttpHeaders.authorizationHeader:
+                  'Bearer ${_userService.getAccessToken()}',
+            },
+            body: jsonEncode({
+              'requirement': {
+                'id': id,
+              },
+            }),
+          );
+
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      _httpService.handleError(e);
+    }
+  }
 }

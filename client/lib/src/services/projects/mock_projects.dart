@@ -9,38 +9,10 @@ import './projects_service.dart';
 @Injectable()
 class MockProjects implements ProjectsService {
   final projects = <Project>[
-    Project(
-      id: 1,
-      projectID: 'P001',
-      name: 'Hola',
-      description: 'Adios',
-      effortLimit: 3.0,
-      active: false,
-    ),
-    Project(
-      id: 2,
-      projectID: 'P002',
-      name: 'PRIS2018',
-      description: 'Proyecto de la asignatura',
-      effortLimit: 5.0,
-      active: false,
-    ),
-    Project(
-      id: 3,
-      projectID: 'P003',
-      name: 'PRIS',
-      description: 'Sin descripción',
-      effortLimit: 4.2,
-      active: false,
-    ),
-    Project(
-      id: 4,
-      projectID: 'P004',
-      name: 'Procesos de Ingeniería del Software',
-      description: 'NRP',
-      effortLimit: 7.8,
-      active: false,
-    )
+    Project(1, 'P001', 'Hola', 'Adios', 3.0, false),
+    Project(2, 'P002', 'PRIS2018', 'Proyecto de la asignatura', 5.0, false),
+    Project(3, 'P003', 'PRIS', 'Sin descripción', 4.2, false),
+    Project(4, 'P004', 'Procesos de Ingeniería del Software', 'NRP', 7.8, false)
   ];
 
   Future<List<Project>> getProjects() async {
@@ -53,14 +25,7 @@ class MockProjects implements ProjectsService {
     String description,
     double effortLimit,
   ) async {
-    return Project(
-      id: 20,
-      projectID: projectID,
-      name: name,
-      description: description,
-      effortLimit: effortLimit,
-      active: false,
-    );
+    return Project(20, projectID, name, description, effortLimit, false);
   }
 
   Future<Project> updateProject(
@@ -71,14 +36,7 @@ class MockProjects implements ProjectsService {
     double effortLimit,
     bool active,
   ) async {
-    return Project(
-      id: id,
-      projectID: projectID,
-      name: name,
-      description: description,
-      effortLimit: effortLimit,
-      active: active,
-    );
+    return Project(id, projectID, name, description, effortLimit, active);
   }
 
   Future<bool> deleteProject(int id) async {

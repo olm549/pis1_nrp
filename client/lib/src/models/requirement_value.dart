@@ -11,10 +11,14 @@ class RequirementValue {
 
   factory RequirementValue.fromJson(Map<String, dynamic> requirementValue) {
     return RequirementValue(
-      requirementValue['id'],
-      requirementValue['value'],
-      Requirement.fromJson(requirementValue['requirement']),
-      Client.fromJson(requirementValue['client']),
+      requirementValue.containsKey('id') ? requirementValue['id'] : null,
+      requirementValue.containsKey('value') ? requirementValue['value'] : null,
+      requirementValue.containsKey('requirement')
+          ? Requirement.fromJson(requirementValue['requirement'])
+          : null,
+      requirementValue.containsKey('client')
+          ? Client.fromJson(requirementValue['client'])
+          : null,
     );
   }
 
@@ -22,6 +26,8 @@ class RequirementValue {
     return {
       'id': id,
       'value': value,
+      'requirement': requirement.toJson(),
+      'client': client.toJson(),
     };
   }
 }

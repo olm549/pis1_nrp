@@ -8,10 +8,10 @@ class Client {
 
   factory Client.fromJson(Map<String, dynamic> client) {
     return Client(
-      client['id'],
-      client['clientID'],
-      client['name'],
-      client['surname'],
+      client.containsKey('id') ? client['id'] : null,
+      client.containsKey('clientID') ? client['clientID'] : null,
+      client.containsKey('name') ? client['name'] : null,
+      client.containsKey('surname') ? client['surname'] : null,
     );
   }
 
