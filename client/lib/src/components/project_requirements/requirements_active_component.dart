@@ -82,7 +82,7 @@ class RequirementsComponent implements OnInit {
   //Edita el peso de un requisito
   void confirmEditEffort() async {
     ProjectRequirement updatedRequirement = await requirementsService
-        .updateProjectRequirement(selected.id, effortToAdd);
+        .updateProjectRequirement(selected.requirement.id, effortToAdd);
 
     if (updatedRequirement != null) {
       activeRequirements.remove(selected);

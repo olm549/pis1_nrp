@@ -82,8 +82,8 @@ class ClientsComponent implements OnInit {
 
   //Edita el peso de un cliente específico
   void confirmEditWeight() async {
-    ProjectClient updatedClient =
-        await clientsService.updateProjectClient(selected.id, weightToAdd);
+    ProjectClient updatedClient = await clientsService.updateProjectClient(
+        selected.client.id, weightToAdd);
 
     if (updatedClient != null) {
       activeClients.remove(selected);
