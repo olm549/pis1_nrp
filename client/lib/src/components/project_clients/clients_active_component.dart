@@ -63,7 +63,7 @@ class ClientsComponent implements OnInit {
 
   //Elimina un cliente activo
   void removeActiveClient() async {
-    bool deleted = await clientsService.deleteProjectClient(selected.id);
+    bool deleted = await clientsService.deleteProjectClient(selected.client.id);
 
     if (deleted) {
       activeClients.remove(selected);

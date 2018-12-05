@@ -61,8 +61,8 @@ class RequirementsComponent implements OnInit {
 
   //Elimina un requisito activo
   void removeActiveRequirement() async {
-    bool deleted =
-        await requirementsService.deleteProjectRequirement(selected.id);
+    bool deleted = await requirementsService
+        .deleteProjectRequirement(selected.requirement.id);
 
     if (deleted) {
       activeRequirements.remove(selected);
