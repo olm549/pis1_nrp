@@ -34,6 +34,7 @@ class RequirementsComponent implements OnInit {
 
   @Input()
   bool isEditing = true;
+  bool isCreating = false;
 
   Requirement selected;
   List<Requirement> requirements;
@@ -52,6 +53,7 @@ class RequirementsComponent implements OnInit {
   //Seleccionar requisito
   void onSelect(Requirement requirement){
     createRequirementPanel = false;
+    isEditing = false;
     resetPanel();
     selected = requirement;
   } 
@@ -69,10 +71,11 @@ class RequirementsComponent implements OnInit {
   void editRequirement() async {
     isEditing = true;
     createRequirementPanel = true;
+
     requirementIdToAdd = selected.requirementID;
     titleToAdd = selected.title;
     descriptionToAdd = selected.description;
-    selected = null;
+    //selected = null;
   }
 
 // Confirmar editar requisito
@@ -97,7 +100,7 @@ class RequirementsComponent implements OnInit {
     else
       createRequirementPanel = true;
 
-    isEditing = false;
+    isCreating = true;
 
     if (selected != null) selected = null;
   }
@@ -125,5 +128,9 @@ class RequirementsComponent implements OnInit {
         descriptionToAdd == null) return false;
 
     return true;
+  }
+  void addToActiveProject() async{
+    if (selected == null) return;
+    Future<bool> requirementadded = requirementsService.addToActiveProject(selected);
   }
 }

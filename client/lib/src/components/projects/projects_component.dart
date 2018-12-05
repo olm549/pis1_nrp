@@ -36,6 +36,7 @@ class ProjectsComponent implements OnInit {
   final ProjectsService projectsService;
 
   bool isEditing = true;
+  bool isCreating = false;
 
   Project selected;
   List<Project> projects;
@@ -56,6 +57,7 @@ class ProjectsComponent implements OnInit {
 
   void onSelect(Project project) {
     createProjectPanel = false;
+    isEditing = false;
     resetPanel();
     selected = project;
   }
@@ -82,7 +84,7 @@ class ProjectsComponent implements OnInit {
     descriptionToAdd = selected.description;
     effortLimitToAdd = selected.effortLimit;
 
-    selected = null;
+    //selected = null;
   }
 
   void confirmEditProject() {
@@ -105,7 +107,7 @@ class ProjectsComponent implements OnInit {
     else
       createProjectPanel = true;
 
-    isEditing = false;
+    isCreating = true;
 
     if (selected != null) selected = null;
   }

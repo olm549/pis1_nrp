@@ -20,6 +20,7 @@ abstract class ClientsService {
 
   Future<List<ProjectClient>> getProjectClients();
   Future<bool> addClientToProject(Client client);
+  Future<bool> addToActiveProject(Client client);
   List<Project> getProjectsFromClients(Client client);
 
   Future<bool> updateWeightClient(int id, double weightToAdd);

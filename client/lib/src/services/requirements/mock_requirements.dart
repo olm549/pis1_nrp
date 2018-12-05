@@ -72,6 +72,10 @@ class MockRequirements implements RequirementsService {
   Future<bool> addRequirementToProject(ProjectRequirement requirement) async {
     return true;
   }
+  
+  Future<bool> addToActiveProject(Requirement requirement) async{
+    return true;
+  }
 
   Future<bool> deleteActiveRequirement(int id) async {
     return Future.sync(() => true);
