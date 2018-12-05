@@ -5,6 +5,7 @@ import 'package:angular_forms/angular_forms.dart';
 import '../../models/project.dart';
 
 import '../../services/projects/projects_service.dart';
+import '../../services/projects/http_projects.dart';
 import '../../services/projects/mock_projects.dart';
 
 @Component(
@@ -27,13 +28,13 @@ import '../../services/projects/mock_projects.dart';
     MaterialIconComponent,
     MaterialInputComponent,
     materialInputDirectives,
+    materialNumberInputDirectives,
   ],
-  providers: [const ClassProvider(ProjectsService, useClass: MockProjects)],
+  providers: [const ClassProvider(ProjectsService, useClass: HttpProjects)],
 )
 class ProjectsComponent implements OnInit {
   final ProjectsService projectsService;
 
-  @Input()
   bool isEditing = true;
 
   Project selected;
@@ -45,7 +46,6 @@ class ProjectsComponent implements OnInit {
   String nameToAdd;
   String descriptionToAdd;
   double effortLimitToAdd;
-  bool activeToAdd;
 
   ProjectsComponent(this.projectsService);
 
@@ -61,12 +61,16 @@ class ProjectsComponent implements OnInit {
   }
 
   void createProject() async {
-    if (!comprobarProject()) return;
+    //if (!comprobarProject()) return;
 
-    Project createProject = await projectsService.createProject(
-        projectIdToAdd, nameToAdd, descriptionToAdd);
+    Project createdProject = await projectsService.createProject(
+        projectIdToAdd, nameToAdd, descriptionToAdd, effortLimitToAdd);
 
-    if (createProject != null) createProjectPanel = false;
+    if (createdProject != null) {
+      createProjectPanel = false;
+
+      projects.add(createdProject);
+    }
   }
 
   void editProject() async {
@@ -77,7 +81,6 @@ class ProjectsComponent implements OnInit {
     nameToAdd = selected.name;
     descriptionToAdd = selected.description;
     effortLimitToAdd = selected.effortLimit;
-    activeToAdd = selected.active;
 
     selected = null;
   }
@@ -109,10 +112,10 @@ class ProjectsComponent implements OnInit {
 
   void resetPanel() {
     if (isEditing == false) createProjectPanel = false;
-    projectIdToAdd = "";
-    nameToAdd = "";
-    descriptionToAdd = "";
-    effortLimitToAdd = 0.0;
+    projectIdToAdd = null;
+    nameToAdd = null;
+    descriptionToAdd = null;
+    effortLimitToAdd = null;
   }
 
   // Método para cerrar la vista de editar proyecto
@@ -126,8 +129,7 @@ class ProjectsComponent implements OnInit {
     if (projectIdToAdd == null ||
         nameToAdd == null ||
         descriptionToAdd == null ||
-        effortLimitToAdd == null ||
-        activeToAdd == null) return false;
+        effortLimitToAdd == null) return false;
 
     return true;
   }

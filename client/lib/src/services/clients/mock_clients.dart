@@ -24,8 +24,22 @@ class MockClients implements ClientsService {
   ];
 
   final projectsInClient = <Project>[
-    Project(1, 'P001', 'Hola', 'Adios', 3.0, false),
-    Project(2, 'P002', 'PRIS2018', 'Proyecto de la asignatura', 5.0, false),
+    Project(
+      id: 1,
+      projectID: 'P001',
+      name: 'Hola',
+      description: 'Adios',
+      effortLimit: 3.0,
+      active: false,
+    ),
+    Project(
+      id: 2,
+      projectID: 'P002',
+      name: 'PRIS2018',
+      description: 'Proyecto de la asignatura',
+      effortLimit: 5.0,
+      active: false,
+    ),
   ];
 
   Future<List<Client>> getClients() async {
@@ -65,8 +79,8 @@ class MockClients implements ClientsService {
     return projectsInClient;
   }
 
-  Future<bool> updateWeightClient(int id, double weight) async{
-     return Future.sync(() => true);
+  Future<bool> updateWeightClient(int id, double weight) async {
+    return Future.sync(() => true);
   }
 
   Future<bool> deleteActiveClient(int id) async {

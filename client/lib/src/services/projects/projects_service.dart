@@ -9,6 +9,7 @@ abstract class ProjectsService {
     String projectID,
     String name,
     String description,
+    double effortLimit,
   );
 
   Future<Project> updateProject(

@@ -6,23 +6,23 @@ class Project {
   double effortLimit;
   bool active;
 
-  Project(
+  Project({
     this.id,
     this.projectID,
     this.name,
     this.description,
     this.effortLimit,
     this.active,
-  );
+  });
 
   factory Project.fromJson(Map<String, dynamic> project) {
     return Project(
-      project['id'],
-      project['projectID'],
-      project['name'],
-      project['description'],
-      project['effortLimit'],
-      project['active'],
+      id: project['id'],
+      projectID: project['projectID'],
+      name: project['name'],
+      description: project['description'],
+      effortLimit: project['effortLimit'],
+      active: project['active'],
     );
   }
 

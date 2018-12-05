@@ -8,6 +8,8 @@ import '../../models/project.dart';
 abstract class RequirementsService {
   Future<List<Requirement>> getRequirements();
 
+  Future<List<Project>> getRequirementProjects(int id);
+
   Future<Requirement> createRequirement(
     String requirementID,
     String title,
@@ -23,9 +25,5 @@ abstract class RequirementsService {
 
   Future<bool> deleteRequirement(int id);
 
-  Future<List<ProjectRequirement>> getProjectRequirements();
-  Future<bool> addRequirementToProject(ProjectRequirement requirement);
-  Future<bool> deleteActiveRequirement(int id);
-  List<Project> getProjectsFromRequirement(Requirement requirement);
-  Future<bool> updateEffortClient(int id, double effort);
+  Future<bool> addRequirementToProject(int id);
 }

@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:angular/angular.dart';
 
 import '../../models/project.dart';
@@ -26,8 +29,8 @@ class HttpUser extends UserService {
       final response = await _httpService.getClient().get(
         '${_httpService.getUrl()}/projects/active',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${getAccessToken()}'
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader: 'Bearer ${getAccessToken()}'
         },
       );
 
@@ -75,8 +78,8 @@ class HttpUser extends UserService {
       final response = await _httpService.getClient().put(
         '${_httpService.getUrl()}/projects/active?newID=$id',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${getAccessToken()}',
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader: 'Bearer ${getAccessToken()}',
         },
       );
 

@@ -3,8 +3,7 @@
         <h2 id="main-title">Proyectos</h2>
         <material-button class="new-button" raised (click)="newProject()">Nuevo proyecto</material-button>
     </div>
-    <material-list-item class="item" *ngFor="let project of projects" [class.selected]="project === selected"
-        (click)="onSelect(project)">
+    <material-list-item class="item" *ngFor="let project of projects" [class.selected]="project === selected" (click)="onSelect(project)">
         <span class="badge">{{project.projectID}}</span> {{project.name}}
         <span *ngIf="project.active == true" class="activo">Activo</span>
     </material-list-item>
@@ -52,27 +51,21 @@
 
     <ul>
         <li>
-            <material-input type="projectIdToAdd" label="ID" [floatingLabel]="true" [(ngModel)]="projectIdToAdd"
+            <material-input type="text" label="ID" [floatingLabel]="true" [(ngModel)]="projectIdToAdd" [required]="true"></material-input>
+        </li>
+
+        <li>
+            <material-input type="text" label="Nombre" [floatingLabel]="true" [(ngModel)]="nameToAdd" [required]="true"></material-input>
+        </li>
+
+        <li>
+            <material-input type="text" label="Descripción" [floatingLabel]="true" [(ngModel)]="descriptionToAdd"
                 [required]="true"></material-input>
         </li>
 
         <li>
-            <material-input type="nameToAdd" label="Nombre" [floatingLabel]="true" [(ngModel)]="nameToAdd" [required]="true"></material-input>
-        </li>
-
-        <li>
-            <material-input type="descriptionToAdd" label="Descripción" [floatingLabel]="true" [(ngModel)]="descriptionToAdd"
+            <material-input type="number" label="Límite de esfuerzo" [floatingLabel]="true" [(ngModel)]="effortLimitToAdd"
                 [required]="true"></material-input>
-        </li>
-
-        <!--- da fallo: conflictos con double
-        <li>
-            <material-input type="number" label="Límite de esfuerzo" [floatingLabel]="true" [(ngModel)]="effortLimitToAdd" [required]="true"></material-input>
-        </li>
-        ---->
-
-        <li>
-            <material-checkbox label="Activo" [required]="true" [(ngModel)]="activeToAdd"></material-checkbox>
         </li>
 
         <div class="button" *ngIf="isEditing==false">
