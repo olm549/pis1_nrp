@@ -4,25 +4,25 @@ import 'dart:io';
 
 import 'package:angular/angular.dart';
 
+import '../../models/client.dart';
 import '../../models/project.dart';
-import '../../models/requirement.dart';
 
 import '../user/user_service.dart';
 import '../http_service.dart';
 
-import './requirements_service.dart';
+import './clients_service.dart';
 
 @Injectable()
-class HttpRequirements implements RequirementsService {
+class HttpClients extends ClientsService {
   final HttpService _httpService;
   final UserService _userService;
 
-  HttpRequirements(this._httpService, this._userService);
+  HttpClients(this._httpService, this._userService);
 
-  Future<List<Requirement>> getRequirements() async {
+  Future<List<Client>> getClients() async {
     try {
       final response = await _httpService.getClient().get(
-        '${_httpService.getUrl()}/requirements',
+        '${_httpService.getUrl()}/clients',
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.authorizationHeader:
@@ -31,11 +31,11 @@ class HttpRequirements implements RequirementsService {
       );
 
       if (response.statusCode == 200) {
-        final requirements = (_httpService.extractData(response) as List)
-            .map((value) => Requirement.fromJson(value))
+        final clients = (_httpService.extractData(response) as List)
+            .map((value) => Client.fromJson(value))
             .toList();
 
-        return requirements;
+        return clients;
       } else {
         // 404 response.
         return [];
@@ -45,31 +45,31 @@ class HttpRequirements implements RequirementsService {
     }
   }
 
-  Future<Requirement> createRequirement(
-    String requirementID,
-    String title,
-    String description,
+  Future<Client> createClient(
+    String clientID,
+    String name,
+    String surname,
   ) async {
     try {
       final response = await _httpService.getClient().post(
-            '${_httpService.getUrl()}/requirements',
+            '${_httpService.getUrl()}/clients',
             headers: {
               HttpHeaders.contentTypeHeader: 'application/json',
               HttpHeaders.authorizationHeader:
                   'Bearer ${_userService.getAccessToken()}',
             },
             body: jsonEncode({
-              'requirementID': requirementID,
-              'title': title,
-              'description': description,
+              'clientID': clientID,
+              'name': name,
+              'surname': surname,
             }),
           );
 
       if (response.statusCode == 200) {
-        final createdRequirement =
-            Requirement.fromJson(_httpService.extractData(response));
+        final createdClient =
+            Client.fromJson(_httpService.extractData(response));
 
-        return createdRequirement;
+        return createdClient;
       } else {
         return null;
       }
@@ -78,32 +78,32 @@ class HttpRequirements implements RequirementsService {
     }
   }
 
-  Future<Requirement> updateRequirement(
+  Future<Client> updateClient(
     int id,
-    String requirementID,
-    String title,
-    String description,
+    String clientID,
+    String name,
+    String surname,
   ) async {
     try {
       final response = await _httpService.getClient().put(
-            '${_httpService.getUrl()}/requirements/$id',
+            '${_httpService.getUrl()}/clients/$id',
             headers: {
               HttpHeaders.contentTypeHeader: 'application/json',
               HttpHeaders.authorizationHeader:
                   'Bearer ${_userService.getAccessToken()}',
             },
             body: jsonEncode({
-              'requirementID': requirementID,
-              'title': title,
-              'description': description,
+              'clientID': clientID,
+              'name': name,
+              'surname': surname,
             }),
           );
 
       if (response.statusCode == 200) {
-        final updatedRequirement =
-            Requirement.fromJson(_httpService.extractData(response));
+        final updatedClient =
+            Client.fromJson(_httpService.extractData(response));
 
-        return updatedRequirement;
+        return updatedClient;
       } else {
         // 401 response.
         return null;
@@ -113,10 +113,10 @@ class HttpRequirements implements RequirementsService {
     }
   }
 
-  Future<bool> deleteRequirement(int id) async {
+  Future<bool> deleteClient(int id) async {
     try {
       final response = await _httpService.getClient().delete(
-        '${_httpService.getUrl()}/requirements/$id',
+        '${_httpService.getUrl()}/clients/$id',
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.authorizationHeader:
@@ -135,7 +135,7 @@ class HttpRequirements implements RequirementsService {
     }
   }
 
-  Future<List<Project>> getRequirementProjects(int id) async {}
+  Future<List<Project>> getClientProjects(int id) async {}
 
-  Future<bool> addRequirementToProject(int id) async {}
+  Future<bool> addClientToProject(int id) async {}
 }

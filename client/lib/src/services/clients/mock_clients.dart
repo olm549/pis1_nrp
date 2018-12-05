@@ -7,7 +7,6 @@ import '../../models/client.dart';
 import './clients_service.dart';
 
 import '../../models/project.dart';
-import '../../models/project_client.dart';
 
 @Injectable()
 class MockClients implements ClientsService {
@@ -18,12 +17,7 @@ class MockClients implements ClientsService {
     Client(4, 'C004', 'Cliente', '4')
   ];
 
-  final activeClients = <ProjectClient>[
-    ProjectClient(1, 0.4, clients[0]),
-    ProjectClient(2, 2.0, clients[1]),
-  ];
-
-  final projectsInClient = <Project>[
+  static final clientProjects = <Project>[
     Project(
       id: 1,
       projectID: 'P001',
@@ -67,26 +61,11 @@ class MockClients implements ClientsService {
     return Future.sync(() => true);
   }
 
-  Future<List<ProjectClient>> getProjectClients() async {
-    return activeClients;
+  Future<List<Project>> getClientProjects(int id) async {
+    return clientProjects;
   }
 
-  Future<bool> addClientToProject(Client client) async {
+  Future<bool> addClientToProject(int id) async {
     return true;
-  }
-  Future<bool> addToActiveProject(Client client) async {
-    return true;
-  }
-
-  List<Project> getProjectsFromClients(Client client) {
-    return projectsInClient;
-  }
-
-  Future<bool> updateWeightClient(int id, double weight) async {
-    return Future.sync(() => true);
-  }
-
-  Future<bool> deleteActiveClient(int id) async {
-    return Future.sync(() => true);
   }
 }

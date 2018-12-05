@@ -6,10 +6,10 @@ import '../../models/requirement_value.dart';
 import '../../models/project_requirement.dart';
 import '../../models/project_client.dart';
 
-import '../../services/requirements/requirements_service.dart';
-import '../../services/clients/clients_service.dart';
-import '../../services/requirements/mock_requirements.dart';
-import '../../services/clients/mock_clients.dart';
+import '../../services/project_requirements/project_requirements_service.dart';
+import '../../services/project_requirements/mock_project_requirements.dart';
+import '../../services/project_clients/project_clients_service.dart';
+import '../../services/project_clients/mock_project_clients.dart';
 
 //import '../../utils/routing.dart';
 
@@ -31,14 +31,15 @@ import '../../services/clients/mock_clients.dart';
   ],
   //exports: [Paths, Routes],
   providers: [
-    const ClassProvider(RequirementsService, useClass: MockRequirements), 
-    const ClassProvider(ClientsService, useClass: MockClients),
+    const ClassProvider(ProjectRequirementService,
+        useClass: MockProjectRequirements),
+    const ClassProvider(ProjectClientsService, useClass: MockProjectClients),
   ],
 )
 class RequirementValuesComponent implements OnInit {
-  final RequirementsService requirementsService;
-  final ClientsService clientsService;
- 
+  final ProjectRequirementService requirementsService;
+  final ProjectClientsService clientsService;
+
   @Input()
   bool isEditing = true;
 
@@ -111,8 +112,7 @@ class RequirementValuesComponent implements OnInit {
 
   // Comprobar campos en blanco
   bool checkValue() {
-    if (valueToAdd == null)
-      return false;
+    if (valueToAdd == null) return false;
 
     return true;
   }

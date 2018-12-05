@@ -87,8 +87,17 @@ class ProjectsComponent implements OnInit {
     //selected = null;
   }
 
-  void confirmEditProject() {
-    if (!comprobarProject()) return;
+  void confirmEditProject() async {
+    //if (!comprobarProject()) return;
+
+    Project updatedProject = await projectsService.updateProject(
+      selected.id,
+      selected.projectID,
+      selected.name,
+      selected.description,
+      selected.effortLimit,
+      selected.active,
+    );
   }
 
   void deleteProject() async {
