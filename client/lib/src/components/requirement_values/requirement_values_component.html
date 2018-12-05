@@ -13,11 +13,12 @@
         <h2>Asignar valor</h2>
         <ul>
             <li>
-                <label>Requisito:</label>{{selectedReq.id}}
+                <label>Requisito:</label>{{selectedReq.requirement.requirementID}} - {{selectedReq.requirement.title}}
             </li>
 
             <li>
-                <label>Cliente: </label>{{selectedClient.id}}
+                <label>Cliente: </label>{{selectedClient.client.clientID}} - {{selectedClient.client.name}}
+                {{selectedClient.client.surname}}
             </li>
 
             <li>
@@ -37,7 +38,8 @@
         <material-list *ngIf="isEditing">
             <material-list-item *ngFor="let projectclients of clients" [class.selected]="projectclients === selectedClient"
                 (click)="onSelectClient(projectclients)">
-                <span class="badge client">{{projectclients.client.id}}</span>{{projectclients.client.name}}
+                <span class="badge client">{{projectclients.client.clientID}}</span>{{projectclients.client.name}}
+                {{projectclients.client.surname}}
             </material-list-item>
         </material-list>
     </div>
