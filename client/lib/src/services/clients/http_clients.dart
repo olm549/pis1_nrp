@@ -176,7 +176,6 @@ class HttpClients extends ClientsService {
               },
             }),
           );
-
       if (response.statusCode == 200) {
         return true;
       } else {

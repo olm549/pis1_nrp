@@ -144,5 +144,9 @@ class ProjectsComponent implements OnInit {
 
     // TODO: No funciona, arreglar implementación.
     projects.setAll(0, await projectsService.getProjects());
+    
+    //Cargar los proyectos para mostrar el activo
+    ngOnInit();
+
   }
 }
