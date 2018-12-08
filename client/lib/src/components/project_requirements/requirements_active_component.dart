@@ -84,6 +84,8 @@ class RequirementsComponent implements OnInit {
     ProjectRequirement updatedRequirement = await requirementsService
         .updateProjectRequirement(selected.requirement.id, effortToAdd);
 
+    updatedRequirement.requirement = selected.requirement;
+    
     if (updatedRequirement != null) {
       activeRequirements.remove(selected);
       activeRequirements.add(updatedRequirement);
