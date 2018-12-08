@@ -69,31 +69,46 @@ class ProjectClientController extends ResourceController {
     @Bind.path('projectID') int projectID,
     @Bind.body() ProjectClient newProjectClient,
   ) async {
-    final insertedProjectClient =
-        await context.transaction((transaction) async {
-      final getRequirementsQuery = Query<ProjectRequirement>(transaction)
-        ..where((pr) => pr.project.id).equalTo(projectID)
-        ..returningProperties((pr) => [pr.requirement.id]);
+    final insertedProjectClient = await context.transaction(
+      (transaction) async {
+        final getProjectClientQuery = Query<ProjectClient>(transaction)
+          ..where((pc) => pc.project.id).equalTo(projectID)
+          ..where((pc) => pc.client.id).equalTo(newProjectClient.client.id);
 
-      final projectRequirements = await getRequirementsQuery.fetch();
+        final projectClient = await getProjectClientQuery.fetchOne();
 
-      projectRequirements.forEach((requirement) async {
-        final addRequirementValueQuery = Query<RequirementValue>(transaction)
-          ..values.project.id = projectID
-          ..values.requirement.id = requirement.id
-          ..values.client.id = newProjectClient.client.id;
+        if (projectClient != null) {
+          return null;
+        }
 
-        await addRequirementValueQuery.insert();
-      });
+        final getRequirementsQuery = Query<ProjectRequirement>(transaction)
+          ..where((pr) => pr.project.id).equalTo(projectID)
+          ..returningProperties((pr) => [pr.requirement.id]);
 
-      final addProjectClientQuery = Query<ProjectClient>(transaction)
-        ..values = newProjectClient
-        ..values.project.id = projectID;
+        final projectRequirements = await getRequirementsQuery.fetch();
 
-      return await addProjectClientQuery.insert();
-    });
+        projectRequirements.forEach((requirement) async {
+          final addRequirementValueQuery = Query<RequirementValue>(transaction)
+            ..values.project.id = projectID
+            ..values.requirement.id = requirement.id
+            ..values.client.id = newProjectClient.client.id;
 
-    return Response.ok(insertedProjectClient);
+          await addRequirementValueQuery.insert();
+        });
+
+        final addProjectClientQuery = Query<ProjectClient>(transaction)
+          ..values = newProjectClient
+          ..values.project.id = projectID;
+
+        return await addProjectClientQuery.insert();
+      },
+    );
+
+    if (insertedProjectClient == null) {
+      return Response.conflict();
+    } else {
+      return Response.ok(insertedProjectClient);
+    }
   }
 
   /// Updates a client's data for a project
