@@ -76,6 +76,28 @@ Future main() async {
     },
   );
 
+  test('POST /projects/:projectID/clients returns 409 response', () async {
+    await harness.userAgent.post(
+      '/projects/${testProject.id}/clients',
+      body: {
+        'client': {
+          'id': testClient.id,
+        },
+      },
+    );
+
+    final response = await harness.userAgent.post(
+      '/projects/${testProject.id}/clients',
+      body: {
+        'client': {
+          'id': testClient.id,
+        },
+      },
+    );
+
+    expectResponse(response, 409);
+  });
+
   test(
     'GET /projects/:projectID/clients/[:clientID] returns previously added client',
     () async {
