@@ -53,7 +53,9 @@ class AuthenticationComponent {
       bool succesful = await authService.signUp(signUpEmail, signUpPassword);
 
       if (succesful) {
-        print("Registro correcto");
+        // TODO: Mostrar mensaje de registro correcto.
+      } else {
+        // TODO: Mostrar mensaje de registro incorrecto.
       }
     }
   }

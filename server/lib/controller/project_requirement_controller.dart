@@ -97,11 +97,11 @@ class ProjectRequirementController extends ResourceController {
 
         final getClientsQuery = Query<ProjectClient>(transaction)
           ..where((pc) => pc.project.id).equalTo(projectID)
-          ..returningProperties((pc) => [pc.client.id]);
+          ..returningProperties((pc) => [pc.client]);
 
         final projectClients = await getClientsQuery.fetch();
 
-        projectClients.forEach((client) async {
+        projectClients.map((client) async {
           final addRequirementValueQuery = Query<RequirementValue>(transaction)
             ..values.project.id = projectID
             ..values.requirement.id = newProjectRequirement.requirement.id
@@ -109,6 +109,7 @@ class ProjectRequirementController extends ResourceController {
 
           await addRequirementValueQuery.insert();
         });
+
         final addProjectRequirementQuery =
             Query<ProjectRequirement>(transaction)
               ..values = newProjectRequirement
