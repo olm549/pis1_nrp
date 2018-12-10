@@ -1,6 +1,7 @@
 import 'package:server/model/client.dart';
 import 'package:server/model/project.dart';
 import 'package:server/model/requirement.dart';
+import 'package:server/model/requirement_value.dart';
 
 import './harness/app.dart';
 
@@ -243,4 +244,60 @@ Future main() async {
       );
     },
   );
+
+  test('POST /projects/:projectID/requirements creates new value', () async {
+    await harness.userAgent.post(
+      '/projects/${testProject.id}/clients',
+      body: {
+        'client': {
+          'id': testClient.id,
+        },
+      },
+    );
+
+    await harness.userAgent.post(
+      '/projects/${testProject.id}/requirements',
+      body: {
+        'requirement': {
+          'id': testRequirement.id,
+        },
+      },
+    );
+
+    final getRequirementValueQuery = Query<RequirementValue>(harness.context)
+      ..where((rv) => rv.requirement.id).equalTo(testRequirement.id)
+      ..where((rv) => rv.client.id).equalTo(testClient.id);
+
+    final fetchedRequirementValue = await getRequirementValueQuery.fetchOne();
+
+    expect(fetchedRequirementValue, isNotNull);
+  });
+
+  test('POST /projects/:projectID/clients creates new value', () async {
+    await harness.userAgent.post(
+      '/projects/${testProject.id}/requirements',
+      body: {
+        'requirement': {
+          'id': testRequirement.id,
+        },
+      },
+    );
+
+    await harness.userAgent.post(
+      '/projects/${testProject.id}/clients',
+      body: {
+        'client': {
+          'id': testClient.id,
+        },
+      },
+    );
+
+    final getRequirementValueQuery = Query<RequirementValue>(harness.context)
+      ..where((rv) => rv.requirement.id).equalTo(testRequirement.id)
+      ..where((rv) => rv.client.id).equalTo(testClient.id);
+
+    final fetchedRequirementValue = await getRequirementValueQuery.fetchOne();
+
+    expect(fetchedRequirementValue, isNotNull);
+  });
 }
