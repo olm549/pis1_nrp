@@ -1,0 +1,28 @@
+<material-list class="items-list">
+    <div>
+        <h2 id="main-title">Planificar</h2>
+    </div>
+    <material-list-item class="item" *ngFor="let requirement of requirements" [class.selected]="requirement === selected"
+        (click)="onSelect(requirement)">
+        <span class="badge">{{requirement.requirementID}}</span> {{requirement.title}}
+    </material-list-item>
+</material-list>
+<div class="detail-panel" *ngIf="selected!=null">
+    <div id="title">
+        <h2>{{selected.title}}
+        </h2>
+    </div>
+    <ul>
+        <li>
+            <label>ID:</label>{{selected.requirementID}}
+        </li>
+
+        <li>
+            <label>Nombre: </label>{{selected.title}}
+        </li>
+
+        <li>
+            <label>Descripción: </label>{{selected.description}}
+        </li>
+    </ul>
+</div>
