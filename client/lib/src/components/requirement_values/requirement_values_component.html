@@ -22,8 +22,7 @@
             </li>
 
             <li>
-                <material-input type="valueToAdd" label="Valor" [floatingLabel]="true" [(ngModel)]="valueToAdd"
-                    [required]="true"></material-input>
+                <material-input type="number" label="Valor" [floatingLabel]="true" [(ngModel)]="valueToAdd" [required]="true"></material-input>
             </li>
 
             <div class="button" *ngIf="isEditing==false">

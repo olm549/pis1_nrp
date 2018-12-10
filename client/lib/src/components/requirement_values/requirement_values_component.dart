@@ -1,6 +1,8 @@
 import 'package:angular/angular.dart';
 import 'package:angular_components/angular_components.dart';
 import 'package:angular_forms/angular_forms.dart';
+import 'package:client/src/services/requirement_values/http_requirement_values.dart';
+import 'package:client/src/services/requirement_values/requirement_values_service.dart';
 
 import '../../models/requirement_value.dart';
 import '../../models/project_requirement.dart';
@@ -8,12 +10,9 @@ import '../../models/project_client.dart';
 
 import '../../services/project_requirements/project_requirements_service.dart';
 import '../../services/project_requirements/http_project_requirements.dart';
-import '../../services/project_requirements/mock_project_requirements.dart';
 import '../../services/project_clients/project_clients_service.dart';
 import '../../services/project_clients/http_project_clients.dart';
-import '../../services/project_clients/mock_project_clients.dart';
 
-//import '../../utils/routing.dart';
 
 @Component(
   selector: 'requirement-values',
@@ -30,17 +29,19 @@ import '../../services/project_clients/mock_project_clients.dart';
     MaterialButtonComponent,
     MaterialInputComponent,
     materialInputDirectives,
+    materialNumberInputDirectives,
   ],
-  //exports: [Paths, Routes],
   providers: [
     const ClassProvider(ProjectRequirementService,
         useClass: HttpProjectRequirements),
     const ClassProvider(ProjectClientsService, useClass: HttpProjectClients),
+    const ClassProvider(RequirementValuesService, useClass: HttpRequirementValues),
   ],
 )
 class RequirementValuesComponent implements OnInit {
   final ProjectRequirementService requirementsService;
   final ProjectClientsService clientsService;
+  final RequirementValuesService requirementsValueService;
 
   @Input()
   bool isEditing = true;
@@ -55,7 +56,7 @@ class RequirementValuesComponent implements OnInit {
 
   double valueToAdd;
 
-  RequirementValuesComponent(this.requirementsService, this.clientsService);
+  RequirementValuesComponent(this.requirementsService, this.clientsService, this.requirementsValueService);
 
   @override
   void ngOnInit() async {
@@ -108,8 +109,22 @@ class RequirementValuesComponent implements OnInit {
   }
 
   // Confirmar editar valor
-  void confirmEditValue() {
-    if (!checkValue()) return;
+  Future confirmEditValue() async {
+    RequirementValue updatedValue = await requirementsValueService.updateValue(
+      selectedReq.requirement.id,
+      selectedClient.client.id,
+      valueToAdd,
+    );
+
+    if (updatedValue != null) {
+      values.remove(reValue);
+      values.add(updatedValue);
+
+      assignValuePanel = false;
+      isEditing = false;
+
+      reValue = updatedValue;
+    }
   }
 
   // Comprobar campos en blanco
