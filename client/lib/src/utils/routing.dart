@@ -14,7 +14,8 @@ import '../components/project_requirements/requirements_active_component.templat
     as requirements_active_template;
 import '../components/requirement_values/requirement_values_component.template.dart'
     as requirement_values_template;
-
+import '../components/plan/plan_component.template.dart'
+    as plan_template;
 class Paths {
   static final auth = RoutePath(path: 'auth');
   static final projects = RoutePath(path: 'projects');
@@ -23,6 +24,7 @@ class Paths {
   static final clients_active = RoutePath(path: 'clients_active');
   static final requirements_active = RoutePath(path: 'requirements_active');
   static final requirement_values = RoutePath(path: 'requirement_values');
+  static final plan = RoutePath(path: 'plan');
 }
 
 class Routes {
@@ -62,6 +64,11 @@ class Routes {
     component: requirement_values_template.RequirementValuesComponentNgFactory,
   );
 
+  static final plan = RouteDefinition(
+    routePath: Paths.plan,
+    component: plan_template.PlanComponentNgFactory,
+  );
+
   static final all = <RouteDefinition>[
     auth,
     projects,
@@ -70,5 +77,6 @@ class Routes {
     clients_active,
     requirements_active,
     requirement_values,
+    plan,
   ];
 }
