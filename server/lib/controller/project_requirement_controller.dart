@@ -101,7 +101,7 @@ class ProjectRequirementController extends ResourceController {
 
         final projectClients = await getClientsQuery.fetch();
 
-        projectClients.map((projectClient) async {
+        projectClients.forEach((projectClient) async {
           final addRequirementValueQuery = Query<RequirementValue>(transaction)
             ..values.project.id = projectID
             ..values.requirement.id = newProjectRequirement.requirement.id
