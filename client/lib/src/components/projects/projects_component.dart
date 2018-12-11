@@ -6,7 +6,6 @@ import '../../models/project.dart';
 
 import '../../services/projects/projects_service.dart';
 import '../../services/projects/http_projects.dart';
-import '../../services/projects/mock_projects.dart';
 
 @Component(
   selector: 'projects',

@@ -9,7 +9,6 @@ import '../../models/project_requirement.dart';
 
 import '../../services/project_requirements/project_requirements_service.dart';
 import '../../services/project_requirements/http_project_requirements.dart';
-import '../../services/project_requirements/mock_project_requirements.dart';
 
 @Component(
   selector: 'requirements',
@@ -38,6 +37,8 @@ import '../../services/project_requirements/mock_project_requirements.dart';
 )
 class RequirementsComponent implements OnInit {
   final ProjectRequirementService requirementsService;
+
+  String errorMsg;
 
   bool isEditing = false;
 
@@ -74,6 +75,7 @@ class RequirementsComponent implements OnInit {
 
   //Abre el panel de editar esfuerzo
   void editEffort() {
+    errorMsg = null;
     isEditing = true;
 
     effortToAdd = selected.estimatedEffort;
@@ -81,6 +83,14 @@ class RequirementsComponent implements OnInit {
 
   //Edita el peso de un requisito
   void confirmEditEffort() async {
+    errorMsg = null;
+
+    if (effortToAdd == null) {
+      errorMsg = 'El esfuerzo no puede ser vacío';
+
+      return;
+    }
+
     ProjectRequirement updatedRequirement = await requirementsService
         .updateProjectRequirement(selected.requirement.id, effortToAdd);
 

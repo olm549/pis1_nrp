@@ -42,6 +42,8 @@ class RequirementValuesComponent implements OnInit {
   final ProjectClientsService clientsService;
   final RequirementValuesService requirementValuesService;
 
+  String errorMsg;
+
   bool isEditing = false;
 
   ProjectRequirement selectedReq;
@@ -77,6 +79,7 @@ class RequirementValuesComponent implements OnInit {
 
   // Editar valor de un requisito-cliente
   void editValue() async {
+    errorMsg = null;
     isEditing = true;
 
     valueToAdd = selectedValue.value;
@@ -89,6 +92,14 @@ class RequirementValuesComponent implements OnInit {
 
   // Confirmar editar valor
   Future confirmEditValue() async {
+    errorMsg = null;
+
+    if (valueToAdd == null) {
+      errorMsg = 'El valor no puede estar vacío';
+
+      return;
+    }
+
     RequirementValue updatedValue = await requirementValuesService.updateValue(
       selectedValue.requirement.id,
       selectedValue.client.id,

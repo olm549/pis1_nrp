@@ -9,7 +9,6 @@ import '../../models/project_client.dart';
 
 import '../../services/project_clients/project_clients_service.dart';
 import '../../services/project_clients/http_project_clients.dart';
-import '../../services/project_clients/mock_project_clients.dart';
 
 import '../../utils/routing.dart';
 
@@ -43,6 +42,8 @@ class ClientsComponent implements OnInit {
 
   ClientsComponent(this.clientsService);
 
+  String errorMsg;
+
   bool isEditing = false;
 
   ProjectClient selected;
@@ -75,6 +76,7 @@ class ClientsComponent implements OnInit {
 
   //Abre el panel de editar peso
   void editWeight() {
+    errorMsg = null;
     isEditing = true;
 
     weightToAdd = selected.weight;
@@ -82,6 +84,14 @@ class ClientsComponent implements OnInit {
 
   //Edita el peso de un cliente específico
   void confirmEditWeight() async {
+    errorMsg = null;
+
+    if (weightToAdd == null) {
+      errorMsg = 'El peso no puede ser vacío';
+
+      return;
+    }
+
     ProjectClient updatedClient = await clientsService.updateProjectClient(
         selected.client.id, weightToAdd);
 

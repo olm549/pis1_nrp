@@ -7,7 +7,6 @@ import '../../utils/routing.dart';
 
 import '../../services/authentication/authentication_service.dart';
 import '../../services/authentication/http_authentication.dart';
-import '../../services/authentication/mock_authentication.dart';
 
 @Component(
   selector: 'auth',
@@ -45,10 +44,6 @@ class AuthenticationComponent {
   String signUpPassword;
   String signUpPassword2;
 
-  bool errorLogin = false;
-  bool errorRegister = false;
-  bool succesRegister = false;
-
   void signIn() async {
     signInErrorMsg = null;
     signUpErrorMsg = null;
@@ -67,8 +62,6 @@ class AuthenticationComponent {
       router.navigateByUrl(Paths.projects.toUrl());
     } else {
       signInErrorMsg = 'Los datos introducidos no son correctos';
-    }else{
-      errorLogin = true;
     }
   }
 
@@ -93,13 +86,6 @@ class AuthenticationComponent {
         signUpSuccessMsg = 'Registro correcto';
       } else {
         signUpErrorMsg = 'El email introducido ya está registrado';
-        // TODO: Mostrar mensaje de registro correcto.
-        errorRegister=false;
-        succesRegister = true;
-      } else {
-        // TODO: Mostrar mensaje de registro incorrecto.
-        succesRegister=false;
-        errorRegister = true;
       }
     } else {
       signUpErrorMsg = 'Las contraseñas introducidas no coinciden';

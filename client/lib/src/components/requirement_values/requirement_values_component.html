@@ -21,16 +21,22 @@
                 {{selectedValue.client.surname}}
             </li>
 
+            <li class="error-msg" *ngIf="errorMsg!=null">
+                <span style="opacity:0">&#9888;</span>
+                <span style="color:red;">&#9888;</span>
+                {{errorMsg}}
+            </li>
+
             <li>
                 <div *ngIf="isEditing">
                     <material-input type="number" label="Valor" [floatingLabel]="true" [(ngModel)]="valueToAdd"
                         [required]="true"></material-input>
-                    <material-button raised (click)="confirmEditValue()" style="float: right; vertical-align: middle;">Aceptar</material-button>
-                    <material-button raised (click)="cancelEditValue()" style="float: left; vertical-align: middle;">Cancelar</material-button>
+                    <material-button class="button" raised (click)="confirmEditValue()" style="float: right; vertical-align: middle;">Aceptar</material-button>
+                    <material-button class="button cancel-edit" raised (click)="cancelEditValue()" style="float: left; vertical-align: middle;">Cancelar</material-button>
                 </div>
                 <div *ngIf="!isEditing">
                     <label>Valor: </label>{{selectedValue.value}}
-                    <material-button raised (click)="editValue()" style="float: right; vertical-align: middle;">Editar</material-button>
+                    <material-button class="button" raised (click)="editValue()" style="float: right; vertical-align: middle;">Editar</material-button>
                 </div>
             </li>
         </ul>

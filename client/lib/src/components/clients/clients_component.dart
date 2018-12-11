@@ -6,7 +6,6 @@ import '../../models/client.dart';
 
 import '../../services/clients/clients_service.dart';
 import '../../services/clients/http_clients.dart';
-import '../../services/clients/mock_clients.dart';
 
 @Component(
   selector: 'clients',

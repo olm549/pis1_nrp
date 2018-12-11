@@ -36,8 +36,8 @@
         <div *ngIf="isEditing">
             <material-input type="number" label="Esfuerzo estimado" [floatingLabel]="true" [(ngModel)]="effortToAdd"
                 [required]="true"></material-input>
-            <material-button raised (click)="confirmEditEffort()" style="float: right; vertical-align: middle;">Aceptar</material-button>
-            <material-button raised (click)="cancelEditEffort()" style="float: left; vertical-align: middle;">Cancelar</material-button>
+            <material-button class="button" raised (click)="confirmEditEffort()" style="float: right; vertical-align: middle;">Aceptar</material-button>
+            <material-button class="button cancel-edit" raised (click)="cancelEditEffort()" style="float: left; vertical-align: middle;">Cancelar</material-button>
         </div>
 
         <li *ngIf="!isEditing">
@@ -56,5 +56,11 @@
         <div *ngIf="!isEditing">
             <material-button class="button" raised (click)="editEffort()" style="float: left;">Editar</material-button>
         </div>
+
+        <li class="error-msg" *ngIf="errorMsg!=null">
+            <span style="opacity:0">&#9888;</span>
+            <span style="color:red;">&#9888;</span>
+            {{errorMsg}}
+        </li>
     </ul>
 </div>

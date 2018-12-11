@@ -3,6 +3,7 @@ import 'package:angular_components/angular_components.dart';
 import 'package:angular_forms/angular_forms.dart';
 
 import '../../models/requirement.dart';
+import '../../models/project.dart';
 
 import '../../services/requirements/requirements_service.dart';
 import '../../services/requirements/http_requirements.dart';
@@ -27,7 +28,7 @@ import '../../services/requirements/mock_requirements.dart';
     materialInputDirectives,
   ],
   providers: [
-    const ClassProvider(RequirementsService, useClass: HttpRequirements)
+    const ClassProvider(RequirementsService, useClass: MockRequirements)
   ],
 )
 class RequirementsComponent implements OnInit {
@@ -40,6 +41,7 @@ class RequirementsComponent implements OnInit {
 
   Requirement selected;
   List<Requirement> requirements;
+  List<Project> projectsRequirement;
 
   bool createRequirementPanel = false;
 
@@ -52,6 +54,11 @@ class RequirementsComponent implements OnInit {
   @override
   void ngOnInit() async {
     requirements = await requirementsService.getRequirements();
+
+    if(selected != null) {
+      projectsRequirement =
+      await requirementsService.getRequirementProjects(selected.id);
+    }
   }
 
   //Seleccionar requisito

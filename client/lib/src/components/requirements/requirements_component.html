@@ -29,6 +29,14 @@
             <label>Descripción: </label>{{selected.description}}
         </li>
 
+        <li>
+            <br />
+            <label>Proyectos a los que pertenece: </label>
+            <div *ngFor="let project of projectsRequirement">
+                - {{project.projectID}}
+            </div>
+        </li>
+
         <div>
             <material-button class="button" raised (click)="editRequirement()" style="float: left;">Editar</material-button>
             <material-button class="delete-button" raised (click)="deleteRequirement()" style="float: right;">Eliminar</material-button>
@@ -58,6 +66,8 @@
         </li>
 
         <li class="error-msg" *ngIf="errorMsg!=null">
+            <span style="opacity:0">&#9888;</span>
+            <span style="color:red;">&#9888;</span>
             {{errorMsg}}
         </li>
 
