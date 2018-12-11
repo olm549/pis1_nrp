@@ -4,6 +4,7 @@ import 'package:angular_router/angular_router.dart';
 import 'package:client/src/utils/routing.dart';
 import '../../models/project.dart';
 import '../../models/project_requirement.dart';
+import '../../models/project_client.dart';
 import '../../services/plan/plan_service.dart';
 import '../../services/plan/http_plan.dart';
 import '../../services/user/user_service.dart';
@@ -50,19 +51,20 @@ class PlanComponent implements OnInit {
   bool someError = false;
   bool errorEstimatedEffort = false;
   bool errorLimitEffort = false;
+  bool errorWeight = false;
   Project project;
-  String effortLimitProject = "0";
-  //List<Client> clients;
+  String effortLimitProject = "";
+  List<ProjectClient> activeClients;
 
   PlanComponent(this.planService, this.userService,);
 
   @override
   void ngOnInit() async {
-    requirements = await planService.getProjectRequirements();
     project = userService.getActiveProject();
     effortLimitProject = project.effortLimit.toString();
+    requirements = await planService.getProjectRequirements();
+    activeClients = await planService.getProjectClients();
     someError = comprobarErrores();
-    //clients = await clientsService.getClients();   
   }
 
   void onSelect(ProjectRequirement requirement) {
@@ -76,6 +78,7 @@ class PlanComponent implements OnInit {
   bool comprobarErrores(){
     if(errorEsfuerzoEstimado()) return true;
     if(errorEsfuerzoLimite()) return true;
+    if(errorPeso()) return true;
 
     return false;
   }
@@ -98,5 +101,17 @@ class PlanComponent implements OnInit {
       return true;
     }
     return false;
+  }
+
+  bool errorPeso(){
+    for(ProjectClient pc in activeClients){
+      if(pc.weight == 0){
+        errorWeight = true;
+        return true;
+      }
+      return false;
+    }
+
+    
   }
 }

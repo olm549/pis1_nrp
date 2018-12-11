@@ -21,6 +21,12 @@
         <label style="color:red;">Uno o más requisitos con esfuerzo estimado 0</label>
 
     </div>
+
+    <div *ngIf="errorWeight">
+        <span style="opacity:0">&#9888;</span>
+        <span style="color:red;">&#9888;</span>
+        <label style="color:red;">Uno o más clientes con peso 0</label>    
+    </div>
     <div *ngIf="someError==false">
         <material-list-item class="item" *ngFor="let projectrequirement of requirements" [class.selected]="projectrequirement === selected"
             (click)="onSelect(projectrequirement)">

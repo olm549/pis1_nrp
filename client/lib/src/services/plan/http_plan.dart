@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:angular/angular.dart';
 import 'package:client/src/models/project_requirement.dart';
+import 'package:client/src/models/project_client.dart';
 
 import '../../models/requirement.dart';
 
@@ -62,6 +63,32 @@ class HttpPlan extends PlanService {
             .toList();
 
         return projectRequirements;
+      } else {
+        // 404 response.
+        return [];
+      }
+    } catch (e) {
+      _httpService.handleError(e);
+    }
+  }
+
+    Future<List<ProjectClient>> getProjectClients() async {
+    try {
+      final response = await _httpService.getClient().get(
+        '${_httpService.getUrl()}/projects/${_userService.getActiveProject().id}/clients',
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader:
+              'Bearer ${_userService.getAccessToken()}',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final projectClients = (_httpService.extractData(response) as List)
+            .map((value) => ProjectClient.fromJson(value))
+            .toList();
+
+        return projectClients;
       } else {
         // 404 response.
         return [];
