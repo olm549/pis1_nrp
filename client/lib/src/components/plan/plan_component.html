@@ -3,22 +3,30 @@
         <h2 id="main-title">Planificar</h2>
         <material-button class="new-button" raised (click)="automaticPlanning()">Planificación automática</material-button>
     </div>
-    <hr>
+
     <div>
         <span style="opacity:0">&#9888;</span>
-        <label style="color:black;">Límite de esfuerzo:</label>
+        <label style="color:black;">Límite de esfuerzo: </label>{{effortLimitProject}}
     </div>
-    <hr>
+
+    <div *ngIf="errorLimitEffort">
+        <span style="opacity:0">&#9888;</span>
+        <span style="color:red;">&#9888;</span>
+        <label style="color:red;">El esfuerzo límite del proyecto es 0</label>
+
+    </div>
     <div *ngIf="errorEstimatedEffort">
         <span style="opacity:0">&#9888;</span>
         <span style="color:red;">&#9888;</span>
         <label style="color:red;">Uno o más requisitos con esfuerzo estimado 0</label>
-        <hr>
+
     </div>
-    <material-list-item class="item" *ngFor="let projectrequirement of requirements" [class.selected]="projectrequirement === selected"
-        (click)="onSelect(projectrequirement)">
-        <span class="badge">{{projectrequirement.requirement.requirementID}}</span> {{projectrequirement.requirement.title}}
-    </material-list-item>
+    <div *ngIf="someError==false">
+        <material-list-item class="item" *ngFor="let projectrequirement of requirements" [class.selected]="projectrequirement === selected"
+            (click)="onSelect(projectrequirement)">
+            <span class="badge">{{projectrequirement.requirement.requirementID}}</span> {{projectrequirement.requirement.title}}
+        </material-list-item>
+    </div>
 </material-list>
 <div class="detail-panel" *ngIf="selected!=null">
     <div id="title">
