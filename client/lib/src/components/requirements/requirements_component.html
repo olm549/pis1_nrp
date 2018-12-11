@@ -57,6 +57,10 @@
                 [required]="true"></material-input>
         </li>
 
+        <li class="error-msg" *ngIf="errorMsg!=null">
+            {{errorMsg}}
+        </li>
+
         <div class="button" *ngIf="isCreating">
             <material-button id="create-requirement" class="button" raised (click)="createRequirement()" style="float: right;">Crear</material-button>
         </div>

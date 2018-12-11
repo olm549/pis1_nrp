@@ -33,6 +33,11 @@ class AuthenticationComponent {
 
   AuthenticationComponent(this.authService, this.router);
 
+  String signInErrorMsg;
+  String signUpErrorMsg;
+
+  String signUpSuccessMsg;
+
   String signInEmail;
   String signInPassword;
 
@@ -41,22 +46,50 @@ class AuthenticationComponent {
   String signUpPassword2;
 
   void signIn() async {
+    signInErrorMsg = null;
+    signUpErrorMsg = null;
+
+    signUpSuccessMsg = null;
+
+    if (signInEmail == null || signInPassword == null) {
+      signInErrorMsg = 'Por favor, rellena todos los campos';
+
+      return;
+    }
+
     bool succesful = await authService.signIn(signInEmail, signInPassword);
 
     if (succesful) {
       router.navigateByUrl(Paths.projects.toUrl());
+    } else {
+      signInErrorMsg = 'Los datos introducidos no son correctos';
     }
   }
 
   void signUp() async {
+    signInErrorMsg = null;
+    signUpErrorMsg = null;
+
+    signUpSuccessMsg = null;
+
+    if (signUpEmail == null ||
+        signUpPassword == null ||
+        signUpPassword2 == null) {
+      signUpErrorMsg = 'Por favor, rellena todos los campos';
+
+      return;
+    }
+
     if (signUpPassword == signUpPassword2) {
       bool succesful = await authService.signUp(signUpEmail, signUpPassword);
 
       if (succesful) {
-        // TODO: Mostrar mensaje de registro correcto.
+        signUpSuccessMsg = 'Registro correcto';
       } else {
-        // TODO: Mostrar mensaje de registro incorrecto.
+        signUpErrorMsg = 'El email introducido ya está registrado';
       }
+    } else {
+      signUpErrorMsg = 'Las contraseñas introducidas no coinciden';
     }
   }
 }

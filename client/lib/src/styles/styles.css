@@ -188,6 +188,28 @@ material-input {
 }
 
 /*
+ * MENSAJE DE ERROR
+ *
+ * 1. Color rojo
+ * 2. Letra cursiva
+ */
+.error-msg {
+    color: red;
+    font-style: italic;
+}
+
+/*
+ * MENSAJE DE ÉXITO
+ *
+ * 1. Color verde
+ * 2. Letra cursiva
+ */
+.success-msg {
+    color: green;
+    font-style: italic;
+}
+
+/*
 * INPUT TEXT (línea)
 * 1. Background transparente
 * 2. Bordes no

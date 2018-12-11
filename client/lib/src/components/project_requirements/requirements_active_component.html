@@ -13,6 +13,8 @@
 <div class="detail-panel" *ngIf="selected!=null">
     <div id="title">
         <h2>{{selected.requirement.title}}</h2>
+        <material-button class="delete-button" raised (click)="removeActiveRequirement()" style="float: right;">Quitar
+            del proyecto</material-button>
     </div>
     <ul>
         <li>
@@ -31,17 +33,15 @@
             <label>Satisfacción: </label>{{selected.satisfaction}}
         </li>
 
-        <li>
-            <div *ngIf="isEditing">
-                <material-input type="number" label="Esfuerzo estimado" [floatingLabel]="true" [(ngModel)]="effortToAdd"
-                    [required]="true"></material-input>
-                <material-button raised (click)="confirmEditEffort()" style="float: right; vertical-align: middle;">Aceptar</material-button>
-                <material-button raised (click)="cancelEditEffort()" style="float: left; vertical-align: middle;">Cancelar</material-button>
-            </div>
-            <div *ngIf="!isEditing">
-                <label>Esfuerzo estimado: </label>{{selected.estimatedEffort}}
-                <material-button raised (click)="editEffort()" style="float: right; vertical-align: middle;">Editar</material-button>
-            </div>
+        <div *ngIf="isEditing">
+            <material-input type="number" label="Esfuerzo estimado" [floatingLabel]="true" [(ngModel)]="effortToAdd"
+                [required]="true"></material-input>
+            <material-button raised (click)="confirmEditEffort()" style="float: right; vertical-align: middle;">Aceptar</material-button>
+            <material-button raised (click)="cancelEditEffort()" style="float: left; vertical-align: middle;">Cancelar</material-button>
+        </div>
+
+        <li *ngIf="!isEditing">
+            <label>Esfuerzo estimado: </label>{{selected.estimatedEffort}}
         </li>
 
         <!--
@@ -53,9 +53,8 @@
             </div>
         </li>-->
 
-        <div class="button">
-            <material-button class="delete-button" raised (click)="removeActiveRequirement()" style="float: right;">Quitar
-                del proyecto</material-button>
+        <div *ngIf="!isEditing">
+            <material-button class="button" raised (click)="editEffort()" style="float: left;">Editar</material-button>
         </div>
     </ul>
 </div>

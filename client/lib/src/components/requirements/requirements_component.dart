@@ -33,6 +33,8 @@ import '../../services/requirements/mock_requirements.dart';
 class RequirementsComponent implements OnInit {
   final RequirementsService requirementsService;
 
+  String errorMsg;
+
   bool isEditing = false;
   bool isCreating = false;
 
@@ -62,6 +64,16 @@ class RequirementsComponent implements OnInit {
   }
 
   void createRequirement() async {
+    errorMsg = null;
+
+    if (requirementIdToAdd == null ||
+        titleToAdd == null ||
+        descriptionToAdd == null) {
+      errorMsg = 'Por favor, rellena todos los campos';
+
+      return;
+    }
+
     Requirement createdRequirement = await requirementsService
         .createRequirement(requirementIdToAdd, titleToAdd, descriptionToAdd);
 
@@ -69,11 +81,14 @@ class RequirementsComponent implements OnInit {
       createRequirementPanel = false;
 
       requirements.add(createdRequirement);
+    } else {
+      errorMsg = 'El ID de ese requisito ya existe. Escoge otro.';
     }
   }
 
 // Editar requisito
   void editRequirement() async {
+    errorMsg = null;
     isEditing = true;
     isCreating = false;
     createRequirementPanel = true;
@@ -85,6 +100,16 @@ class RequirementsComponent implements OnInit {
 
 // Confirmar editar requisito
   void confirmEditRequirement() async {
+    errorMsg = null;
+
+    if (requirementIdToAdd.isEmpty ||
+        titleToAdd.isEmpty ||
+        descriptionToAdd.isEmpty) {
+      errorMsg = 'Por favor, rellena todos los campos';
+
+      return;
+    }
+
     Requirement updatedRequirement =
         await requirementsService.updateRequirement(
       selected.id,
@@ -101,6 +126,8 @@ class RequirementsComponent implements OnInit {
       isEditing = false;
 
       selected = updatedRequirement;
+    } else {
+      errorMsg = 'El ID de ese requisito ya existe. Escoge otro.';
     }
   }
 

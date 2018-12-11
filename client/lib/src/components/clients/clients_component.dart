@@ -33,6 +33,8 @@ import '../../services/clients/mock_clients.dart';
 class ClientsComponent implements OnInit {
   final ClientsService clientsService;
 
+  String errorMsg;
+
   ClientsComponent(this.clientsService);
 
   bool isEditing = false;
@@ -62,6 +64,14 @@ class ClientsComponent implements OnInit {
 
   // Método para confirmar creación del cliente
   void createClient() async {
+    errorMsg = null;
+
+    if (clientIdToAdd == null || nameToAdd == null || surnameToAdd == null) {
+      errorMsg = 'Por favor, rellena todos los campos';
+
+      return;
+    }
+
     Client createdClient = await clientsService.createClient(
         clientIdToAdd, nameToAdd, surnameToAdd);
 
@@ -69,11 +79,14 @@ class ClientsComponent implements OnInit {
       createClientPanel = false;
 
       clients.add(createdClient);
+    } else {
+      errorMsg = 'El ID de ese cliente ya existe. Escoge otro.';
     }
   }
 
   // Método para abrir la ventana de edición de un cliente
   void editClient() async {
+    errorMsg = null;
     isEditing = true;
     isCreating = false;
     createClientPanel = true;
@@ -85,6 +98,14 @@ class ClientsComponent implements OnInit {
 
   // Método para confirmar la edición de un cliente
   void confirmEditClient() async {
+    errorMsg = null;
+
+    if (clientIdToAdd.isEmpty || nameToAdd.isEmpty || surnameToAdd.isEmpty) {
+      errorMsg = 'Por favor, rellena todos los campos';
+
+      return;
+    }
+
     Client updatedClient = await clientsService.updateClient(
       selected.id,
       clientIdToAdd,
@@ -100,6 +121,8 @@ class ClientsComponent implements OnInit {
       isEditing = false;
 
       selected = updatedClient;
+    } else {
+      errorMsg = 'El ID de ese cliente ya existe. Escoge otro.';
     }
   }
 

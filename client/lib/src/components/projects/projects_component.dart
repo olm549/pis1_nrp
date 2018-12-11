@@ -35,6 +35,8 @@ import '../../services/projects/mock_projects.dart';
 class ProjectsComponent implements OnInit {
   final ProjectsService projectsService;
 
+  String errorMsg;
+
   bool isEditing = false;
   bool isCreating = false;
 
@@ -64,6 +66,17 @@ class ProjectsComponent implements OnInit {
   }
 
   void createProject() async {
+    errorMsg = null;
+
+    if (projectIdToAdd == null ||
+        nameToAdd == null ||
+        descriptionToAdd == null ||
+        effortLimitToAdd == null) {
+      errorMsg = 'Por favor, rellena todos los campos';
+
+      return;
+    }
+
     Project createdProject = await projectsService.createProject(
         projectIdToAdd, nameToAdd, descriptionToAdd, effortLimitToAdd);
 
@@ -71,10 +84,13 @@ class ProjectsComponent implements OnInit {
       createProjectPanel = false;
 
       projects.add(createdProject);
+    } else {
+      errorMsg = 'El ID de ese proyecto ya existe. Escoge otro.';
     }
   }
 
   void editProject() async {
+    errorMsg = null;
     isEditing = true;
     isCreating = false;
     createProjectPanel = true;
@@ -86,6 +102,17 @@ class ProjectsComponent implements OnInit {
   }
 
   void confirmEditProject() async {
+    errorMsg = null;
+
+    if (projectIdToAdd.isEmpty ||
+        nameToAdd.isEmpty ||
+        descriptionToAdd.isEmpty ||
+        effortLimitToAdd == null) {
+      errorMsg = 'Por favor, rellena todos los campos';
+
+      return;
+    }
+
     Project updatedProject = await projectsService.updateProject(
       selected.id,
       projectIdToAdd,
@@ -102,6 +129,8 @@ class ProjectsComponent implements OnInit {
       isEditing = false;
 
       selected = updatedProject;
+    } else {
+      errorMsg = 'El ID de ese proyecto ya existe. Escoge otro.';
     }
   }
 
@@ -144,9 +173,8 @@ class ProjectsComponent implements OnInit {
 
     // TODO: No funciona, arreglar implementación.
     projects.setAll(0, await projectsService.getProjects());
-    
+
     //Cargar los proyectos para mostrar el activo
     ngOnInit();
-
   }
 }
