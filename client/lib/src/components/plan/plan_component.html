@@ -1,7 +1,7 @@
 <material-list class="items-list">
     <div>
         <h2 id="main-title">Planificar</h2>
-        <material-button class="new-button" raised (click)="automaticPlanning()">Planificación automática</material-button>
+        <material-button class="new-button" raised (click)="automaticPlanning()" *ngIf="someError==false">Planificación automática</material-button>
     </div>
 
     <div>

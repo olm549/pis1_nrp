@@ -49,7 +49,7 @@ class PlanComponent implements OnInit {
 
   ProjectRequirement selected;
   List<ProjectRequirement> requirements;
-  bool someError = false;
+  bool someError = true;
   bool errorEstimatedEffort = false;
   bool errorLimitEffort = false;
   bool errorWeight = false;
