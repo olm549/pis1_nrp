@@ -85,9 +85,8 @@ class ClientsComponent implements OnInit {
     ProjectClient updatedClient = await clientsService.updateProjectClient(
         selected.client.id, weightToAdd);
 
-    updatedClient.client = selected.client;
-    
     if (updatedClient != null) {
+      updatedClient.client = selected.client;
 
       activeClients.remove(selected);
       activeClients.add(updatedClient);

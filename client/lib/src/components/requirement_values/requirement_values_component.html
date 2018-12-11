@@ -8,8 +8,8 @@
     </material-list-item>
 </material-list>
 
-<div class="detail-panel" *ngIf="assignValuePanel">
-    <div *ngIf="isEditing==false">
+<div class="detail-panel" *ngIf="selectedReq!=null">
+    <div *ngIf="selectedValue!=null">
         <h2>Asignar valor</h2>
         <ul>
             <li>
@@ -17,28 +17,31 @@
             </li>
 
             <li>
-                <label>Cliente: </label>{{selectedClient.client.clientID}} - {{selectedClient.client.name}}
-                {{selectedClient.client.surname}}
+                <label>Cliente: </label>{{selectedValue.client.clientID}} - {{selectedValue.client.name}}
+                {{selectedValue.client.surname}}
             </li>
 
             <li>
-                <material-input type="number" label="Valor" [floatingLabel]="true" [(ngModel)]="valueToAdd" [required]="true"></material-input>
+                <div *ngIf="isEditing">
+                    <material-input type="number" label="Valor" [floatingLabel]="true" [(ngModel)]="valueToAdd"
+                        [required]="true"></material-input>
+                    <material-button raised (click)="confirmEditValue()" style="float: right; vertical-align: middle;">Aceptar</material-button>
+                    <material-button raised (click)="cancelEditValue()" style="float: left; vertical-align: middle;">Cancelar</material-button>
+                </div>
+                <div *ngIf="!isEditing">
+                    <label>Valor: </label>{{selectedValue.value}}
+                    <material-button raised (click)="editValue()" style="float: right; vertical-align: middle;">Editar</material-button>
+                </div>
             </li>
-
-            <div class="button" *ngIf="isEditing==false">
-                <material-button id="edit-requirement" class="button" raised (click)="confirmEditValue()" style="float: right;">Editar</material-button>
-            </div>
         </ul>
     </div>
 
-    <div *ngIf="isEditing">
+    <div *ngIf="selectedValue==null">
         <h2>Clientes relacionados</h2>
-
-        <material-list *ngIf="isEditing">
-            <material-list-item *ngFor="let projectclients of clients" [class.selected]="projectclients === selectedClient"
-                (click)="onSelectClient(projectclients)">
-                <span class="badge client">{{projectclients.client.clientID}}</span>{{projectclients.client.name}}
-                {{projectclients.client.surname}}
+        <material-list>
+            <material-list-item *ngFor="let value of values" [class.selected]="value === selectedValue" (click)="onSelectValue(value)">
+                <span class="badge client">{{value.client.clientID}}</span>{{value.client.name}}
+                {{value.client.surname}}
             </material-list-item>
         </material-list>
     </div>
