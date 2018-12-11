@@ -147,10 +147,10 @@ class HttpRequirements implements RequirementsService {
       );
 
       if (response.statusCode == 200) {
-        final projects = _httpService
-            .extractData(response)['projects']
-            .map((value) => Project.fromJson(value['project']))
-            .toList();
+        final projects =
+            (_httpService.extractData(response)['projects'] as List)
+                .map((value) => Project.fromJson(value['project']))
+                .toList();
 
         return projects;
       } else {

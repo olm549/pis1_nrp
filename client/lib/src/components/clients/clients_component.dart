@@ -3,6 +3,7 @@ import 'package:angular_components/angular_components.dart';
 import 'package:angular_forms/angular_forms.dart';
 
 import '../../models/client.dart';
+import '../../models/project.dart';
 
 import '../../services/clients/clients_service.dart';
 import '../../services/clients/http_clients.dart';
@@ -41,23 +42,25 @@ class ClientsComponent implements OnInit {
 
   Client selected;
   List<Client> clients;
+  List<Project> clientProjects;
 
   bool createClientPanel = false;
 
-  String clientIdToAdd;
-  String nameToAdd;
-  String surnameToAdd;
+  String clientIdToAdd = '';
+  String nameToAdd = '';
+  String surnameToAdd = '';
 
   @override
   void ngOnInit() async {
     clients = await clientsService.getClients();
   }
 
-  void onSelect(Client client) {
+  void onSelect(Client client) async {
     createClientPanel = false;
     isEditing = false;
     isCreating = false;
 
+    clientProjects = await clientsService.getClientProjects(client.id);
     selected = client;
   }
 
@@ -65,7 +68,7 @@ class ClientsComponent implements OnInit {
   void createClient() async {
     errorMsg = null;
 
-    if (clientIdToAdd == null || nameToAdd == null || surnameToAdd == null) {
+    if (clientIdToAdd.isEmpty || nameToAdd.isEmpty || surnameToAdd.isEmpty) {
       errorMsg = 'Por favor, rellena todos los campos';
 
       return;
@@ -140,15 +143,17 @@ class ClientsComponent implements OnInit {
 
   // Método para abrir el panel de introducir formulario para agregar un cliente
   void newClient() {
+    errorMsg = null;
+
     isEditing = false;
     isCreating = true;
     createClientPanel = true;
 
     if (selected != null) selected = null;
 
-    clientIdToAdd = null;
-    nameToAdd = null;
-    surnameToAdd = null;
+    clientIdToAdd = '';
+    nameToAdd = '';
+    surnameToAdd = '';
   }
 
   // Método para cerrar la vista de editar cliente

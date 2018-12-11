@@ -37,12 +37,12 @@ class AuthenticationComponent {
 
   String signUpSuccessMsg;
 
-  String signInEmail;
-  String signInPassword;
+  String signInEmail = '';
+  String signInPassword = '';
 
-  String signUpEmail;
-  String signUpPassword;
-  String signUpPassword2;
+  String signUpEmail = '';
+  String signUpPassword = '';
+  String signUpPassword2 = '';
 
   void signIn() async {
     signInErrorMsg = null;
@@ -50,7 +50,7 @@ class AuthenticationComponent {
 
     signUpSuccessMsg = null;
 
-    if (signInEmail == null || signInPassword == null) {
+    if (signInEmail.isEmpty || signInPassword.isEmpty) {
       signInErrorMsg = 'Por favor, rellena todos los campos';
 
       return;
@@ -71,9 +71,9 @@ class AuthenticationComponent {
 
     signUpSuccessMsg = null;
 
-    if (signUpEmail == null ||
-        signUpPassword == null ||
-        signUpPassword2 == null) {
+    if (signUpEmail.isEmpty ||
+        signUpPassword.isEmpty ||
+        signUpPassword2.isEmpty) {
       signUpErrorMsg = 'Por favor, rellena todos los campos';
 
       return;

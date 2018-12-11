@@ -28,7 +28,7 @@ import '../../services/requirements/mock_requirements.dart';
     materialInputDirectives,
   ],
   providers: [
-    const ClassProvider(RequirementsService, useClass: MockRequirements)
+    const ClassProvider(RequirementsService, useClass: HttpRequirements)
   ],
 )
 class RequirementsComponent implements OnInit {
@@ -41,41 +41,38 @@ class RequirementsComponent implements OnInit {
 
   Requirement selected;
   List<Requirement> requirements;
-  List<Project> projectsRequirement;
+  List<Project> reqProjects;
 
   bool createRequirementPanel = false;
 
-  String requirementIdToAdd;
-  String titleToAdd;
-  String descriptionToAdd;
+  String requirementIdToAdd = '';
+  String titleToAdd = '';
+  String descriptionToAdd = '';
 
   RequirementsComponent(this.requirementsService);
 
   @override
   void ngOnInit() async {
     requirements = await requirementsService.getRequirements();
-
-    if(selected != null) {
-      projectsRequirement =
-      await requirementsService.getRequirementProjects(selected.id);
-    }
   }
 
   //Seleccionar requisito
-  void onSelect(Requirement requirement) {
+  void onSelect(Requirement requirement) async {
     createRequirementPanel = false;
     isEditing = false;
     isCreating = false;
 
+    reqProjects =
+        await requirementsService.getRequirementProjects(requirement.id);
     selected = requirement;
   }
 
   void createRequirement() async {
     errorMsg = null;
 
-    if (requirementIdToAdd == null ||
-        titleToAdd == null ||
-        descriptionToAdd == null) {
+    if (requirementIdToAdd.isEmpty ||
+        titleToAdd.isEmpty ||
+        descriptionToAdd.isEmpty) {
       errorMsg = 'Por favor, rellena todos los campos';
 
       return;
@@ -152,15 +149,17 @@ class RequirementsComponent implements OnInit {
 
   // Introducir requisito
   void newRequirement() {
+    errorMsg = null;
+
     isEditing = false;
     isCreating = true;
     createRequirementPanel = true;
 
     if (selected != null) selected = null;
 
-    requirementIdToAdd = null;
-    titleToAdd = null;
-    descriptionToAdd = null;
+    requirementIdToAdd = '';
+    titleToAdd = '';
+    descriptionToAdd = '';
   }
 
   //Cancelar edicion requisito

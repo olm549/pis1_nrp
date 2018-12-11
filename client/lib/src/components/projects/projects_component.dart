@@ -44,9 +44,9 @@ class ProjectsComponent implements OnInit {
 
   bool createProjectPanel = false;
 
-  String projectIdToAdd;
-  String nameToAdd;
-  String descriptionToAdd;
+  String projectIdToAdd = '';
+  String nameToAdd = '';
+  String descriptionToAdd = '';
   double effortLimitToAdd;
 
   ProjectsComponent(this.projectsService);
@@ -67,9 +67,9 @@ class ProjectsComponent implements OnInit {
   void createProject() async {
     errorMsg = null;
 
-    if (projectIdToAdd == null ||
-        nameToAdd == null ||
-        descriptionToAdd == null ||
+    if (projectIdToAdd.isEmpty ||
+        nameToAdd.isEmpty ||
+        descriptionToAdd.isEmpty ||
         effortLimitToAdd == null) {
       errorMsg = 'Por favor, rellena todos los campos';
 
@@ -90,6 +90,7 @@ class ProjectsComponent implements OnInit {
 
   void editProject() async {
     errorMsg = null;
+
     isEditing = true;
     isCreating = false;
     createProjectPanel = true;
@@ -146,15 +147,17 @@ class ProjectsComponent implements OnInit {
   }
 
   void newProject() {
+    errorMsg = null;
+
     isEditing = false;
     isCreating = true;
     createProjectPanel = true;
 
     if (selected != null) selected = null;
 
-    projectIdToAdd = null;
-    nameToAdd = null;
-    descriptionToAdd = null;
+    projectIdToAdd = '';
+    nameToAdd = '';
+    descriptionToAdd = '';
     effortLimitToAdd = null;
   }
 
@@ -170,7 +173,6 @@ class ProjectsComponent implements OnInit {
 
     selected = null;
 
-    // TODO: No funciona, arreglar implementación.
     projects.setAll(0, await projectsService.getProjects());
 
     //Cargar los proyectos para mostrar el activo

@@ -28,6 +28,13 @@
             <label>Apellidos: </label>{{selected.surname}}
         </li>
 
+        <li>
+            <label>Proyectos a los que pertenece: </label>
+            <div *ngFor="let project of clientProjects">
+                - {{project.projectID}} {{project.name}}
+            </div>
+        </li>
+
         <div>
             <material-button class="button" raised (click)="editClient()" style="float: left;">Editar</material-button>
             <material-button class="delete-button" raised (click)="deleteClient()" style="float: right;">Eliminar</material-button>
