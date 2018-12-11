@@ -43,6 +43,7 @@ import '../../utils/routing.dart';
 class PlanComponent implements OnInit {
   final PlanService planService;
   final UserService userService;
+  //final ProjectRequirementService requirementsService; 
   //final ClientsService clientsService;
   //final ProjectRequirementService projectRequirementService;
 
@@ -52,11 +53,12 @@ class PlanComponent implements OnInit {
   bool errorEstimatedEffort = false;
   bool errorLimitEffort = false;
   bool errorWeight = false;
+  bool errorValues = false;
   Project project;
   String effortLimitProject = "";
   List<ProjectClient> activeClients;
 
-  PlanComponent(this.planService, this.userService,);
+  PlanComponent(this.planService, this.userService);
 
   @override
   void ngOnInit() async {
@@ -111,7 +113,6 @@ class PlanComponent implements OnInit {
       }
       return false;
     }
-
     
   }
 }
