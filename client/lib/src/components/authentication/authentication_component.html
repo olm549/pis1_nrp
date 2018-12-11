@@ -12,6 +12,11 @@
             <li>
                 <material-button class="button" raised (click)="signIn()">Acceder</material-button>
             </li>
+            <li *ngIf="errorLogin">
+                    <span style="opacity:0">&#9888;</span>
+                    <span style="color:red;">&#9888;</span>
+                    <label style="color:red;">Usuario y/o contraseña incorrectos</label>
+            </li>
         </ul>
     </div>
 </div>
@@ -31,6 +36,14 @@
             </li>
             <li>
                 <material-button class="button" raised (click)="signUp()">Registrarse</material-button>
+            </li>
+            <li *ngIf="errorRegister">
+                    <span style="opacity:0">&#9888;</span>
+                    <span style="color:red;">&#9888;</span>
+                    <label style="color:red;">Registro incorrecto</label>
+            </li>
+            <li *ngIf="succesRegister">
+                    <label style="color:green;">Usuario registrado correctamente, ya puede iniciar sesión</label>
             </li>
         </ul>
     </div>

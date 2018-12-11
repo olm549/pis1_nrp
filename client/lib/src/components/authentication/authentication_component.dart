@@ -40,11 +40,17 @@ class AuthenticationComponent {
   String signUpPassword;
   String signUpPassword2;
 
+  bool errorLogin = false;
+  bool errorRegister = false;
+  bool succesRegister = false;
+
   void signIn() async {
     bool succesful = await authService.signIn(signInEmail, signInPassword);
 
     if (succesful) {
       router.navigateByUrl(Paths.projects.toUrl());
+    }else{
+      errorLogin = true;
     }
   }
 
@@ -54,8 +60,12 @@ class AuthenticationComponent {
 
       if (succesful) {
         // TODO: Mostrar mensaje de registro correcto.
+        errorRegister=false;
+        succesRegister = true;
       } else {
         // TODO: Mostrar mensaje de registro incorrecto.
+        succesRegister=false;
+        errorRegister = true;
       }
     }
   }
