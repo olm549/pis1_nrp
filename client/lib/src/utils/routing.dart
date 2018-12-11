@@ -66,7 +66,7 @@ class Routes {
 
   static final plan = RouteDefinition(
     routePath: Paths.plan,
-    component: plan_template.PlanComponentNgFactory(),
+    component: plan_template.PlanComponentNgFactory,
   );
 
   static final all = <RouteDefinition>[

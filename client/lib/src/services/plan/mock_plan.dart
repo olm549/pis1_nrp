@@ -1,4 +1,5 @@
 import 'package:angular/angular.dart';
+import 'package:client/src/models/project_requirement.dart';
 
 import '../../models/client.dart';
 import '../../models/requirement.dart';
@@ -15,4 +16,11 @@ class MockPlan extends PlanService {
   Future<List<Requirement>> getRequirements() async {
     return requirements;
   }
+
+  Future<List<ProjectRequirement>> getProjectRequirements() {
+    // TODO: implement getProjectRequirements
+    return null;
+  }
+
+  
 }

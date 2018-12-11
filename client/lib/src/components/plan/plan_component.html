@@ -1,28 +1,49 @@
 <material-list class="items-list">
     <div>
         <h2 id="main-title">Planificar</h2>
+        <material-button class="new-button" raised (click)="automaticPlanning()">Planificación automática</material-button>
     </div>
-    <material-list-item class="item" *ngFor="let requirement of requirements" [class.selected]="requirement === selected"
-        (click)="onSelect(requirement)">
-        <span class="badge">{{requirement.requirementID}}</span> {{requirement.title}}
+    <hr>
+    <div>
+        <span style="opacity:0">&#9888;</span>
+        <label style="color:black;">Límite de esfuerzo:</label>
+    </div>
+    <hr>
+    <div *ngIf="errorEstimatedEffort">
+        <span style="opacity:0">&#9888;</span>
+        <span style="color:red;">&#9888;</span>
+        <label style="color:red;">Uno o más requisitos con esfuerzo estimado 0</label>
+        <hr>
+    </div>
+    <material-list-item class="item" *ngFor="let projectrequirement of requirements" [class.selected]="projectrequirement === selected"
+        (click)="onSelect(projectrequirement)">
+        <span class="badge">{{projectrequirement.requirement.requirementID}}</span> {{projectrequirement.requirement.title}}
     </material-list-item>
 </material-list>
 <div class="detail-panel" *ngIf="selected!=null">
     <div id="title">
-        <h2>{{selected.title}}
+        <h2>{{selected.requirement.title}}
         </h2>
     </div>
     <ul>
         <li>
-            <label>ID:</label>{{selected.requirementID}}
+            <label>ID:</label>{{selected.requirement.requirementID}}
         </li>
 
         <li>
-            <label>Nombre: </label>{{selected.title}}
+            <label>Nombre: </label>{{selected.requirement.title}}
         </li>
 
         <li>
-            <label>Descripción: </label>{{selected.description}}
+            <label>Descripción: </label>{{selected.requirement.description}}
+        </li>
+
+        <li>
+            <label>Satisfacción: </label>{{selected.satisfaction}}
+        </li>
+
+        <li>
+            <label>Esfuerzo estimado: </label>{{selected.estimatedEffort}}
         </li>
     </ul>
 </div>
