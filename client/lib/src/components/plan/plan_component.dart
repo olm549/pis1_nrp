@@ -1,19 +1,23 @@
 import 'package:angular/angular.dart';
 import 'package:angular_components/angular_components.dart';
 import 'package:angular_router/angular_router.dart';
-import 'package:client/src/utils/routing.dart';
+
 import '../../models/project.dart';
 import '../../models/project_requirement.dart';
 import '../../models/project_client.dart';
+import '../../models/requirement_value.dart';
+
 import '../../services/plan/plan_service.dart';
 import '../../services/plan/http_plan.dart';
 import '../../services/user/user_service.dart';
 import '../../services/project_requirements/project_requirements_service.dart';
-import '../../services/clients/clients_service.dart';
-import '../../models/client.dart';
+import '../../services/project_requirements/http_project_requirements.dart';
+import '../../services/project_clients/project_clients_service.dart';
+import '../../services/project_clients/http_project_clients.dart';
+import '../../services/requirement_values/requirement_values_service.dart';
+import '../../services/requirement_values/http_requirement_values.dart';
 
 import '../../utils/routing.dart';
-
 
 @Component(
   selector: 'plan',
@@ -36,83 +40,99 @@ import '../../utils/routing.dart';
   ],
   exports: [Paths, Routes],
   providers: [
-    const ClassProvider(PlanService,
-        useClass: HttpPlan)
+    const ClassProvider(PlanService, useClass: HttpPlan),
+    const ClassProvider(ProjectRequirementsService,
+        useClass: HttpProjectRequirements),
+    const ClassProvider(ProjectClientsService, useClass: HttpProjectClients),
+    const ClassProvider(RequirementValuesService,
+        useClass: HttpRequirementValues)
   ],
 )
 class PlanComponent implements OnInit {
   final PlanService planService;
-  final UserService userService;
-  //final ProjectRequirementService requirementsService; 
-  //final ClientsService clientsService;
-  //final ProjectRequirementService projectRequirementService;
+  final ProjectRequirementsService requirementsService;
+  final ProjectClientsService clientsService;
+  final RequirementValuesService valuesService;
 
+  String errorMsg;
+
+  Project project;
   ProjectRequirement selected;
   List<ProjectRequirement> requirements;
-  bool someError = true;
-  bool errorEstimatedEffort = false;
-  bool errorLimitEffort = false;
-  bool errorWeight = false;
-  bool errorValues = false;
-  Project project;
-  String effortLimitProject = "";
-  List<ProjectClient> activeClients;
+  List<ProjectClient> clients;
 
-  PlanComponent(this.planService, this.userService);
+  PlanComponent(
+    this.planService,
+    this.requirementsService,
+    this.clientsService,
+    this.valuesService,
+  );
 
   @override
   void ngOnInit() async {
-    project = userService.getActiveProject();
-    effortLimitProject = project.effortLimit.toString();
-    requirements = await planService.getProjectRequirements();
-    activeClients = await planService.getProjectClients();
-    someError = comprobarErrores();
+    project = planService.getActiveProject();
+    requirements = await requirementsService.getProjectRequirements();
+    clients = await clientsService.getProjectClients();
+
+    await comprobarErrores();
   }
 
   void onSelect(ProjectRequirement requirement) {
     selected = requirement;
   }
 
-  void automaticPlanning(){
-    if(comprobarErrores()) return;
+  void plan() {
+    // TODO: Añadir planificación.
   }
 
-  bool comprobarErrores(){
-    if(errorEsfuerzoEstimado()) return true;
-    if(errorEsfuerzoLimite()) return true;
-    if(errorPeso()) return true;
-
-    return false;
-  }
-
-  bool errorEsfuerzoEstimado(){
-    errorEstimatedEffort = false;
-    for(ProjectRequirement r in requirements){
-        if(r.estimatedEffort == 0){
-          errorEstimatedEffort = true;
-          return true;
-        }
+  void comprobarErrores() async {
+    if (project.effortLimit == 0) {
+      errorMsg = 'El esfuerzo límite del proyecto es 0';
+    } else if (errorRequisitos()) {
+      errorMsg = 'Uno o más requisitos con esfuerzo estimado 0';
+    } else if (errorClientes()) {
+      errorMsg = 'Uno o más clientes con peso 0';
+    } else if (await errorValores()) {
+      errorMsg =
+          'Uno o más clientes no han asignado ningún valor a ningún requisito';
     }
-    return false;
   }
 
-  bool errorEsfuerzoLimite(){
-    errorLimitEffort = false;
-    if(project.effortLimit == 0) {
-      errorLimitEffort = true;
-      return true;
-    }
-    return false;
-  }
-
-  bool errorPeso(){
-    for(ProjectClient pc in activeClients){
-      if(pc.weight == 0){
-        errorWeight = true;
+  bool errorRequisitos() {
+    for (ProjectRequirement requirement in requirements) {
+      if (requirement.estimatedEffort == 0) {
         return true;
       }
-      return false;
     }
-    
+
+    return false;
+  }
+
+  bool errorClientes() {
+    for (ProjectClient client in clients) {
+      if (client.weight == 0) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  Future<bool> errorValores() async {
+    for (ProjectRequirement pr in requirements) {
+      final values = await valuesService.getValues(pr.requirement.id);
+
+      double sum = 0;
+
+      for (RequirementValue rv in values) {
+        sum += rv.value;
+      }
+
+      if (sum == 0) {
+        return true;
+      }
+    }
+
+    return false;
   }
 }

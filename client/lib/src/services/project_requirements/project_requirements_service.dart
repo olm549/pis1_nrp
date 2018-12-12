@@ -2,7 +2,7 @@ import 'dart:async';
 
 import '../../models/project_requirement.dart';
 
-abstract class ProjectRequirementService {
+abstract class ProjectRequirementsService {
   Future<List<ProjectRequirement>> getProjectRequirements();
 
   Future<ProjectRequirement> updateProjectRequirement(

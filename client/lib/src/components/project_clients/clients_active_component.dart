@@ -60,6 +60,8 @@ class ClientsComponent implements OnInit {
     selected = activeClient;
 
     isEditing = false;
+
+    errorMsg = null;
   }
 
   //Elimina un cliente activo
@@ -109,5 +111,7 @@ class ClientsComponent implements OnInit {
 
   void cancelEditWeight() {
     isEditing = false;
+
+    errorMsg = null;
   }
 }

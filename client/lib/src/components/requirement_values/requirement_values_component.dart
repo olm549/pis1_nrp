@@ -30,7 +30,7 @@ import '../../services/project_clients/http_project_clients.dart';
     materialNumberInputDirectives,
   ],
   providers: [
-    const ClassProvider(ProjectRequirementService,
+    const ClassProvider(ProjectRequirementsService,
         useClass: HttpProjectRequirements),
     const ClassProvider(ProjectClientsService, useClass: HttpProjectClients),
     const ClassProvider(RequirementValuesService,
@@ -38,7 +38,7 @@ import '../../services/project_clients/http_project_clients.dart';
   ],
 )
 class RequirementValuesComponent implements OnInit {
-  final ProjectRequirementService requirementsService;
+  final ProjectRequirementsService requirementsService;
   final ProjectClientsService clientsService;
   final RequirementValuesService requirementValuesService;
 
@@ -67,7 +67,6 @@ class RequirementValuesComponent implements OnInit {
     selectedValue = null;
     values = await requirementValuesService
         .getValues(projectRequirement.requirement.id);
-    print(values.length);
     isEditing = false;
   }
 
@@ -75,6 +74,7 @@ class RequirementValuesComponent implements OnInit {
   void onSelectValue(RequirementValue value) {
     selectedValue = value;
     isEditing = false;
+    errorMsg = null;
   }
 
   // Editar valor de un requisito-cliente
@@ -88,6 +88,8 @@ class RequirementValuesComponent implements OnInit {
   //Cancelar edicion valor
   void cancelEditValue() {
     isEditing = false;
+
+    errorMsg = null;
   }
 
   // Confirmar editar valor

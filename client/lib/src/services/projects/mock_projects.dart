@@ -45,4 +45,8 @@ class MockProjects implements ProjectsService {
   Future<void> changeActiveProject(int id) {
     return null;
   }
+
+  Future<void> updateActiveProject() {
+    return null;
+  }
 }

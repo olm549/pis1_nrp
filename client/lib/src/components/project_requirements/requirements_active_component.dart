@@ -31,12 +31,12 @@ import '../../services/project_requirements/http_project_requirements.dart';
   ],
   exports: [Paths, Routes],
   providers: [
-    const ClassProvider(ProjectRequirementService,
+    const ClassProvider(ProjectRequirementsService,
         useClass: HttpProjectRequirements)
   ],
 )
 class RequirementsComponent implements OnInit {
-  final ProjectRequirementService requirementsService;
+  final ProjectRequirementsService requirementsService;
 
   String errorMsg;
 
@@ -58,6 +58,8 @@ class RequirementsComponent implements OnInit {
     selected = activeRequirement;
 
     isEditing = false;
+
+    errorMsg = null;
   }
 
   //Elimina un requisito activo
@@ -108,5 +110,7 @@ class RequirementsComponent implements OnInit {
 
   void cancelEditEffort() {
     isEditing = false;
+
+    errorMsg = null;
   }
 }

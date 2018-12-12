@@ -14,4 +14,6 @@ abstract class UserService {
   Project getActiveProject();
 
   void changeActiveProject(int id);
+
+  void updateActiveProject();
 }

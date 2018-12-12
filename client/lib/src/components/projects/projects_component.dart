@@ -6,6 +6,8 @@ import '../../models/project.dart';
 
 import '../../services/projects/projects_service.dart';
 import '../../services/projects/http_projects.dart';
+import '../../services/user/user_service.dart';
+import '../../services/user/http_user.dart';
 
 @Component(
   selector: 'projects',
@@ -129,6 +131,10 @@ class ProjectsComponent implements OnInit {
       isEditing = false;
 
       selected = updatedProject;
+
+      if (updatedProject.active) {
+        projectsService.updateActiveProject();
+      }
     } else {
       errorMsg = 'El ID de ese proyecto ya existe. Escoge otro.';
     }

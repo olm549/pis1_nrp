@@ -1,43 +1,23 @@
 <material-list class="items-list">
     <div>
         <h2 id="main-title">Planificar</h2>
-        <material-button class="new-button" raised (click)="automaticPlanning()" *ngIf="someError==false">Planificación automática</material-button>
+        <material-button class="new-button" raised [disabled]="errorMsg!=null" (click)="plan()">Planificación
+            automática</material-button>
     </div>
 
-    <div>
-        <span style="opacity:0">&#9888;</span>
-        <label style="color:black;">Límite de esfuerzo: </label>{{effortLimitProject}}
-    </div>
-
-    <div *ngIf="errorLimitEffort">
+    <div *ngIf="errorMsg!=null">
         <span style="opacity:0">&#9888;</span>
         <span style="color:red;">&#9888;</span>
-        <label style="color:red;">El esfuerzo límite del proyecto es 0</label>
-
+        <label style="color:red;">{{errorMsg}}</label>
     </div>
-    <div *ngIf="errorEstimatedEffort">
+
+    <div *ngIf="errorMsg==null">
         <span style="opacity:0">&#9888;</span>
-        <span style="color:red;">&#9888;</span>
-        <label style="color:red;">Uno o más requisitos con esfuerzo estimado 0</label>
-
-    </div>
-
-    <div *ngIf="errorWeight">
-        <span style="opacity:0">&#9888;</span>
-        <span style="color:red;">&#9888;</span>
-        <label style="color:red;">Uno o más clientes con peso 0</label>    
-    </div>
-
-    <div *ngIf="errorValues">
-        <span style="opacity:0">&#9888;</span>
-        <span style="color:red;">&#9888;</span>
-        <label style="color:red;">Uno o más clientes han asignado valor 0 a los requisitos</label>    
-    </div>
-    
-    <div *ngIf="someError==false">
+        <label style="color:black;">Límite de esfuerzo: </label>{{project.effortLimit}}
         <material-list-item class="item" *ngFor="let projectrequirement of requirements" [class.selected]="projectrequirement === selected"
             (click)="onSelect(projectrequirement)">
-            <span class="badge">{{projectrequirement.requirement.requirementID}}</span> {{projectrequirement.requirement.title}}
+            <span class="badge">{{projectrequirement.requirement.requirementID}}</span>
+            {{projectrequirement.requirement.title}}
         </material-list-item>
     </div>
 </material-list>

@@ -6,7 +6,7 @@ import '../../models/requirement.dart';
 import './project_requirements_service.dart';
 
 @Injectable()
-class MockProjectRequirements extends ProjectRequirementService {
+class MockProjectRequirements extends ProjectRequirementsService {
   static final projectRequirements = <ProjectRequirement>[
     ProjectRequirement(
       1,

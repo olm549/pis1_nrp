@@ -27,37 +27,26 @@
             <label>Apellidos: </label>{{selected.client.surname}}
         </li>
 
-        <li>
-            <div *ngIf="isEditing">
-                <material-input type="number" label="Peso" [floatingLabel]="true" [(ngModel)]="weightToAdd" [required]="true"></material-input>
-                <material-button class="button" raised (click)="confirmEditWeight()" style="float: right; vertical-align: middle;">Aceptar</material-button>
-                <material-button class="button cancel-edit" raised (click)="cancelEditWeight()" style="float: left; vertical-align: middle;">Cancelar</material-button>
-            </div>
-            <div *ngIf="!isEditing">
-                <label>Peso: </label>{{selected.weight}}
-                <material-button class="button" raised (click)="editWeight()" style="float: right; vertical-align: middle;">Editar</material-button>
-            </div>
+        <div *ngIf="isEditing">
+            <material-input type="number" label="Peso" [floatingLabel]="true" [(ngModel)]="weightToAdd" [required]="true"></material-input>
 
+            <li class="error-msg" *ngIf="errorMsg!=null">
+                <span style="opacity:0">&#9888;</span>
+                <span style="color:red;">&#9888;</span>
+                {{errorMsg}}
+            </li>
 
-        </li>
-
-        <!--<li>
-            <br/>
-            <label>Proyectos a los que pertenece: </label>
-            <div *ngFor="let project of projectsClient">
-                - {{project.projectID}}
-            </div>
-        </li>-->
+            <material-button class="button" raised (click)="confirmEditWeight()" style="float: right; vertical-align: middle;">Aceptar</material-button>
+            <material-button class="button cancel-edit" raised (click)="cancelEditWeight()" style="float: left; vertical-align: middle;">Cancelar</material-button>
+        </div>
+        <div *ngIf="!isEditing">
+            <label>Peso: </label>{{selected.weight}}
+            <material-button class="button" raised (click)="editWeight()" style="float: right; vertical-align: middle;">Editar</material-button>
+        </div>
 
         <div class="button">
             <material-button class="delete-button" raised (click)="removeActiveClient()" style="float: right;">Quitar
                 del proyecto</material-button>
         </div>
-
-        <li class="error-msg" *ngIf="errorMsg!=null">
-            <span style="opacity:0">&#9888;</span>
-            <span style="color:red;">&#9888;</span>
-            {{errorMsg}}
-        </li>
     </ul>
 </div>

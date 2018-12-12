@@ -12,7 +12,7 @@ import '../http_service.dart';
 import './project_requirements_service.dart';
 
 @Injectable()
-class HttpProjectRequirements extends ProjectRequirementService {
+class HttpProjectRequirements extends ProjectRequirementsService {
   final HttpService _httpService;
   final UserService _userService;
 

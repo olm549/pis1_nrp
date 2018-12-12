@@ -95,4 +95,8 @@ class HttpUser extends UserService {
       throw _httpService.handleError(e);
     }
   }
+
+  void updateActiveProject() async {
+    _fetchActiveProject().then((project) => _activeProject = project);
+  }
 }

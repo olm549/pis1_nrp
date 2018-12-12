@@ -143,4 +143,10 @@ class HttpProjects implements ProjectsService {
 
     return null;
   }
+
+  Future<void> updateActiveProject() {
+    _userService.updateActiveProject();
+
+    return null;
+  }
 }
