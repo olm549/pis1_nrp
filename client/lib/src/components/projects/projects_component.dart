@@ -179,9 +179,6 @@ class ProjectsComponent implements OnInit {
 
     selected = null;
 
-    projects.setAll(0, await projectsService.getProjects());
-
-    //Cargar los proyectos para mostrar el activo
-    ngOnInit();
+    projects = await projectsService.getProjects();
   }
 }

@@ -84,7 +84,7 @@ class PlanComponent implements OnInit {
 
   void plan() async {
     symbols = {};
-    // TODO: Añadir planificación.
+
     final selectedRequirements = await planService.getPlan();
 
     for (ProjectRequirement pr in activeRequirements) {

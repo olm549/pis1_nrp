@@ -5,7 +5,7 @@
     </div>
     <material-list-item class="item" *ngFor="let project of projects" [class.selected]="project === selected" (click)="onSelect(project)">
         <span class="badge">{{project.projectID}}</span> {{project.name}}
-        <span *ngIf="project.active == true" class="activo">Activo</span>
+        <span *ngIf="project.active" class="activo">Activo</span>
     </material-list-item>
 </material-list>
 

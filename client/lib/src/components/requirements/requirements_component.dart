@@ -60,6 +60,9 @@ class RequirementsComponent implements OnInit {
 
   //Seleccionar requisito
   void onSelect(Requirement requirement) async {
+    addToActiveProjectSuccessMsg = null;
+    addToActiveProjectErrorMsg = null;
+
     createRequirementPanel = false;
     isEditing = false;
     isCreating = false;
@@ -151,6 +154,8 @@ class RequirementsComponent implements OnInit {
 
   // Introducir requisito
   void newRequirement() {
+    addToActiveProjectSuccessMsg = null;
+    addToActiveProjectErrorMsg = null;
     errorMsg = null;
 
     isEditing = false;
@@ -172,14 +177,15 @@ class RequirementsComponent implements OnInit {
   }
 
   void addToActiveProject() async {
-    bool succesful = await requirementsService.addRequirementToProject(selected.id);
-    if(succesful){
+    addToActiveProjectSuccessMsg = null;
+    addToActiveProjectErrorMsg = null;
+
+    bool succesful =
+        await requirementsService.addRequirementToProject(selected.id);
+    if (succesful) {
       addToActiveProjectSuccessMsg = 'Requisito añadido al proyecto.';
-      print(addToActiveProjectSuccessMsg);
-    }else{
+    } else {
       addToActiveProjectErrorMsg = 'El requisito ya está en el proyecto.';
-      print(addToActiveProjectErrorMsg);
     }
-    
   }
 }

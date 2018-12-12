@@ -11,10 +11,8 @@
 </material-list>
 
 <div class="detail-panel" *ngIf="selected!=null">
-    <div id="title">
+    <div>
         <h2>{{selected.requirement.title}}</h2>
-        <material-button class="delete-button" raised (click)="removeActiveRequirement()" style="float: right;">Quitar
-            del proyecto</material-button>
     </div>
     <ul>
         <li>
@@ -53,6 +51,11 @@
 
         <div *ngIf="!isEditing">
             <material-button class="button" raised (click)="editEffort()" style="float: left;">Editar</material-button>
+        </div>
+
+        <div class="button">
+            <material-button class="delete-button" raised (click)="removeActiveRequirement()" style="float: right;">Quitar
+                del proyecto</material-button>
         </div>
     </ul>
 </div>
