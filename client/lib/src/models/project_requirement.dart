@@ -36,4 +36,13 @@ class ProjectRequirement {
       'requirement': requirement.toJson(),
     };
   }
+
+  @override
+  bool operator ==(Object other) =>
+      other is ProjectRequirement &&
+      other.id == id &&
+      other.requirement.id == requirement.id;
+
+  @override
+  int get hashCode => id.hashCode ^ requirement.id.hashCode;
 }

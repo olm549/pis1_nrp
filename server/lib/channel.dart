@@ -1,5 +1,6 @@
 import './controller/active_project_controller.dart';
 import './controller/client_controller.dart';
+import './controller/plan_controller.dart';
 import './controller/project_client_controller.dart';
 import './controller/project_controller.dart';
 import './controller/project_requirement_controller.dart';
@@ -86,6 +87,12 @@ class NrpServerChannel extends ApplicationChannel {
         .route('/projects/:projectID/clients/[:clientID]')
         .link(() => Authorizer.bearer(authServer))
         .link(() => ProjectClientController(context));
+
+    // Plan project's requirements
+    router
+        .route('/projects/:projectID/plan')
+        .link(() => Authorizer.bearer(authServer))
+        .link(() => PlanController(context));
 
     // Access user's requirements
     router

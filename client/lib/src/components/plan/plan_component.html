@@ -14,10 +14,11 @@
     <div *ngIf="errorMsg==null">
         <span style="opacity:0">&#9888;</span>
         <label style="color:black;">Límite de esfuerzo: </label>{{project.effortLimit}}
-        <material-list-item class="item" *ngFor="let projectrequirement of requirements" [class.selected]="projectrequirement === selected"
+        <material-list-item class="item" *ngFor="let projectrequirement of activeRequirements" [class.selected]="projectrequirement === selected"
             (click)="onSelect(projectrequirement)">
             <span class="badge">{{projectrequirement.requirement.requirementID}}</span>
             {{projectrequirement.requirement.title}}
+            <span *ngIf="symbols.isNotEmpty"> {{symbols[projectrequirement]}}</span>
         </material-list-item>
     </div>
 </material-list>
@@ -39,9 +40,11 @@
             <label>Descripción: </label>{{selected.requirement.description}}
         </li>
 
+        <!--
         <li>
             <label>Satisfacción: </label>{{selected.satisfaction}}
         </li>
+        -->
 
         <li>
             <label>Esfuerzo estimado: </label>{{selected.estimatedEffort}}

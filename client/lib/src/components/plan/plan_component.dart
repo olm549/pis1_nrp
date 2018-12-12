@@ -58,8 +58,9 @@ class PlanComponent implements OnInit {
 
   Project project;
   ProjectRequirement selected;
-  List<ProjectRequirement> requirements;
-  List<ProjectClient> clients;
+  List<ProjectRequirement> activeRequirements;
+  List<ProjectClient> activeClients;
+  Map<ProjectRequirement, String> symbols = {};
 
   PlanComponent(
     this.planService,
@@ -71,8 +72,8 @@ class PlanComponent implements OnInit {
   @override
   void ngOnInit() async {
     project = planService.getActiveProject();
-    requirements = await requirementsService.getProjectRequirements();
-    clients = await clientsService.getProjectClients();
+    activeRequirements = await requirementsService.getProjectRequirements();
+    activeClients = await clientsService.getProjectClients();
 
     await comprobarErrores();
   }
@@ -81,8 +82,18 @@ class PlanComponent implements OnInit {
     selected = requirement;
   }
 
-  void plan() {
+  void plan() async {
+    symbols = {};
     // TODO: Añadir planificación.
+    final selectedRequirements = await planService.getPlan();
+
+    for (ProjectRequirement pr in activeRequirements) {
+      if (selectedRequirements.contains(pr)) {
+        symbols.putIfAbsent(pr, () => '👍');
+      } else {
+        symbols.putIfAbsent(pr, () => '👎');
+      }
+    }
   }
 
   void comprobarErrores() async {
@@ -99,7 +110,7 @@ class PlanComponent implements OnInit {
   }
 
   bool errorRequisitos() {
-    for (ProjectRequirement requirement in requirements) {
+    for (ProjectRequirement requirement in activeRequirements) {
       if (requirement.estimatedEffort == 0) {
         return true;
       }
@@ -109,7 +120,7 @@ class PlanComponent implements OnInit {
   }
 
   bool errorClientes() {
-    for (ProjectClient client in clients) {
+    for (ProjectClient client in activeClients) {
       if (client.weight == 0) {
         return true;
       }
@@ -119,7 +130,7 @@ class PlanComponent implements OnInit {
   }
 
   Future<bool> errorValores() async {
-    for (ProjectRequirement pr in requirements) {
+    for (ProjectRequirement pr in activeRequirements) {
       final values = await valuesService.getValues(pr.requirement.id);
 
       double sum = 0;
