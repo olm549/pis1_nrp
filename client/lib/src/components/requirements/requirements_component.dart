@@ -35,6 +35,8 @@ class RequirementsComponent implements OnInit {
   final RequirementsService requirementsService;
 
   String errorMsg;
+  String addToActiveProjectSuccessMsg;
+  String addToActiveProjectErrorMsg;
 
   bool isEditing = false;
   bool isCreating = false;
@@ -73,7 +75,7 @@ class RequirementsComponent implements OnInit {
     if (requirementIdToAdd.isEmpty ||
         titleToAdd.isEmpty ||
         descriptionToAdd.isEmpty) {
-      errorMsg = 'Por favor, rellena todos los campos';
+      errorMsg = 'Por favor, rellena todos los campos.';
 
       return;
     }
@@ -109,7 +111,7 @@ class RequirementsComponent implements OnInit {
     if (requirementIdToAdd.isEmpty ||
         titleToAdd.isEmpty ||
         descriptionToAdd.isEmpty) {
-      errorMsg = 'Por favor, rellena todos los campos';
+      errorMsg = 'Por favor, rellena todos los campos.';
 
       return;
     }
@@ -170,6 +172,14 @@ class RequirementsComponent implements OnInit {
   }
 
   void addToActiveProject() async {
-    await requirementsService.addRequirementToProject(selected.id);
+    bool succesful = await requirementsService.addRequirementToProject(selected.id);
+    if(succesful){
+      addToActiveProjectSuccessMsg = 'Requisito añadido al proyecto.';
+      print(addToActiveProjectSuccessMsg);
+    }else{
+      addToActiveProjectErrorMsg = 'El requisito ya está en el proyecto.';
+      print(addToActiveProjectErrorMsg);
+    }
+    
   }
 }
