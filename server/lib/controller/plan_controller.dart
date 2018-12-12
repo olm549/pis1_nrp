@@ -52,8 +52,6 @@ class PlanController extends ResourceController {
         satisfaction += pc.weight * requirementValue.value;
       }
 
-      print('New satisfaction $satisfaction');
-
       pr.satisfaction = satisfaction;
 
       final updateSatisfactionQuery = Query<ProjectRequirement>(context)
@@ -77,14 +75,7 @@ class PlanController extends ResourceController {
     double accEffort = 0;
     final List<ProjectRequirement> results = [];
 
-    print('Límite de esfuerzo ${project.effortLimit}');
-
     for (ProjectRequirement pr in projectRequirements) {
-      print('Esfuerzo acumulado $accEffort');
-
-      print('Estimated effort ${pr.estimatedEffort}');
-      print('Satisfaction: ${pr.satisfaction}');
-
       if (pr.estimatedEffort > (project.effortLimit - accEffort)) {
         continue;
       } else {
