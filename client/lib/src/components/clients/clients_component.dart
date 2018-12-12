@@ -34,6 +34,8 @@ class ClientsComponent implements OnInit {
   final ClientsService clientsService;
 
   String errorMsg;
+  String successAddToActiveProjectMsg;
+  String errorAddToActiveProjectMsg;
 
   ClientsComponent(this.clientsService);
 
@@ -164,6 +166,11 @@ class ClientsComponent implements OnInit {
   }
 
   void addToActiveProject() async {
-    await clientsService.addClientToProject(selected.id);
+    bool success = await clientsService.addClientToProject(selected.id);
+    if(success){
+      successAddToActiveProjectMsg = 'Cliente añadido al proyecto.';
+    }else{
+      errorAddToActiveProjectMsg = 'El cliente ya está en el proyecto.';
+    }
   }
 }
